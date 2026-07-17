@@ -1,0 +1,43 @@
+name: MOS Autonomous Development 4.1
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mos-autodev-4
+  cancel-in-progress: false
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore public-safe runtime
+        run: |
+          mkdir -p /tmp/mosruntime
+          base64 -d runtime/v4/runtime_payload.zip.b64 > /tmp/mosruntime.zip
+          unzip -q /tmp/mosruntime.zip -d /tmp/mosruntime
+          cp runtime/v4/state.json /tmp/mosruntime/state.json
+      - name: Run bounded MOS cycle
+        run: python /tmp/mosruntime/run_cycle.py
+      - name: Persist checkpoint and status
+        run: |
+          cp /tmp/mosruntime/state.json runtime/v4/state.json
+          cp /tmp/mosruntime/status.json runtime/v4/status.json
+          git config user.name "mos-autodev-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add runtime/v4/state.json runtime/v4/status.json
+          if git diff --cached --quiet; then
+            echo "No state change"
+          else
+            git commit -m "MOS autonomous cycle"
+            git push
+          fi
