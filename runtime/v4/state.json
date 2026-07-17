@@ -28,7 +28,9 @@
     "hard_motive_guard": false,
     "contradiction_guard": false,
     "generation": 83,
-    "parent_ids": ["cefaff7f9469a305"],
+    "parent_ids": [
+      "cefaff7f9469a305"
+    ],
     "mutation": "public_profile_weight:0.638->0.628",
     "id": "1a925b3ee1364530"
   },
@@ -57,9 +59,10 @@
   },
   "releases": [],
   "last_run": {
-    "result": "migrated_to_persistent_runtime",
-    "generation": 1,
-    "epoch_sha256": "8d28009d62fbdef3532d085978af27404b1d9d3afbf3473b6c2d449d5ccb6650"
+    "timestamp": 1784310345.8871942,
+    "result": "no_release",
+    "reason": "locked_test_already_consumed",
+    "generation": 1
   },
   "legacy_v3_classification": "Archived checkpointed hyperparameter optimizer; its generations are not counted as active MOS development."
 }
