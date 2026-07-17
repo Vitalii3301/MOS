@@ -2,6 +2,10 @@ name: MOS Autonomous Development 4.1
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/mos-autodev-4.yml"
+      - "runtime/v4/TRIGGER"
   schedule:
     - cron: "17 * * * *"
 
