@@ -1,0 +1,9 @@
+{
+  "format": "MOS-AUTODEV-STATUS/4.1",
+  "code_executed": false,
+  "result": "not_yet_run_on_github",
+  "active_generation": 1,
+  "data_epoch_sha256": "8d28009d62fbdef3532d085978af27404b1d9d3afbf3473b6c2d449d5ccb6650",
+  "durable_state": "github",
+  "error": null
+}
