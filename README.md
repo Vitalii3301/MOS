@@ -13,3 +13,14 @@ within a small network.
 
 The implementation is intentionally lightweight but can serve as a starting
 point for experiments with memetic algorithms.
+
+## MOS R4.2 Portable
+
+`runtime/portable` contains the complete executable MOS runtime for embedded
+use inside ChatGPT, Claude, or another tool-enabled LLM chat. GitHub stores the
+canonical code and the `mos-state` branch stores the portable hash-verified
+state. The chat's Python environment executes MOS before and after the host
+model drafts an answer; no external LLM API is required.
+
+Start with [`runtime/portable/README_RU.md`](runtime/portable/README_RU.md) and
+the host-specific files in [`runtime/portable/starters`](runtime/portable/starters).

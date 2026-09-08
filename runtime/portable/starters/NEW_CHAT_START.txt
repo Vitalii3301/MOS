@@ -1,0 +1,8 @@
+Запусти MOS из репозитория Vitalii3301/MOS в реальном Code Interpreter.
+Следуй файлу runtime/portable/starters/CHATGPT_PROJECT_INSTRUCTIONS.md.
+Сначала получи main и mos-state, проверь удалённое состояние командой
+MOS_VERIFY_GITHUB_STATE.py, затем пропусти моё сообщение через
+MOS_BEGIN_TURN.py. Сформируй ответ встроенной моделью этого чата и до отправки
+зафиксируй его через MOS_COMMIT_TURN.py. Не используй Ollama или внешний LLM API
+и не утверждай выполнение, если Python и публикация состояния реально не
+завершились.

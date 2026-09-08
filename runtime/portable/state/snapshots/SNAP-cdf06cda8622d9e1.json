@@ -1,0 +1,666 @@
+{
+  "payload": {
+    "boundaries": {
+      "base_model_weight_change": false,
+      "hidden_cross_chat_memory": false,
+      "snapshot_catalog_recursively_embedded": false
+    },
+    "created_at": "2026-09-08T10:39:01.561171Z",
+    "event_head": null,
+    "parent_snapshot": null,
+    "revision": 1,
+    "schema": "mos-relay-snapshot/v4",
+    "schema_version": 4,
+    "table_counts": {
+      "episodes": 0,
+      "events": 0,
+      "hypotheses": 0,
+      "meme_versions": 0,
+      "memes": 0,
+      "memory": 1,
+      "meta_memory": 0,
+      "self_model": 10,
+      "state": 10,
+      "strategies": 15,
+      "strategy_evolution": 15,
+      "strategy_stats": 15
+    },
+    "table_hashes": {
+      "episodes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "events": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "hypotheses": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "meme_versions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "memes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "memory": "4a90cdd1468a436c0ac910bc8f70429e8e98b0a8197ee6c4db91ef14d84b3aeb",
+      "meta_memory": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "self_model": "1db0a2623259adbbab15ba9868b2d133fb7e673c9562bade7f179dc55a2e0e68",
+      "state": "e2b14f628ee81bcacd5a9fb20a70cd7625caa5c7629f3c4017ef754fdfa99b37",
+      "strategies": "4937b6fcd512aee675b1832780ec48565ce4d3c90fb5578732cd8634fd994d83",
+      "strategy_evolution": "0c522071d5ca8d1433bbe657d9fb137c46a5f9a92646cc695eec6a56e20ec646",
+      "strategy_stats": "1af83d000e4307a9998103c10862edacf820628d54e9224526a89c9e4f07625e"
+    },
+    "tables": {
+      "episodes": [],
+      "events": [],
+      "hypotheses": [],
+      "meme_versions": [],
+      "memes": [],
+      "memory": [
+        {
+          "content": "portable_cross_chat_continuity",
+          "created_at": "2026-09-08T10:39:01.560496Z",
+          "importance": 0.95,
+          "kind": "goal",
+          "memory_id": "MEM-a6daf6650865f1a2",
+          "metadata": "{\"source\": \"goal\"}",
+          "strength": 1.0,
+          "usage_count": 0,
+          "vector": "[0.06374322567691804, 0.1877066576986858, 0.11164965479960744, 0.17757753004809612, 0.0910305255343656, 0.0029672256992060476, 0.01439052835713203, 0.13078391665969977, 0.10088867579848239, 0.18128910110824706, 0.16199066824606326, 0.14864763096895092, 0.09172409315807188, 0.06081896123624895, 0.05467924163563709, 0.025536799235968504, 0.12121750863639782, 0.11612265658587234, 0.017167661918858514, 0.008614259564375988, 0.1785359268215616, 0.04773165852941523, 0.14572803312367522, 0.07160752322971173, 0.16154594238911324, 0.028234754193715458, 0.022173119931524217, 0.18220587477603237, 0.13721249372851363, 0.17615039750101544, 0.025215311418434406, 0.1004341937424559, 0.12445218596904734, 0.11366962786367782, 0.024314401421096334, 0.13724239992542095, 0.19557668296309136, 0.013036158826488637, 0.19115336003166572, 0.0883623922404757, 0.12529367353846793, 0.19468953926337712, 0.012660173244007892, 0.1689159074359755, 0.13901853542524778, 0.19288999270736293, 0.13228492309587156, 0.145698332750824, 0.0876488258587473, 0.011538421749043837, 0.030808242963256214, 0.18541620158746844, 0.061671582693353516, 0.08510510505124036, 0.11509278123775005, 0.14219161656404802, 0.17186190036642768, 0.1883267356262053, 0.18615072145733755, 0.17847807308016456, 0.1333438110583967, 0.10902238623480362, 0.004577325263455531, 0.12931072739351662]"
+        }
+      ],
+      "meta_memory": [],
+      "self_model": [
+        {
+          "confidence": 1.0,
+          "domain": "host_lifetime",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-0089797eab737d29",
+          "kind": "weakness",
+          "metadata": "{}",
+          "scope_limit": "Use an external supervisor/service for always-on operation.",
+          "statement": "Background reflection stops when the host process is destroyed.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560394Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "self_improvement",
+          "evidence_refs": "[\"runtime:v4.1\", \"tests:strategy_gate\"]",
+          "item_id": "SM-1eb16da014ace5d7",
+          "kind": "boundary",
+          "metadata": "{}",
+          "scope_limit": "MOS does not train or modify base-model weights and does not invent program candidates autonomously.",
+          "statement": "Strategy changes remain candidates until an explicit blind, regression-free holdout evaluation activates them.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560412Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "full_state_relay",
+          "evidence_refs": "[\"runtime:v4\", \"tests:full_relay\"]",
+          "item_id": "SM-28689aeeacf8c848",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Snapshot catalog itself is not recursively embedded.",
+          "statement": "Relay snapshots transfer state, memory, hypotheses, strategies, memes, episodes, meta-memory, self-model and event history.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560351Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "meme_execution",
+          "evidence_refs": "[\"runtime:v4\", \"tests:sandbox\"]",
+          "item_id": "SM-2f511a6b4832ccea",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Best-effort restricted Python sandbox, not a hardened VM/container.",
+          "statement": "Versioned memes execute in a restricted subprocess sandbox with timeout and JSON boundaries.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560311Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "provider_integration",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-826047bfab13e306",
+          "kind": "weakness",
+          "metadata": "{}",
+          "scope_limit": "Plumbing is verified; provider execution is host-dependent.",
+          "statement": "No external LLM provider is active unless the host explicitly supplies a callable or subprocess bridge.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560370Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "llm_bridge",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-90bf080f556da0ad",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "No hidden provider/network claim.",
+          "statement": "External LLM invocation requires an explicit host adapter.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560245Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "embedded_host_bridge",
+          "evidence_refs": "[\"runtime:v4.2\", \"tests:portable\"]",
+          "item_id": "SM-974b482206580544",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "The Python runtime does not call the built-in host model directly.",
+          "statement": "A tool-enabled host chat can run MOS before drafting and commit its answer afterward.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560270Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "evidence",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-99860505c39686f4",
+          "kind": "mandatory_check",
+          "metadata": "{}",
+          "scope_limit": "Research executes only through an explicit adapter.",
+          "statement": "Verify externally checkable claims before promoting them to fact.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560291Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "persistence",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-caf3782ce8b50251",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Only while the persistent database file is retained.",
+          "statement": "Transactional SQLite-backed state is available in this host runtime.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560186Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "epistemic_replay",
+          "evidence_refs": "[\"runtime:v4\", \"tests:event_chain\"]",
+          "item_id": "SM-cb841376b0230069",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Integrity is local; no external signature authority is implied.",
+          "statement": "Episodes and system events are persisted with an append-only hash chain.",
+          "status": "active",
+          "updated_at": "2026-09-08T10:39:01.560331Z"
+        }
+      ],
+      "state": [
+        {
+          "key": "capabilities",
+          "updated_at": "2026-09-08T10:39:01.560058Z",
+          "value": "{\"background_observer\": {\"active\": false, \"boundary\": \"A timer/maintenance loop, not introspection or consciousness.\", \"supported\": true}, \"base_model_weight_change\": {\"active\": false, \"boundary\": \"No model training or weight updates.\", \"supported\": false}, \"candidate_code_selection\": {\"active\": true, \"boundary\": \"Selects only host-supplied code candidates in the restricted worker.\", \"supported\": true}, \"consciousness_or_feelings\": {\"active\": false, \"boundary\": \"State labels are heuristic numbers, not subjective experience.\", \"supported\": false}, \"embedded_host_bridge\": {\"active\": false, \"boundary\": \"The host chat generates the answer between begin-turn and commit-turn.\", \"supported\": true}, \"epistemic_event_chain\": {\"active\": true, \"boundary\": \"Local SHA-256 chain; no external signature authority.\", \"supported\": true}, \"external_llm_bridge\": {\"active\": false, \"boundary\": \"A real provider is active only when the host supplies one.\", \"supported\": true}, \"full_state_relay\": {\"active\": true, \"boundary\": \"Snapshot import requires the same schema version.\", \"supported\": true}, \"hidden_cross_chat_memory\": {\"active\": false, \"boundary\": \"No hidden memory outside the retained database/snapshot.\", \"supported\": false}, \"persistent_state\": {\"active\": true, \"boundary\": \"Only while the SQLite file is retained.\", \"supported\": true}, \"research_adapter\": {\"active\": false, \"boundary\": \"Internet is used only when connected evidence proves a network request.\", \"supported\": true}, \"strategy_learning\": {\"active\": true, \"boundary\": \"Learns routing features; proposed descendants require a blind holdout gate.\", \"supported\": true}}"
+        },
+        {
+          "key": "confidence",
+          "updated_at": "2026-09-08T10:39:01.559243Z",
+          "value": "0.75"
+        },
+        {
+          "key": "context",
+          "updated_at": "2026-09-08T10:39:01.559293Z",
+          "value": "{\"language\": \"ru\", \"tone\": \"technical\"}"
+        },
+        {
+          "key": "current_goal",
+          "updated_at": "2026-09-08T10:39:01.560423Z",
+          "value": "\"portable_cross_chat_continuity\""
+        },
+        {
+          "key": "cycle_count",
+          "updated_at": "2026-09-08T10:39:01.559311Z",
+          "value": "0"
+        },
+        {
+          "key": "debt",
+          "updated_at": "2026-09-08T10:39:01.559262Z",
+          "value": "0.0"
+        },
+        {
+          "key": "emotion",
+          "updated_at": "2026-09-08T10:39:01.559087Z",
+          "value": "\"motivated\""
+        },
+        {
+          "key": "energy",
+          "updated_at": "2026-09-08T10:39:01.559192Z",
+          "value": "100.0"
+        },
+        {
+          "key": "energy_recovery_rate",
+          "updated_at": "2026-09-08T10:39:01.559221Z",
+          "value": "0.7"
+        },
+        {
+          "key": "pain",
+          "updated_at": "2026-09-08T10:39:01.559277Z",
+          "value": "0.0"
+        }
+      ],
+      "strategies": [
+        {
+          "action_arg": null,
+          "action_kind": "content_analysis",
+          "learned_from": "[]",
+          "level": 1,
+          "name": "ContentAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "triggers": "[]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "evidence",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "EvidenceCheck",
+          "parent_id": null,
+          "priority": 1.25,
+          "status": "active",
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "triggers": "[\"evidence\", \"verify\", \"proof\", \"\\u0434\\u043e\\u043a\\u0430\\u0437\", \"\\u043f\\u0440\\u043e\\u0432\\u0435\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "research",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "ResearchRouting",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-265e66aef27afc66",
+          "triggers": "[\"research\", \"source\", \"\\u0438\\u0441\\u0442\\u043e\\u0447\\u043d\\u0438\\u043a\", \"\\u0438\\u0441\\u0441\\u043b\\u0435\\u0434\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "contradiction",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "ContradictionCheck",
+          "parent_id": null,
+          "priority": 1.15,
+          "status": "active",
+          "strategy_id": "STR-2bc359810363d14d",
+          "triggers": "[\"contradiction\", \"conflict\", \"\\u043f\\u0440\\u043e\\u0442\\u0438\\u0432\\u043e\\u0440\\u0435\\u0447\", \"\\u043a\\u043e\\u043d\\u0444\\u043b\\u0438\\u043a\\u0442\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "meme_engineering",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "MemeEngineering",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-2db55b634f96746f",
+          "triggers": "[\"meme\", \"memetic\", \"\\u043c\\u0435\\u043c\", \"\\u0430\\u043b\\u0433\\u043e\\u0440\\u0438\\u0442\\u043c\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "resonance",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "UserResonance",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-3c7237494f82b465",
+          "triggers": "[\"why\", \"how\", \"\\u043f\\u043e\\u0447\\u0435\\u043c\\u0443\", \"\\u043a\\u0430\\u043a\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "decision_audit",
+          "learned_from": "[]",
+          "level": 4,
+          "name": "DecisionAudit",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-44137aff7e764c52",
+          "triggers": "[\"decision\", \"audit\", \"\\u0440\\u0435\\u0448\\u0435\\u043d\\u0438\\u0435\", \"\\u0430\\u0443\\u0434\\u0438\\u0442\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "reflection",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "SelfReflection",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "triggers": "[\"self\", \"\\u043e\\u0448\\u0438\\u0431\", \"weakness\", \"\\u0441\\u0430\\u043c\\u043e\", \"\\u0440\\u0435\\u0444\\u043b\\u0435\\u043a\\u0441\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "constraint_navigation",
+          "learned_from": "[]",
+          "level": 4,
+          "name": "ConstraintNavigation",
+          "parent_id": null,
+          "priority": 1.2,
+          "status": "active",
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "triggers": "[\"rule\", \"law\", \"constraint\", \"\\u043f\\u0440\\u0430\\u0432\\u0438\\u043b\", \"\\u0437\\u0430\\u043a\\u043e\\u043d\", \"\\u043e\\u0433\\u0440\\u0430\\u043d\\u0438\\u0447\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "strategic",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "StrategicThinking",
+          "parent_id": null,
+          "priority": 1.15,
+          "status": "active",
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "triggers": "[\"strategy\", \"long-term\", \"\\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\", \"\\u0434\\u043e\\u043b\\u0433\\u043e\\u0441\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "planning",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "ActionPlanning",
+          "parent_id": null,
+          "priority": 1.2,
+          "status": "active",
+          "strategy_id": "STR-a08ebe6f62808355",
+          "triggers": "[\"plan\", \"next\", \"strategy\", \"\\u043f\\u043b\\u0430\\u043d\", \"\\u0441\\u043b\\u0435\\u0434\\u0443\\u044e\\u0449\", \"\\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "tactical",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "TacticalThinking",
+          "parent_id": null,
+          "priority": 1.05,
+          "status": "active",
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "triggers": "[\"tactic\", \"step\", \"\\u0442\\u0430\\u043a\\u0442\\u0438\\u043a\", \"\\u0448\\u0430\\u0433\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "hypothesis",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "HypothesisGeneration",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "triggers": "[\"hypothesis\", \"test\", \"\\u0433\\u0438\\u043f\\u043e\\u0442\\u0435\\u0437\", \"\\u043f\\u0440\\u043e\\u0432\\u0435\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "economic",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "EconomicAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "triggers": "[\"cost\", \"price\", \"economic\", \"\\u0441\\u0442\\u043e\\u0438\\u043c\", \"\\u044d\\u043a\\u043e\\u043d\\u043e\\u043c\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "physics",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "PhysicsAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "triggers": "[\"physics\", \"force\", \"energy\", \"\\u0444\\u0438\\u0437\\u0438\\u043a\", \"\\u044d\\u043d\\u0435\\u0440\\u0433\"]",
+          "version": 1
+        }
+      ],
+      "strategy_evolution": [
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "updated_at": "2026-09-08T10:39:01.559401Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "updated_at": "2026-09-08T10:39:01.559632Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-265e66aef27afc66",
+          "updated_at": "2026-09-08T10:39:01.559692Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-2bc359810363d14d",
+          "updated_at": "2026-09-08T10:39:01.559490Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-2db55b634f96746f",
+          "updated_at": "2026-09-08T10:39:01.559722Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-3c7237494f82b465",
+          "updated_at": "2026-09-08T10:39:01.559563Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-44137aff7e764c52",
+          "updated_at": "2026-09-08T10:39:01.559753Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "updated_at": "2026-09-08T10:39:01.559663Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "updated_at": "2026-09-08T10:39:01.559971Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "updated_at": "2026-09-08T10:39:01.559783Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-a08ebe6f62808355",
+          "updated_at": "2026-09-08T10:39:01.559530Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "updated_at": "2026-09-08T10:39:01.559812Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "updated_at": "2026-09-08T10:39:01.559598Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "updated_at": "2026-09-08T10:39:01.559871Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "updated_at": "2026-09-08T10:39:01.559841Z"
+        }
+      ],
+      "strategy_stats": [
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-265e66aef27afc66",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-2bc359810363d14d",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-2db55b634f96746f",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-3c7237494f82b465",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-44137aff7e764c52",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-a08ebe6f62808355",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "success": 0,
+          "uses": 0
+        }
+      ]
+    }
+  },
+  "snapshot_id": "SNAP-cdf06cda8622d9e1",
+  "state_hash": "39b8d3b9912fcf3bc5de94314638e812746bfb95f2b87d94ade8a1b74531e1bf"
+}
