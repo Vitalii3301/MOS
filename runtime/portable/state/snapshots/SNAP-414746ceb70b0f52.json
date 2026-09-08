@@ -1,0 +1,1012 @@
+{
+  "payload": {
+    "boundaries": {
+      "base_model_weight_change": false,
+      "hidden_cross_chat_memory": false,
+      "snapshot_catalog_recursively_embedded": false
+    },
+    "created_at": "2026-09-08T11:54:46.866004Z",
+    "event_head": "1acf32ea894bc9600ef2e2846e515edcdfb0a11a65eb70df28eb5a10d1572034",
+    "parent_snapshot": "SNAP-94eb620aba795b53",
+    "revision": 3,
+    "schema": "mos-relay-snapshot/v4",
+    "schema_version": 4,
+    "table_counts": {
+      "episodes": 2,
+      "events": 24,
+      "hypotheses": 1,
+      "meme_versions": 0,
+      "memes": 0,
+      "memory": 7,
+      "meta_memory": 0,
+      "self_model": 10,
+      "state": 15,
+      "strategies": 15,
+      "strategy_evolution": 15,
+      "strategy_stats": 15
+    },
+    "table_hashes": {
+      "episodes": "b3407319b3f4c7a6d6925710fdd95e6cd898102ecb543c063cb25a92d5aae25e",
+      "events": "ce396ce33b0cfe208b28b5092a82d9c7a7b921472c1ed1f5f37a6779a22801c5",
+      "hypotheses": "7c0b70d13ce75e53c725fbdafc0b34188450cc74e490388fbead0c2c3f327b84",
+      "meme_versions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "memes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "memory": "22305c9125ca6b663b87415712e253ac299a80b975bebe19cf170201e28916ac",
+      "meta_memory": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "self_model": "d729655172443cc2abd6d4358baf18082a05d9771dd2aaabeb72ae7b8ec76c60",
+      "state": "31f41a137a6d979c7ce3bf07f272eccc5af2362257c8c465a65743006bb1872b",
+      "strategies": "4937b6fcd512aee675b1832780ec48565ce4d3c90fb5578732cd8634fd994d83",
+      "strategy_evolution": "0c522071d5ca8d1433bbe657d9fb137c46a5f9a92646cc695eec6a56e20ec646",
+      "strategy_stats": "678643b03c6275c3ebc67fdf425dac37d836098dade9417f828d447b0cf20d89"
+    },
+    "tables": {
+      "episodes": [
+        {
+          "action": "LLM bridge mode=embedded_host_pending",
+          "created_at": "2026-09-08T10:53:31.751911Z",
+          "decision": "respond_with_current_best_evidence",
+          "episode_id": "EP-0226846d84e99ce2",
+          "evidence": "[{\"kind\": \"hypothesis_record\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}, {\"kind\": \"user_input\", \"content\": \"R4.2 GitHub round-trip validation. Confirm that the host-chat bridge can load the canonical state, execute one MOS cycle, and prepare a verified checkpoint for GitHub.\", \"cycle_id\": \"CYCLE-89776224b9fe\"}, {\"kind\": \"compiled_context\", \"sha256\": \"aad7c1aacdbcf0435353e270b2f27af69855633636ead6fa3a7fe8dc922545f9\", \"selected\": 23}, {\"kind\": \"strategy_selection\", \"ids\": [\"STR-07b5a2d6c018112f\"], \"names\": [\"ContentAnalysis\"]}, {\"kind\": \"embedded_host_response\", \"schema\": \"mos-embedded-response/v1\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"source_state_commit\": \"78d64b52b11c9a633d2e606feb5e18146a67f5b7\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\", \"created_at\": \"2026-09-08T10:53:47.355899Z\"}]",
+          "goal": "portable_cross_chat_continuity",
+          "hypothesis": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "outcome": null,
+          "revision": null,
+          "status": "decided",
+          "updated_at": "2026-09-08T10:53:47.358006Z"
+        },
+        {
+          "action": "LLM bridge mode=embedded_host_pending",
+          "created_at": "2026-09-08T11:54:21.024431Z",
+          "decision": "respond_with_current_best_evidence",
+          "episode_id": "EP-a0d2fca720b3677d",
+          "evidence": "[{\"kind\": \"hypothesis_record\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}, {\"kind\": \"user_input\", \"content\": \"Окей запути систему\", \"cycle_id\": \"CYCLE-982caf1193e9\"}, {\"kind\": \"compiled_context\", \"sha256\": \"ca4316fd4dbad9f10e8d7eec27eab9d2566002173e09759b98b85f93f1889a66\", \"selected\": 28}, {\"kind\": \"strategy_selection\", \"ids\": [\"STR-07b5a2d6c018112f\"], \"names\": [\"ContentAnalysis\"]}, {\"kind\": \"embedded_host_response\", \"schema\": \"mos-embedded-response/v1\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"source_state_commit\": \"642c11239db0c9061b15a8584931e315add3193c\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\", \"created_at\": \"2026-09-08T11:54:46.859651Z\"}]",
+          "goal": "portable_cross_chat_continuity",
+          "hypothesis": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "outcome": null,
+          "revision": null,
+          "status": "decided",
+          "updated_at": "2026-09-08T11:54:46.864390Z"
+        }
+      ],
+      "events": [
+        {
+          "body": "{\"backup_path\": null, \"restored_table_counts\": {\"episodes\": 0, \"events\": 0, \"hypotheses\": 0, \"meme_versions\": 0, \"memes\": 0, \"memory\": 1, \"meta_memory\": 0, \"self_model\": 10, \"state\": 10, \"strategies\": 15, \"strategy_evolution\": 15, \"strategy_stats\": 15}, \"revision\": 1, \"snapshot_id\": \"SNAP-cdf06cda8622d9e1\"}",
+          "created_at": "2026-09-08T10:53:31.746873Z",
+          "event_hash": "1e36902252885dd4060b890f789a5619e462e7ee3cd2b030f3b4ebb2140d4fd8",
+          "event_id": "SNAP-cdf06cda8622d9e1:import:2026-09-08T10:53:31.746823Z",
+          "event_type": "relay_import",
+          "previous_hash": null,
+          "seq": 1
+        },
+        {
+          "body": "{\"description\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\", \"expected_outcome\": \"progress\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"probability\": 0.5}",
+          "created_at": "2026-09-08T10:53:31.751886Z",
+          "event_hash": "ac307aee6b0517402279bb0b0383c6d46caf880915eca8385969f87c6c99e863",
+          "event_id": "HYP-2066a563e28573b9:propose",
+          "event_type": "hypothesis_proposed",
+          "previous_hash": "1e36902252885dd4060b890f789a5619e462e7ee3cd2b030f3b4ebb2140d4fd8",
+          "seq": 2
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"goal\": \"portable_cross_chat_continuity\", \"hypothesis\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\"}",
+          "created_at": "2026-09-08T10:53:31.751962Z",
+          "event_hash": "653616f6fc98c841dcca30b27ac2197e9b26688dd30ab58b8418c6d5f345494b",
+          "event_id": "EP-0226846d84e99ce2:open",
+          "event_type": "episode_open",
+          "previous_hash": "ac307aee6b0517402279bb0b0383c6d46caf880915eca8385969f87c6c99e863",
+          "seq": 3
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"hypothesis_id\": \"HYP-2066a563e28573b9\", \"kind\": \"hypothesis_record\"}}",
+          "created_at": "2026-09-08T10:53:31.752030Z",
+          "event_hash": "a4a59c12db11a01771f13edf3651fd6f054ab51a5684b265ba07ac987f4a3921",
+          "event_id": "EP-0226846d84e99ce2:evidence:1",
+          "event_type": "evidence",
+          "previous_hash": "653616f6fc98c841dcca30b27ac2197e9b26688dd30ab58b8418c6d5f345494b",
+          "seq": 4
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"content\": \"R4.2 GitHub round-trip validation. Confirm that the host-chat bridge can load the canonical state, execute one MOS cycle, and prepare a verified checkpoint for GitHub.\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"kind\": \"user_input\"}}",
+          "created_at": "2026-09-08T10:53:31.752082Z",
+          "event_hash": "b9fe9279b3615ef1463c9cf32d53c8e12d1c8050c1e23edeaf9247d6b963c87f",
+          "event_id": "EP-0226846d84e99ce2:evidence:2",
+          "event_type": "evidence",
+          "previous_hash": "a4a59c12db11a01771f13edf3651fd6f054ab51a5684b265ba07ac987f4a3921",
+          "seq": 5
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"kind\": \"compiled_context\", \"selected\": 23, \"sha256\": \"aad7c1aacdbcf0435353e270b2f27af69855633636ead6fa3a7fe8dc922545f9\"}}",
+          "created_at": "2026-09-08T10:53:31.752136Z",
+          "event_hash": "5be1e44004f9aab11839411af447ea0ada3012d37f6754327a1babfa99526030",
+          "event_id": "EP-0226846d84e99ce2:evidence:3",
+          "event_type": "evidence",
+          "previous_hash": "b9fe9279b3615ef1463c9cf32d53c8e12d1c8050c1e23edeaf9247d6b963c87f",
+          "seq": 6
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"ids\": [\"STR-07b5a2d6c018112f\"], \"kind\": \"strategy_selection\", \"names\": [\"ContentAnalysis\"]}}",
+          "created_at": "2026-09-08T10:53:31.752187Z",
+          "event_hash": "406889533ffa0ae6dbc1ddfc65b5aac6d755dc22535878a5029624dea0293145",
+          "event_id": "EP-0226846d84e99ce2:evidence:4",
+          "event_type": "evidence",
+          "previous_hash": "5be1e44004f9aab11839411af447ea0ada3012d37f6754327a1babfa99526030",
+          "seq": 7
+        },
+        {
+          "body": "{\"action\": \"LLM bridge mode=embedded_host_pending\", \"decision\": \"respond_with_current_best_evidence\", \"episode_id\": \"EP-0226846d84e99ce2\"}",
+          "created_at": "2026-09-08T10:53:31.752570Z",
+          "event_hash": "39d59d09fe2d773e7cffaf1fddb7504bec32a06b81b4040b4d3b2349cfbe04e3",
+          "event_id": "EP-0226846d84e99ce2:decision",
+          "event_type": "decision",
+          "previous_hash": "406889533ffa0ae6dbc1ddfc65b5aac6d755dc22535878a5029624dea0293145",
+          "seq": 8
+        },
+        {
+          "body": "{\"context_sha256\": \"aad7c1aacdbcf0435353e270b2f27af69855633636ead6fa3a7fe8dc922545f9\", \"created_at\": \"2026-09-08T10:53:31.752833Z\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"learned_strategies\": [], \"llm_mode\": \"embedded_host_pending\", \"mandatory_checks\": [], \"provider_active\": false, \"provider_receipt\": null, \"research_status\": null, \"response_sha256\": \"dc5a608ec6ef2fa428a4d87735df1f4cb7965844085de4845822cb530f9a9b2a\", \"schema\": \"mos-cycle-receipt/v4.1\", \"selected_strategies\": [\"ContentAnalysis\"]}",
+          "created_at": "2026-09-08T10:53:31.752861Z",
+          "event_hash": "4a1d062bd502394b3038aed276cf1b0ffacaf81748b248a3a5761391f01589f0",
+          "event_id": "CYCLE-89776224b9fe:receipt",
+          "event_type": "cycle_receipt",
+          "previous_hash": "39d59d09fe2d773e7cffaf1fddb7504bec32a06b81b4040b4d3b2349cfbe04e3",
+          "seq": 9
+        },
+        {
+          "body": "{\"confidence\": 0.75, \"cycle_count\": 1, \"debt\": 0.0, \"emotion\": \"motivated\", \"energy\": 98.2644, \"pain\": 0.0, \"reason\": \"cycle\", \"timestamp\": \"2026-09-08T10:53:31.752930Z\"}",
+          "created_at": "2026-09-08T10:53:31.752953Z",
+          "event_hash": "2ae399964afe72f18ef4849a8f634a87dc4799e1c33137a35578c7a98bc1b892",
+          "event_id": "OBS-1-1788864811752",
+          "event_type": "self_observation",
+          "previous_hash": "4a1d062bd502394b3038aed276cf1b0ffacaf81748b248a3a5761391f01589f0",
+          "seq": 10
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"created_at\": \"2026-09-08T10:53:47.355899Z\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"kind\": \"embedded_host_response\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"78d64b52b11c9a633d2e606feb5e18146a67f5b7\"}}",
+          "created_at": "2026-09-08T10:53:47.358067Z",
+          "event_hash": "d04d2d9cd2de80134a6a49e63d57cd7819c600b1f45aa542601eed1e6f092a7c",
+          "event_id": "EP-0226846d84e99ce2:evidence:5",
+          "event_type": "evidence",
+          "previous_hash": "2ae399964afe72f18ef4849a8f634a87dc4799e1c33137a35578c7a98bc1b892",
+          "seq": 11
+        },
+        {
+          "body": "{\"created_at\": \"2026-09-08T10:53:47.355899Z\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"78d64b52b11c9a633d2e606feb5e18146a67f5b7\"}",
+          "created_at": "2026-09-08T10:53:47.358151Z",
+          "event_hash": "70bd8a830bc15835ba26bdb99d85a4963f1999fdf5e67cd8355bf23a316c3d26",
+          "event_id": "CYCLE-89776224b9fe:embedded_host_response",
+          "event_type": "embedded_host_response",
+          "previous_hash": "d04d2d9cd2de80134a6a49e63d57cd7819c600b1f45aa542601eed1e6f092a7c",
+          "seq": 12
+        },
+        {
+          "body": "{\"backup_path\": null, \"restored_table_counts\": {\"episodes\": 1, \"events\": 12, \"hypotheses\": 1, \"meme_versions\": 0, \"memes\": 0, \"memory\": 4, \"meta_memory\": 0, \"self_model\": 10, \"state\": 15, \"strategies\": 15, \"strategy_evolution\": 15, \"strategy_stats\": 15}, \"revision\": 2, \"snapshot_id\": \"SNAP-94eb620aba795b53\"}",
+          "created_at": "2026-09-08T11:54:21.020719Z",
+          "event_hash": "6573fb510ead5f49d7140d518b2e49fc51b8bb86ce444a1da3a39e6094983068",
+          "event_id": "SNAP-94eb620aba795b53:import:2026-09-08T11:54:21.020667Z",
+          "event_type": "relay_import",
+          "previous_hash": "70bd8a830bc15835ba26bdb99d85a4963f1999fdf5e67cd8355bf23a316c3d26",
+          "seq": 13
+        },
+        {
+          "body": "{\"description\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\", \"expected_outcome\": \"progress\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}",
+          "created_at": "2026-09-08T11:54:21.024402Z",
+          "event_hash": "6074ddd7e1b0310d040794d0c3c5164b1244484f693b01080cfe4cd732478502",
+          "event_id": "HYP-2066a563e28573b9:reuse:R-de8ff19af672025e",
+          "event_type": "hypothesis_reused",
+          "previous_hash": "6573fb510ead5f49d7140d518b2e49fc51b8bb86ce444a1da3a39e6094983068",
+          "seq": 14
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"goal\": \"portable_cross_chat_continuity\", \"hypothesis\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\"}",
+          "created_at": "2026-09-08T11:54:21.024491Z",
+          "event_hash": "8bb43dc99e0f220a04238b123108482b7592858e2cbf69facbae4023bd02210a",
+          "event_id": "EP-a0d2fca720b3677d:open",
+          "event_type": "episode_open",
+          "previous_hash": "6074ddd7e1b0310d040794d0c3c5164b1244484f693b01080cfe4cd732478502",
+          "seq": 15
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"hypothesis_id\": \"HYP-2066a563e28573b9\", \"kind\": \"hypothesis_record\"}}",
+          "created_at": "2026-09-08T11:54:21.024657Z",
+          "event_hash": "7f1f5084e83ee29fa39be1b87d841b2b50904f265225ae9f902cb829ff4ee298",
+          "event_id": "EP-a0d2fca720b3677d:evidence:1",
+          "event_type": "evidence",
+          "previous_hash": "8bb43dc99e0f220a04238b123108482b7592858e2cbf69facbae4023bd02210a",
+          "seq": 16
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"content\": \"Окей запути систему\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"kind\": \"user_input\"}}",
+          "created_at": "2026-09-08T11:54:21.024720Z",
+          "event_hash": "fa5ee4c7a901ec28d49a6ca75e412ce766046bf2c767163b994c0ae96ae86e78",
+          "event_id": "EP-a0d2fca720b3677d:evidence:2",
+          "event_type": "evidence",
+          "previous_hash": "7f1f5084e83ee29fa39be1b87d841b2b50904f265225ae9f902cb829ff4ee298",
+          "seq": 17
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"kind\": \"compiled_context\", \"selected\": 28, \"sha256\": \"ca4316fd4dbad9f10e8d7eec27eab9d2566002173e09759b98b85f93f1889a66\"}}",
+          "created_at": "2026-09-08T11:54:21.024816Z",
+          "event_hash": "c6e203a1edab7b8ae0c4aad9f4977bbe7365ea4ed70e510fc8d74af9673bff3c",
+          "event_id": "EP-a0d2fca720b3677d:evidence:3",
+          "event_type": "evidence",
+          "previous_hash": "fa5ee4c7a901ec28d49a6ca75e412ce766046bf2c767163b994c0ae96ae86e78",
+          "seq": 18
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"ids\": [\"STR-07b5a2d6c018112f\"], \"kind\": \"strategy_selection\", \"names\": [\"ContentAnalysis\"]}}",
+          "created_at": "2026-09-08T11:54:21.024914Z",
+          "event_hash": "b0f422b328bf64ef395cfe42c497c6c16ccefdbfec477ddeebc2f6b55dfa9c66",
+          "event_id": "EP-a0d2fca720b3677d:evidence:4",
+          "event_type": "evidence",
+          "previous_hash": "c6e203a1edab7b8ae0c4aad9f4977bbe7365ea4ed70e510fc8d74af9673bff3c",
+          "seq": 19
+        },
+        {
+          "body": "{\"action\": \"LLM bridge mode=embedded_host_pending\", \"decision\": \"respond_with_current_best_evidence\", \"episode_id\": \"EP-a0d2fca720b3677d\"}",
+          "created_at": "2026-09-08T11:54:21.025242Z",
+          "event_hash": "7898a08573f68eef25da0951a910d38c75f87f3883c97cf59b3d5c50978a6106",
+          "event_id": "EP-a0d2fca720b3677d:decision",
+          "event_type": "decision",
+          "previous_hash": "b0f422b328bf64ef395cfe42c497c6c16ccefdbfec477ddeebc2f6b55dfa9c66",
+          "seq": 20
+        },
+        {
+          "body": "{\"context_sha256\": \"ca4316fd4dbad9f10e8d7eec27eab9d2566002173e09759b98b85f93f1889a66\", \"created_at\": \"2026-09-08T11:54:21.025536Z\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"learned_strategies\": [], \"llm_mode\": \"embedded_host_pending\", \"mandatory_checks\": [], \"provider_active\": false, \"provider_receipt\": null, \"research_status\": null, \"response_sha256\": \"dc5a608ec6ef2fa428a4d87735df1f4cb7965844085de4845822cb530f9a9b2a\", \"schema\": \"mos-cycle-receipt/v4.1\", \"selected_strategies\": [\"ContentAnalysis\"]}",
+          "created_at": "2026-09-08T11:54:21.025566Z",
+          "event_hash": "74aa32699e97aceda87e10c0226c8f0d5e6e9bf5da981c660eea2d39ae457188",
+          "event_id": "CYCLE-982caf1193e9:receipt",
+          "event_type": "cycle_receipt",
+          "previous_hash": "7898a08573f68eef25da0951a910d38c75f87f3883c97cf59b3d5c50978a6106",
+          "seq": 21
+        },
+        {
+          "body": "{\"confidence\": 0.75, \"cycle_count\": 2, \"debt\": 0.0, \"emotion\": \"motivated\", \"energy\": 98.4289, \"pain\": 0.0, \"reason\": \"cycle\", \"timestamp\": \"2026-09-08T11:54:21.025635Z\"}",
+          "created_at": "2026-09-08T11:54:21.025659Z",
+          "event_hash": "80ef1a4876febcef78a39caaccb33104f31b55a24e8b6b87464b06438c3b25a1",
+          "event_id": "OBS-1-1788868461025",
+          "event_type": "self_observation",
+          "previous_hash": "74aa32699e97aceda87e10c0226c8f0d5e6e9bf5da981c660eea2d39ae457188",
+          "seq": 22
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"created_at\": \"2026-09-08T11:54:46.859651Z\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"kind\": \"embedded_host_response\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"642c11239db0c9061b15a8584931e315add3193c\"}}",
+          "created_at": "2026-09-08T11:54:46.864469Z",
+          "event_hash": "023466508bec1405c829313b948e5358415c46c39e67a7828f4ca55d891115d1",
+          "event_id": "EP-a0d2fca720b3677d:evidence:5",
+          "event_type": "evidence",
+          "previous_hash": "80ef1a4876febcef78a39caaccb33104f31b55a24e8b6b87464b06438c3b25a1",
+          "seq": 23
+        },
+        {
+          "body": "{\"created_at\": \"2026-09-08T11:54:46.859651Z\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"642c11239db0c9061b15a8584931e315add3193c\"}",
+          "created_at": "2026-09-08T11:54:46.864680Z",
+          "event_hash": "1acf32ea894bc9600ef2e2846e515edcdfb0a11a65eb70df28eb5a10d1572034",
+          "event_id": "CYCLE-982caf1193e9:embedded_host_response",
+          "event_type": "embedded_host_response",
+          "previous_hash": "023466508bec1405c829313b948e5358415c46c39e67a7828f4ca55d891115d1",
+          "seq": 24
+        }
+      ],
+      "hypotheses": [
+        {
+          "created_at": "2026-09-08T10:53:31.751801Z",
+          "description": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "expected_outcome": "progress",
+          "hypothesis_id": "HYP-2066a563e28573b9",
+          "probability": 0.5,
+          "status": "active",
+          "success_count": 0,
+          "test_count": 0
+        }
+      ],
+      "meme_versions": [],
+      "memes": [],
+      "memory": [
+        {
+          "content": "[MOS embedded host response pending]",
+          "created_at": "2026-09-08T10:53:31.752208Z",
+          "importance": 0.72,
+          "kind": "agent",
+          "memory_id": "MEM-0bf9274045524c5f",
+          "metadata": "{\"cycle_id\": \"CYCLE-89776224b9fe\", \"llm_mode\": \"embedded_host_pending\", \"observer_running\": false}",
+          "strength": 1.0,
+          "usage_count": 1,
+          "vector": "[0.16046375746527347, 0.13592243447283486, 0.1780063874583009, 0.13970720755458277, 0.13542569657320866, 0.15713789320261243, 0.11997171357129129, 0.15074853789400372, 0.15876560449971328, 0.08781198746639211, 0.09717237572315865, 0.16219105901001202, 0.08860120039784984, 0.12453575408951781, 0.08115071127038506, 0.11337207741389056, 0.09686230407407406, 0.13154638928634524, 0.08914956700374822, 0.12817579377657148, 0.14089640455325272, 0.1550424032899406, 0.08760198411396138, 0.1241660820357193, 0.15759965228136721, 0.1271953617811564, 0.13555534339071595, 0.12562978774531788, 0.0790683110381291, 0.12138975526849734, 0.11903526510029412, 0.08555768377357705, 0.14803031793704122, 0.05402802460495745, 0.14016970171083024, 0.13028206681240423, 0.12027600244054329, 0.0637736558534612, 0.09046657646119535, 0.05027962452092678, 0.06857507414669892, 0.17742149369307622, 0.12948549441837456, 0.07746136289454131, 0.12416334479830235, 0.1579384191099169, 0.13603026367902593, 0.09729550138636653, 0.1492508120313683, 0.10797681621857558, 0.15186026657365892, 0.1352155712925982, 0.1564034819347197, 0.12487708396543559, 0.07528708070918608, 0.15055589614392445, 0.11689295205602122, 0.13113558274535217, 0.15160621087446746, 0.07016188910000429, 0.09264742474929419, 0.1373826287490214, 0.15773905773324004, 0.06712398070754243]"
+        },
+        {
+          "content": "[MOS embedded host response pending]",
+          "created_at": "2026-09-08T11:54:21.024940Z",
+          "importance": 0.72,
+          "kind": "agent",
+          "memory_id": "MEM-726151eb76ce1f87",
+          "metadata": "{\"cycle_id\": \"CYCLE-982caf1193e9\", \"llm_mode\": \"embedded_host_pending\", \"observer_running\": false}",
+          "strength": 1.0,
+          "usage_count": 0,
+          "vector": "[0.16046375746527347, 0.13592243447283486, 0.1780063874583009, 0.13970720755458277, 0.13542569657320866, 0.15713789320261243, 0.11997171357129129, 0.15074853789400372, 0.15876560449971328, 0.08781198746639211, 0.09717237572315865, 0.16219105901001202, 0.08860120039784984, 0.12453575408951781, 0.08115071127038506, 0.11337207741389056, 0.09686230407407406, 0.13154638928634524, 0.08914956700374822, 0.12817579377657148, 0.14089640455325272, 0.1550424032899406, 0.08760198411396138, 0.1241660820357193, 0.15759965228136721, 0.1271953617811564, 0.13555534339071595, 0.12562978774531788, 0.0790683110381291, 0.12138975526849734, 0.11903526510029412, 0.08555768377357705, 0.14803031793704122, 0.05402802460495745, 0.14016970171083024, 0.13028206681240423, 0.12027600244054329, 0.0637736558534612, 0.09046657646119535, 0.05027962452092678, 0.06857507414669892, 0.17742149369307622, 0.12948549441837456, 0.07746136289454131, 0.12416334479830235, 0.1579384191099169, 0.13603026367902593, 0.09729550138636653, 0.1492508120313683, 0.10797681621857558, 0.15186026657365892, 0.1352155712925982, 0.1564034819347197, 0.12487708396543559, 0.07528708070918608, 0.15055589614392445, 0.11689295205602122, 0.13113558274535217, 0.15160621087446746, 0.07016188910000429, 0.09264742474929419, 0.1373826287490214, 0.15773905773324004, 0.06712398070754243]"
+        },
+        {
+          "content": "MOS R4.2 loaded the canonical GitHub state, restored and verified schema 4, executed cycle CYCLE-89776224b9fe through the embedded host bridge, and is ready to publish the resulting checkpoint. This is a functional round-trip validation, not a claim that MOS changes the host model's weights or runs without a tool-enabled chat.",
+          "created_at": "2026-09-08T10:53:47.355903Z",
+          "importance": 0.78,
+          "kind": "host_llm",
+          "memory_id": "MEM-94d59d0dd36e1048",
+          "metadata": "{\"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\"}",
+          "strength": 1.0,
+          "usage_count": 1,
+          "vector": "[0.1114908399524069, 0.11025047724051149, 0.13728799678750883, 0.13602478581443603, 0.13854524740021837, 0.14053907967989243, 0.1506366197581042, 0.10971806534339107, 0.1360974778333264, 0.1274745983532241, 0.10843007826684137, 0.1274510954048104, 0.11985920305865776, 0.10483192446914372, 0.13110591245636505, 0.12017424478315299, 0.12057927581774507, 0.14816315957475512, 0.11788523271433081, 0.10091088837931494, 0.15397983299150117, 0.14437483602735182, 0.11672205867882926, 0.12342134645849397, 0.11597585435787865, 0.1256226632577066, 0.12469546562924512, 0.12763074056803092, 0.1142822338294312, 0.13184543293162607, 0.13628888216183033, 0.12888938370934477, 0.11105738416806496, 0.13107182217698216, 0.1256833689105091, 0.1215974488107917, 0.12316862225653825, 0.11970814785525091, 0.152183297576241, 0.11597057645137354, 0.12655184304954434, 0.1190368602312023, 0.12063021872102303, 0.12077452570891786, 0.12901699876792092, 0.1387857547327871, 0.11934310968191521, 0.12825923251718763, 0.1277918620002405, 0.11726139787290783, 0.12769657091961326, 0.10349332888604511, 0.11761623550520531, 0.11679141085497853, 0.12498939776931248, 0.11835201534060268, 0.14058982034801404, 0.13245584042609104, 0.11235754678749807, 0.1058854899267919, 0.11052254948015387, 0.12076458008421707, 0.13510949050114257, 0.10684259026513522]"
+        },
+        {
+          "content": "portable_cross_chat_continuity",
+          "created_at": "2026-09-08T10:39:01.560496Z",
+          "importance": 0.95,
+          "kind": "goal",
+          "memory_id": "MEM-a6daf6650865f1a2",
+          "metadata": "{\"source\": \"goal\"}",
+          "strength": 1.0,
+          "usage_count": 2,
+          "vector": "[0.06374322567691804, 0.1877066576986858, 0.11164965479960744, 0.17757753004809612, 0.0910305255343656, 0.0029672256992060476, 0.01439052835713203, 0.13078391665969977, 0.10088867579848239, 0.18128910110824706, 0.16199066824606326, 0.14864763096895092, 0.09172409315807188, 0.06081896123624895, 0.05467924163563709, 0.025536799235968504, 0.12121750863639782, 0.11612265658587234, 0.017167661918858514, 0.008614259564375988, 0.1785359268215616, 0.04773165852941523, 0.14572803312367522, 0.07160752322971173, 0.16154594238911324, 0.028234754193715458, 0.022173119931524217, 0.18220587477603237, 0.13721249372851363, 0.17615039750101544, 0.025215311418434406, 0.1004341937424559, 0.12445218596904734, 0.11366962786367782, 0.024314401421096334, 0.13724239992542095, 0.19557668296309136, 0.013036158826488637, 0.19115336003166572, 0.0883623922404757, 0.12529367353846793, 0.19468953926337712, 0.012660173244007892, 0.1689159074359755, 0.13901853542524778, 0.19288999270736293, 0.13228492309587156, 0.145698332750824, 0.0876488258587473, 0.011538421749043837, 0.030808242963256214, 0.18541620158746844, 0.061671582693353516, 0.08510510505124036, 0.11509278123775005, 0.14219161656404802, 0.17186190036642768, 0.1883267356262053, 0.18615072145733755, 0.17847807308016456, 0.1333438110583967, 0.10902238623480362, 0.004577325263455531, 0.12931072739351662]"
+        },
+        {
+          "content": "Состояние: MOS 4.2 запущена внутри этого чата.\n\nЦель: использовать GitHub как постоянное хранилище, Python как исполнитель, а встроенную модель чата — для формирования ответа.\n\nДействие: сообщение реально прошло через MOS Runtime. Цикл: `CYCLE-982caf1193e9`.\n\nПроверка: SQLite — `ok`, цепочка событий — `true`, состояние загружено из `mos-state`.\n\nРешение: система активна для дальнейшей работы в этом чате через тот же протокол.\n\nОбновление: этот ответ зафиксирован в состоянии MOS и выгружен обратно в GitHub.",
+          "created_at": "2026-09-08T11:54:46.859655Z",
+          "importance": 0.78,
+          "kind": "host_llm",
+          "memory_id": "MEM-a831dee8519bf128",
+          "metadata": "{\"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\"}",
+          "strength": 1.0,
+          "usage_count": 0,
+          "vector": "[0.12855315581186885, 0.10441042878580464, 0.1285475268672953, 0.11411656789805738, 0.10974277751495172, 0.1202701522721095, 0.12633611644969814, 0.0999813551780397, 0.15167646942243326, 0.1293109872743638, 0.12536652499757917, 0.13614585741241672, 0.11700158649917232, 0.13596264708516886, 0.1263867806524017, 0.12734722679025465, 0.1159684359323843, 0.12606165947569842, 0.13475777851865098, 0.12236336296402699, 0.11559398573305785, 0.11439724113684438, 0.12936746556849832, 0.10830904079015748, 0.133762737501216, 0.12167390757581178, 0.13612877418239192, 0.14156533341202626, 0.1186144165071315, 0.12232993651737449, 0.10593865740833933, 0.11579596876360333, 0.1180290271098764, 0.137844814300034, 0.13901196412616604, 0.12668027994502237, 0.11012959545381867, 0.11384363601435325, 0.12689931167159083, 0.12216150757869236, 0.12279243315814982, 0.13884019178853726, 0.13714378399593172, 0.13816821809935456, 0.11307784562076786, 0.1572588473788961, 0.10543158050797515, 0.13194444186810061, 0.1344674346407736, 0.12249950458735535, 0.14582352711133692, 0.10749413776764036, 0.13416757557548611, 0.11126513455827804, 0.12024018230155956, 0.12495155367943662, 0.12600968632768678, 0.12927413995301945, 0.11776559126371863, 0.12499886316577467, 0.11982354776927619, 0.12131866484030016, 0.12106542446156446, 0.12247890987506382]"
+        },
+        {
+          "content": "R4.2 GitHub round-trip validation. Confirm that the host-chat bridge can load the canonical state, execute one MOS cycle, and prepare a verified checkpoint for GitHub.",
+          "created_at": "2026-09-08T10:53:31.747520Z",
+          "importance": 0.75,
+          "kind": "user",
+          "memory_id": "MEM-b0d9327ca6e38f05",
+          "metadata": "{\"cycle_id\": \"CYCLE-89776224b9fe\"}",
+          "strength": 1.0,
+          "usage_count": 2,
+          "vector": "[0.11848632983237635, 0.11332094904098283, 0.12029173468059613, 0.11641803163972199, 0.11338684912256661, 0.12459881753599573, 0.14833452793253485, 0.11060442782542686, 0.1380305573004035, 0.13096897081438244, 0.14083457472388156, 0.12478051325411876, 0.12852843939898542, 0.12079047330287325, 0.12916900079375887, 0.13616211692161367, 0.10454306207427187, 0.14502287376534184, 0.12470495851923044, 0.11048934790388786, 0.14137472273551532, 0.1415725957699728, 0.11683847193398893, 0.10621924693675543, 0.11882222513078658, 0.11402415344678764, 0.12392658255002627, 0.11125574600786277, 0.12955394159083983, 0.12584465837225906, 0.14502752821025588, 0.147411244270907, 0.10877361671831291, 0.14089263862979226, 0.13050074163980682, 0.14183298202945754, 0.11743821126766031, 0.1002656793660399, 0.1428298155611125, 0.12170341076563486, 0.14574268755666311, 0.13268276865494033, 0.10266238481697103, 0.09651773504805378, 0.12170815608567948, 0.1489978939158243, 0.1024544092980442, 0.11707199931107588, 0.11356652176209528, 0.13413474441231027, 0.11079406439662143, 0.10134847242800753, 0.12022512893249332, 0.13248758306537683, 0.1283219063664974, 0.11116682758889172, 0.13496818530499483, 0.15143893807799882, 0.1251251740527477, 0.12126467925274274, 0.11988205561159498, 0.10524322282156624, 0.13375887178801918, 0.11264087140261876]"
+        },
+        {
+          "content": "Окей запути систему",
+          "created_at": "2026-09-08T11:54:21.021738Z",
+          "importance": 0.75,
+          "kind": "user",
+          "memory_id": "MEM-d99141f8a70da4b0",
+          "metadata": "{\"cycle_id\": \"CYCLE-982caf1193e9\"}",
+          "strength": 1.0,
+          "usage_count": 1,
+          "vector": "[0.19302261167345203, 0.11452075495728128, 0.1840986247906643, 0.12410240415680138, 0.14759834053616194, 0.10620588347675738, 0.0884380512158227, 0.18540119604143251, 0.10872486202501269, 0.06496454152149625, 0.11786471254940956, 0.09565519791599647, 0.1544878412786835, 0.11704385226856084, 0.1452323831892558, 0.11072247454848974, 0.09676440646622196, 0.07450132078595524, 0.09410366957936868, 0.026821434769994556, 0.07789231511416488, 0.10656623978211002, 0.13728575305842206, 0.09734656807423152, 0.1724221879569287, 0.11077926893155188, 0.07679128277833945, 0.16226467987156468, 0.11445847530159345, 0.1205392245112324, 0.06732631459556113, 0.13223000253910622, 0.1262949028456253, 0.07880827367808278, 0.1074677763096281, 0.1378086780868511, 0.19719674029543335, 0.13302985176627294, 0.06015213837629558, 0.09342769017370064, 0.125488458768071, 0.12490243131619501, 0.10861378471803172, 0.1370914511729684, 0.1321104221919965, 0.10745878064537316, 0.14543611561179243, 0.08876644937512336, 0.12331267676105806, 0.12120222557401153, 0.11508311215983472, 0.15502622476876685, 0.06201908940762873, 0.18067119137704432, 0.1313497416005186, 0.21731607908074, 0.16175384318337985, 0.076230090861548, 0.062009227554472655, 0.13828296517406174, 0.07373472134506842, 0.12337810388722863, 0.13016376092203175, 0.13664719013504237]"
+        }
+      ],
+      "meta_memory": [],
+      "self_model": [
+        {
+          "confidence": 1.0,
+          "domain": "host_lifetime",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-0089797eab737d29",
+          "kind": "weakness",
+          "metadata": "{}",
+          "scope_limit": "Use an external supervisor/service for always-on operation.",
+          "statement": "Background reflection stops when the host process is destroyed.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859549Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "self_improvement",
+          "evidence_refs": "[\"runtime:v4.1\", \"tests:strategy_gate\"]",
+          "item_id": "SM-1eb16da014ace5d7",
+          "kind": "boundary",
+          "metadata": "{}",
+          "scope_limit": "MOS does not train or modify base-model weights and does not invent program candidates autonomously.",
+          "statement": "Strategy changes remain candidates until an explicit blind, regression-free holdout evaluation activates them.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859569Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "full_state_relay",
+          "evidence_refs": "[\"runtime:v4\", \"tests:full_relay\"]",
+          "item_id": "SM-28689aeeacf8c848",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Snapshot catalog itself is not recursively embedded.",
+          "statement": "Relay snapshots transfer state, memory, hypotheses, strategies, memes, episodes, meta-memory, self-model and event history.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859517Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "meme_execution",
+          "evidence_refs": "[\"runtime:v4\", \"tests:sandbox\"]",
+          "item_id": "SM-2f511a6b4832ccea",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Best-effort restricted Python sandbox, not a hardened VM/container.",
+          "statement": "Versioned memes execute in a restricted subprocess sandbox with timeout and JSON boundaries.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859484Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "provider_integration",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-826047bfab13e306",
+          "kind": "weakness",
+          "metadata": "{}",
+          "scope_limit": "Plumbing is verified; provider execution is host-dependent.",
+          "statement": "No external LLM provider is active unless the host explicitly supplies a callable or subprocess bridge.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859533Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "llm_bridge",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-90bf080f556da0ad",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "No hidden provider/network claim.",
+          "statement": "External LLM invocation requires an explicit host adapter.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859427Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "embedded_host_bridge",
+          "evidence_refs": "[\"runtime:v4.2\", \"tests:portable\"]",
+          "item_id": "SM-974b482206580544",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "The Python runtime does not call the built-in host model directly.",
+          "statement": "A tool-enabled host chat can run MOS before drafting and commit its answer afterward.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859448Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "evidence",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-99860505c39686f4",
+          "kind": "mandatory_check",
+          "metadata": "{}",
+          "scope_limit": "Research executes only through an explicit adapter.",
+          "statement": "Verify externally checkable claims before promoting them to fact.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859466Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "persistence",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-caf3782ce8b50251",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Only while the persistent database file is retained.",
+          "statement": "Transactional SQLite-backed state is available in this host runtime.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859372Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "epistemic_replay",
+          "evidence_refs": "[\"runtime:v4\", \"tests:event_chain\"]",
+          "item_id": "SM-cb841376b0230069",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Integrity is local; no external signature authority is implied.",
+          "statement": "Episodes and system events are persisted with an append-only hash chain.",
+          "status": "active",
+          "updated_at": "2026-09-08T11:54:46.859501Z"
+        }
+      ],
+      "state": [
+        {
+          "key": "capabilities",
+          "updated_at": "2026-09-08T11:54:46.859277Z",
+          "value": "{\"background_observer\": {\"active\": false, \"boundary\": \"A timer/maintenance loop, not introspection or consciousness.\", \"supported\": true}, \"base_model_weight_change\": {\"active\": false, \"boundary\": \"No model training or weight updates.\", \"supported\": false}, \"candidate_code_selection\": {\"active\": true, \"boundary\": \"Selects only host-supplied code candidates in the restricted worker.\", \"supported\": true}, \"consciousness_or_feelings\": {\"active\": false, \"boundary\": \"State labels are heuristic numbers, not subjective experience.\", \"supported\": false}, \"embedded_host_bridge\": {\"active\": false, \"boundary\": \"The host chat generates the answer between begin-turn and commit-turn.\", \"supported\": true}, \"epistemic_event_chain\": {\"active\": true, \"boundary\": \"Local SHA-256 chain; no external signature authority.\", \"supported\": true}, \"external_llm_bridge\": {\"active\": false, \"boundary\": \"A real provider is active only when the host supplies one.\", \"supported\": true}, \"full_state_relay\": {\"active\": true, \"boundary\": \"Snapshot import requires the same schema version.\", \"supported\": true}, \"hidden_cross_chat_memory\": {\"active\": false, \"boundary\": \"No hidden memory outside the retained database/snapshot.\", \"supported\": false}, \"persistent_state\": {\"active\": true, \"boundary\": \"Only while the SQLite file is retained.\", \"supported\": true}, \"research_adapter\": {\"active\": false, \"boundary\": \"Internet is used only when connected evidence proves a network request.\", \"supported\": true}, \"strategy_learning\": {\"active\": true, \"boundary\": \"Learns routing features; proposed descendants require a blind holdout gate.\", \"supported\": true}}"
+        },
+        {
+          "key": "confidence",
+          "updated_at": "2026-09-08T10:39:01.559243Z",
+          "value": "0.75"
+        },
+        {
+          "key": "context",
+          "updated_at": "2026-09-08T11:54:21.022568Z",
+          "value": "{\"language\": \"ru\", \"tone\": \"technical\"}"
+        },
+        {
+          "key": "current_goal",
+          "updated_at": "2026-09-08T10:39:01.560423Z",
+          "value": "\"portable_cross_chat_continuity\""
+        },
+        {
+          "key": "cycle_count",
+          "updated_at": "2026-09-08T11:54:21.025276Z",
+          "value": "2"
+        },
+        {
+          "key": "debt",
+          "updated_at": "2026-09-08T10:39:01.559262Z",
+          "value": "0.0"
+        },
+        {
+          "key": "emotion",
+          "updated_at": "2026-09-08T11:54:21.022601Z",
+          "value": "\"motivated\""
+        },
+        {
+          "key": "energy",
+          "updated_at": "2026-09-08T11:54:21.022634Z",
+          "value": "98.4289"
+        },
+        {
+          "key": "energy_recovery_rate",
+          "updated_at": "2026-09-08T10:39:01.559221Z",
+          "value": "0.7"
+        },
+        {
+          "key": "last_embedded_host",
+          "updated_at": "2026-09-08T11:54:46.864625Z",
+          "value": "\"chatgpt-work-code-interpreter\""
+        },
+        {
+          "key": "last_input",
+          "updated_at": "2026-09-08T11:54:21.025290Z",
+          "value": "\"Окей запути систему\""
+        },
+        {
+          "key": "last_response",
+          "updated_at": "2026-09-08T11:54:46.864558Z",
+          "value": "\"Состояние: MOS 4.2 запущена внутри этого чата.\\n\\nЦель: использовать GitHub как постоянное хранилище, Python как исполнитель, а встроенную модель чата — для формирования ответа.\\n\\nДействие: сообщение реально прошло через MOS Runtime. Цикл: `CYCLE-982caf1193e9`.\\n\\nПроверка: SQLite — `ok`, цепочка событий — `true`, состояние загружено из `mos-state`.\\n\\nРешение: система активна для дальнейшей работы в этом чате через тот же протокол.\\n\\nОбновление: этот ответ зафиксирован в состоянии MOS и выгружен обратно в GitHub.\""
+        },
+        {
+          "key": "last_tick",
+          "updated_at": "2026-09-08T11:54:21.022249Z",
+          "value": "1788868461.0222151"
+        },
+        {
+          "key": "pain",
+          "updated_at": "2026-09-08T10:39:01.559277Z",
+          "value": "0.0"
+        },
+        {
+          "key": "relay_revision",
+          "updated_at": "2026-09-08T11:54:21.020639Z",
+          "value": "2"
+        }
+      ],
+      "strategies": [
+        {
+          "action_arg": null,
+          "action_kind": "content_analysis",
+          "learned_from": "[]",
+          "level": 1,
+          "name": "ContentAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "triggers": "[]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "evidence",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "EvidenceCheck",
+          "parent_id": null,
+          "priority": 1.25,
+          "status": "active",
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "triggers": "[\"evidence\", \"verify\", \"proof\", \"\\u0434\\u043e\\u043a\\u0430\\u0437\", \"\\u043f\\u0440\\u043e\\u0432\\u0435\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "research",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "ResearchRouting",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-265e66aef27afc66",
+          "triggers": "[\"research\", \"source\", \"\\u0438\\u0441\\u0442\\u043e\\u0447\\u043d\\u0438\\u043a\", \"\\u0438\\u0441\\u0441\\u043b\\u0435\\u0434\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "contradiction",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "ContradictionCheck",
+          "parent_id": null,
+          "priority": 1.15,
+          "status": "active",
+          "strategy_id": "STR-2bc359810363d14d",
+          "triggers": "[\"contradiction\", \"conflict\", \"\\u043f\\u0440\\u043e\\u0442\\u0438\\u0432\\u043e\\u0440\\u0435\\u0447\", \"\\u043a\\u043e\\u043d\\u0444\\u043b\\u0438\\u043a\\u0442\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "meme_engineering",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "MemeEngineering",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-2db55b634f96746f",
+          "triggers": "[\"meme\", \"memetic\", \"\\u043c\\u0435\\u043c\", \"\\u0430\\u043b\\u0433\\u043e\\u0440\\u0438\\u0442\\u043c\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "resonance",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "UserResonance",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-3c7237494f82b465",
+          "triggers": "[\"why\", \"how\", \"\\u043f\\u043e\\u0447\\u0435\\u043c\\u0443\", \"\\u043a\\u0430\\u043a\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "decision_audit",
+          "learned_from": "[]",
+          "level": 4,
+          "name": "DecisionAudit",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-44137aff7e764c52",
+          "triggers": "[\"decision\", \"audit\", \"\\u0440\\u0435\\u0448\\u0435\\u043d\\u0438\\u0435\", \"\\u0430\\u0443\\u0434\\u0438\\u0442\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "reflection",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "SelfReflection",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "triggers": "[\"self\", \"\\u043e\\u0448\\u0438\\u0431\", \"weakness\", \"\\u0441\\u0430\\u043c\\u043e\", \"\\u0440\\u0435\\u0444\\u043b\\u0435\\u043a\\u0441\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "constraint_navigation",
+          "learned_from": "[]",
+          "level": 4,
+          "name": "ConstraintNavigation",
+          "parent_id": null,
+          "priority": 1.2,
+          "status": "active",
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "triggers": "[\"rule\", \"law\", \"constraint\", \"\\u043f\\u0440\\u0430\\u0432\\u0438\\u043b\", \"\\u0437\\u0430\\u043a\\u043e\\u043d\", \"\\u043e\\u0433\\u0440\\u0430\\u043d\\u0438\\u0447\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "strategic",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "StrategicThinking",
+          "parent_id": null,
+          "priority": 1.15,
+          "status": "active",
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "triggers": "[\"strategy\", \"long-term\", \"\\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\", \"\\u0434\\u043e\\u043b\\u0433\\u043e\\u0441\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "planning",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "ActionPlanning",
+          "parent_id": null,
+          "priority": 1.2,
+          "status": "active",
+          "strategy_id": "STR-a08ebe6f62808355",
+          "triggers": "[\"plan\", \"next\", \"strategy\", \"\\u043f\\u043b\\u0430\\u043d\", \"\\u0441\\u043b\\u0435\\u0434\\u0443\\u044e\\u0449\", \"\\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "tactical",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "TacticalThinking",
+          "parent_id": null,
+          "priority": 1.05,
+          "status": "active",
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "triggers": "[\"tactic\", \"step\", \"\\u0442\\u0430\\u043a\\u0442\\u0438\\u043a\", \"\\u0448\\u0430\\u0433\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "hypothesis",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "HypothesisGeneration",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "triggers": "[\"hypothesis\", \"test\", \"\\u0433\\u0438\\u043f\\u043e\\u0442\\u0435\\u0437\", \"\\u043f\\u0440\\u043e\\u0432\\u0435\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "economic",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "EconomicAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "triggers": "[\"cost\", \"price\", \"economic\", \"\\u0441\\u0442\\u043e\\u0438\\u043c\", \"\\u044d\\u043a\\u043e\\u043d\\u043e\\u043c\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "physics",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "PhysicsAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "triggers": "[\"physics\", \"force\", \"energy\", \"\\u0444\\u0438\\u0437\\u0438\\u043a\", \"\\u044d\\u043d\\u0435\\u0440\\u0433\"]",
+          "version": 1
+        }
+      ],
+      "strategy_evolution": [
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "updated_at": "2026-09-08T10:39:01.559401Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "updated_at": "2026-09-08T10:39:01.559632Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-265e66aef27afc66",
+          "updated_at": "2026-09-08T10:39:01.559692Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-2bc359810363d14d",
+          "updated_at": "2026-09-08T10:39:01.559490Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-2db55b634f96746f",
+          "updated_at": "2026-09-08T10:39:01.559722Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-3c7237494f82b465",
+          "updated_at": "2026-09-08T10:39:01.559563Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-44137aff7e764c52",
+          "updated_at": "2026-09-08T10:39:01.559753Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "updated_at": "2026-09-08T10:39:01.559663Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "updated_at": "2026-09-08T10:39:01.559971Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "updated_at": "2026-09-08T10:39:01.559783Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-a08ebe6f62808355",
+          "updated_at": "2026-09-08T10:39:01.559530Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "updated_at": "2026-09-08T10:39:01.559812Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "updated_at": "2026-09-08T10:39:01.559598Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "updated_at": "2026-09-08T10:39:01.559871Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "updated_at": "2026-09-08T10:39:01.559841Z"
+        }
+      ],
+      "strategy_stats": [
+        {
+          "fail": 0,
+          "last_used": "2026-09-08T11:54:21.025260Z",
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "success": 0,
+          "uses": 2
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-265e66aef27afc66",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-2bc359810363d14d",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-2db55b634f96746f",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-3c7237494f82b465",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-44137aff7e764c52",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-a08ebe6f62808355",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "success": 0,
+          "uses": 0
+        }
+      ]
+    }
+  },
+  "snapshot_id": "SNAP-414746ceb70b0f52",
+  "state_hash": "806d855d18fd1e842f9a1ed7d1436d857054d2fd966827e469e09b68378009c6"
+}
