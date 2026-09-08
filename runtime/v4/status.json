@@ -1,11 +1,13 @@
 {
   "format": "MOS-AUTODEV-STATUS/4.1",
-  "timestamp": "2026-09-08T04:40:04.400219+00:00",
+  "timestamp": "2026-09-08T05:20:57.506891+00:00",
   "code_executed": true,
   "durable_state": "github",
   "released": false,
   "result": "locked_test_already_consumed",
   "active_generation": 1,
   "data_epoch_sha256": "8d28009d62fbdef3532d085978af27404b1d9d3afbf3473b6c2d449d5ccb6650",
-  "error": null
+  "error": null,
+  "state_valid": true,
+  "validation_errors": []
 }

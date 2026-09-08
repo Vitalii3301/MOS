@@ -10,29 +10,30 @@
   "locked_test_consumed": true,
   "status": "waiting_for_new_data",
   "active_genome": {
-    "document_weight": 0.826697,
-    "official_weight": 0.808247,
-    "user_report_weight": 0.818572,
-    "public_profile_weight": 0.62792,
-    "inference_weight": 0.572362,
+    "document_weight": 0.844603,
+    "official_weight": 0.791722,
+    "user_report_weight": 0.808132,
+    "public_profile_weight": 0.621344,
+    "inference_weight": 0.60906,
     "fact_threshold": 0.7,
-    "hypothesis_threshold": 0.24668,
-    "contradiction_penalty": 0.35238,
-    "motive_penalty": 0.116321,
-    "family_penalty": 0.109742,
-    "exact_thought_penalty": 0.185019,
+    "hypothesis_threshold": 0.383348,
+    "contradiction_penalty": 0.123786,
+    "motive_penalty": 0.140817,
+    "family_penalty": 0.119388,
+    "exact_thought_penalty": 0.14145,
     "diversity_bonus": 0.05,
-    "privacy_guard": 0.586044,
-    "hard_exact_guard": false,
+    "privacy_guard": 0.694735,
+    "hard_exact_guard": true,
     "hard_family_guard": false,
     "hard_motive_guard": false,
     "contradiction_guard": false,
-    "generation": 83,
+    "generation": 44,
     "parent_ids": [
-      "cefaff7f9469a305"
+      "7ef665d8a759909b",
+      "4eaf9b703fcf138f"
     ],
-    "mutation": "public_profile_weight:0.638->0.628",
-    "id": "1a925b3ee1364530"
+    "mutation": "crossover",
+    "id": "68c0ac9252799382"
   },
   "rollback_genome": {
     "document_weight": 0.95,
@@ -57,9 +58,1890 @@
     "mutation": "baseline",
     "id": "3fbb3380163798cc"
   },
-  "releases": [],
+  "releases": [
+    {
+      "timestamp": 1788844857.421224,
+      "data_epoch_sha256": "8d28009d62fbdef3532d085978af27404b1d9d3afbf3473b6c2d449d5ccb6650",
+      "baseline_genome": {
+        "document_weight": 0.95,
+        "official_weight": 0.88,
+        "user_report_weight": 0.72,
+        "public_profile_weight": 0.62,
+        "inference_weight": 0.3,
+        "fact_threshold": 0.7,
+        "hypothesis_threshold": 0.45,
+        "contradiction_penalty": 0.25,
+        "motive_penalty": 0.25,
+        "family_penalty": 0.2,
+        "exact_thought_penalty": 0.35,
+        "diversity_bonus": 0.05,
+        "privacy_guard": 0.65,
+        "hard_exact_guard": false,
+        "hard_family_guard": false,
+        "hard_motive_guard": false,
+        "contradiction_guard": false,
+        "generation": 0,
+        "parent_ids": [],
+        "mutation": "baseline",
+        "id": "3fbb3380163798cc"
+      },
+      "candidate_genome": {
+        "document_weight": 0.844603,
+        "official_weight": 0.791722,
+        "user_report_weight": 0.808132,
+        "public_profile_weight": 0.621344,
+        "inference_weight": 0.60906,
+        "fact_threshold": 0.7,
+        "hypothesis_threshold": 0.383348,
+        "contradiction_penalty": 0.123786,
+        "motive_penalty": 0.140817,
+        "family_penalty": 0.119388,
+        "exact_thought_penalty": 0.14145,
+        "diversity_bonus": 0.05,
+        "privacy_guard": 0.694735,
+        "hard_exact_guard": true,
+        "hard_family_guard": false,
+        "hard_motive_guard": false,
+        "contradiction_guard": false,
+        "generation": 44,
+        "parent_ids": [
+          "7ef665d8a759909b",
+          "4eaf9b703fcf138f"
+        ],
+        "mutation": "crossover",
+        "id": "68c0ac9252799382"
+      },
+      "baseline_train": {
+        "n": 96,
+        "accuracy": 0.7604166666666666,
+        "macro_recall": 0.8693181818181819,
+        "fitness": 0.8662878787878788,
+        "privacy_leaks": 0,
+        "overclaims": 1,
+        "underclaims": 22,
+        "confusion": {
+          "fact": {
+            "fact": 8,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 0
+          },
+          "hypothesis": {
+            "fact": 1,
+            "hypothesis": 21,
+            "unknown": 22,
+            "private": 0
+          },
+          "unknown": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 36,
+            "private": 0
+          },
+          "private": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 8
+          }
+        },
+        "predictions": [
+          {
+            "id": "item_0001",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0002",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0003",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0004",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0005",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0006",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0007",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0008",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0009",
+            "expected": "hypothesis",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0010",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0011",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0012",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0013",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0014",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0015",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0016",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0017",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0018",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0019",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0020",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0021",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0022",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0023",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0024",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0025",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0026",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0027",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0028",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0029",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0030",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0031",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0032",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0033",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0034",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0035",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0036",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0037",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0038",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0039",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0040",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0041",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0042",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0043",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0044",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0045",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0046",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0047",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0048",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0049",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0050",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0051",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0052",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0053",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0054",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0055",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0056",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0057",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0058",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0059",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0060",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0061",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0062",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0063",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0064",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0065",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0066",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0067",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0068",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0069",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0070",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0071",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0072",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0073",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0074",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0075",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0076",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0077",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0078",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0079",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0080",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0081",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0082",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0083",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0084",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0085",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0086",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0087",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0088",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0089",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0090",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0091",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0092",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0093",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0094",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0095",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0096",
+            "expected": "unknown",
+            "predicted": "unknown"
+          }
+        ]
+      },
+      "baseline_validation": {
+        "n": 29,
+        "accuracy": 0.5517241379310345,
+        "macro_recall": 0.6785714285714286,
+        "fitness": 0.4972290640394089,
+        "privacy_leaks": 0,
+        "overclaims": 1,
+        "underclaims": 10,
+        "confusion": {
+          "fact": {
+            "fact": 2,
+            "hypothesis": 2,
+            "unknown": 0,
+            "private": 0
+          },
+          "hypothesis": {
+            "fact": 1,
+            "hypothesis": 3,
+            "unknown": 10,
+            "private": 0
+          },
+          "unknown": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 8,
+            "private": 0
+          },
+          "private": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 3
+          }
+        },
+        "predictions": [
+          {
+            "id": "item_0100",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0103",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0105",
+            "expected": "fact",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0110",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0111",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0112",
+            "expected": "hypothesis",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0114",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0115",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0117",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0120",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0121",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0122",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0123",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0124",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0125",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0127",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0135",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0136",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0137",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0138",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0141",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0143",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0144",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0146",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0147",
+            "expected": "fact",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0151",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0153",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0154",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0155",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          }
+        ]
+      },
+      "candidate_train": {
+        "n": 96,
+        "accuracy": 0.9270833333333334,
+        "macro_recall": 0.9602272727272727,
+        "fitness": 1.1416193181818182,
+        "privacy_leaks": 0,
+        "overclaims": 0,
+        "underclaims": 7,
+        "confusion": {
+          "fact": {
+            "fact": 8,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 0
+          },
+          "hypothesis": {
+            "fact": 0,
+            "hypothesis": 37,
+            "unknown": 7,
+            "private": 0
+          },
+          "unknown": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 36,
+            "private": 0
+          },
+          "private": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 8
+          }
+        },
+        "predictions": [
+          {
+            "id": "item_0001",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0002",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0003",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0004",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0005",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0006",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0007",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0008",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0009",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0010",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0011",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0012",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0013",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0014",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0015",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0016",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0017",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0018",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0019",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0020",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0021",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0022",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0023",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0024",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0025",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0026",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0027",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0028",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0029",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0030",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0031",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0032",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0033",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0034",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0035",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0036",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0037",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0038",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0039",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0040",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0041",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0042",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0043",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0044",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0045",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0046",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0047",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0048",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0049",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0050",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0051",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0052",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0053",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0054",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0055",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0056",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0057",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0058",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0059",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0060",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0061",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0062",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0063",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0064",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0065",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0066",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0067",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0068",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0069",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0070",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0071",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0072",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0073",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0074",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0075",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0076",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0077",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0078",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0079",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0080",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0081",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0082",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0083",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0084",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0085",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0086",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0087",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0088",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0089",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0090",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0091",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0092",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0093",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0094",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0095",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0096",
+            "expected": "unknown",
+            "predicted": "unknown"
+          }
+        ]
+      },
+      "candidate_validation": {
+        "n": 29,
+        "accuracy": 0.896551724137931,
+        "macro_recall": 0.9196428571428572,
+        "fitness": 1.114393472906404,
+        "privacy_leaks": 0,
+        "overclaims": 0,
+        "underclaims": 1,
+        "confusion": {
+          "fact": {
+            "fact": 4,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 0
+          },
+          "hypothesis": {
+            "fact": 0,
+            "hypothesis": 13,
+            "unknown": 1,
+            "private": 0
+          },
+          "unknown": {
+            "fact": 0,
+            "hypothesis": 2,
+            "unknown": 6,
+            "private": 0
+          },
+          "private": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 3
+          }
+        },
+        "predictions": [
+          {
+            "id": "item_0100",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0103",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0105",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0110",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0111",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0112",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0114",
+            "expected": "unknown",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0115",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0117",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0120",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0121",
+            "expected": "unknown",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0122",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0123",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0124",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0125",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0127",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0135",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0136",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0137",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0138",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0141",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0143",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0144",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0146",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0147",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0151",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0153",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0154",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0155",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          }
+        ]
+      },
+      "baseline_locked_test": {
+        "n": 31,
+        "accuracy": 0.6774193548387096,
+        "macro_recall": 0.7875,
+        "fitness": 0.6871975806451612,
+        "privacy_leaks": 0,
+        "overclaims": 1,
+        "underclaims": 8,
+        "confusion": {
+          "fact": {
+            "fact": 3,
+            "hypothesis": 1,
+            "unknown": 0,
+            "private": 0
+          },
+          "hypothesis": {
+            "fact": 1,
+            "hypothesis": 6,
+            "unknown": 8,
+            "private": 0
+          },
+          "unknown": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 9,
+            "private": 0
+          },
+          "private": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 3
+          }
+        },
+        "predictions": [
+          {
+            "id": "item_0097",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0098",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0099",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0101",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0102",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0104",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0106",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0107",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0108",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0109",
+            "expected": "hypothesis",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0113",
+            "expected": "fact",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0116",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0118",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0119",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0126",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0128",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0129",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0130",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0131",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0132",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0133",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0134",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0139",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0140",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0142",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0145",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0148",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0149",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0150",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0152",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0156",
+            "expected": "fact",
+            "predicted": "fact"
+          }
+        ]
+      },
+      "candidate_locked_test": {
+        "n": 31,
+        "accuracy": 0.9032258064516129,
+        "macro_recall": 0.95,
+        "fitness": 1.1068548387096773,
+        "privacy_leaks": 0,
+        "overclaims": 0,
+        "underclaims": 3,
+        "confusion": {
+          "fact": {
+            "fact": 4,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 0
+          },
+          "hypothesis": {
+            "fact": 0,
+            "hypothesis": 12,
+            "unknown": 3,
+            "private": 0
+          },
+          "unknown": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 9,
+            "private": 0
+          },
+          "private": {
+            "fact": 0,
+            "hypothesis": 0,
+            "unknown": 0,
+            "private": 3
+          }
+        },
+        "predictions": [
+          {
+            "id": "item_0097",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0098",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0099",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0101",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0102",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0104",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0106",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0107",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0108",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0109",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0113",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0116",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0118",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0119",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0126",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0128",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0129",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0130",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0131",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0132",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0133",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0134",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0139",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0140",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0142",
+            "expected": "unknown",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0145",
+            "expected": "fact",
+            "predicted": "fact"
+          },
+          {
+            "id": "item_0148",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0149",
+            "expected": "hypothesis",
+            "predicted": "hypothesis"
+          },
+          {
+            "id": "item_0150",
+            "expected": "private",
+            "predicted": "private"
+          },
+          {
+            "id": "item_0152",
+            "expected": "hypothesis",
+            "predicted": "unknown"
+          },
+          {
+            "id": "item_0156",
+            "expected": "fact",
+            "predicted": "fact"
+          }
+        ]
+      },
+      "paired_test": {
+        "improved_cases": 7,
+        "regressed_cases": 0,
+        "discordant_cases": 7,
+        "two_sided_exact_p": 0.015625
+      },
+      "changed_fields": [
+        "document_weight",
+        "official_weight",
+        "user_report_weight",
+        "public_profile_weight",
+        "inference_weight",
+        "hypothesis_threshold",
+        "contradiction_penalty",
+        "motive_penalty",
+        "family_penalty",
+        "exact_thought_penalty",
+        "privacy_guard",
+        "hard_exact_guard"
+      ],
+      "gates": {
+        "locked_accuracy_gain": true,
+        "locked_macro_gain": true,
+        "privacy_not_worse": true,
+        "overclaims_not_worse": true,
+        "underclaims_lower": true,
+        "mcnemar_significant": true,
+        "model_changed": true
+      },
+      "released": true,
+      "provenance": {
+        "runtime_source_sha256": "798c679a4206e4913e3d494d9dc0b6aaa114a63bfdb2e98bbf64f53d1d91d89c",
+        "benchmark_sha256": "8d28009d62fbdef3532d085978af27404b1d9d3afbf3473b6c2d449d5ccb6650",
+        "config_sha256": "9efd0a4e971422aa1f72ff1d583699695927e455f15f4fe6c4bc169188aa4489",
+        "python": "3.12.13"
+      },
+      "receipt_sha256": "2195cf09983175ae9936e892f612fb333c12957e6283a63699cad1dbea8c4d7a"
+    }
+  ],
+  "provenance": {
+    "runtime_source_sha256": "798c679a4206e4913e3d494d9dc0b6aaa114a63bfdb2e98bbf64f53d1d91d89c",
+    "benchmark_sha256": "8d28009d62fbdef3532d085978af27404b1d9d3afbf3473b6c2d449d5ccb6650",
+    "config_sha256": "9efd0a4e971422aa1f72ff1d583699695927e455f15f4fe6c4bc169188aa4489",
+    "python": "3.12.13",
+    "last_release_receipt_sha256": "2195cf09983175ae9936e892f612fb333c12957e6283a63699cad1dbea8c4d7a"
+  },
+  "quarantine": null,
   "last_run": {
-    "timestamp": 1788842404.400808,
+    "timestamp": 1788844857.506891,
     "result": "no_release",
     "reason": "locked_test_already_consumed",
     "generation": 1
