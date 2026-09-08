@@ -1,0 +1,98 @@
+{
+  "created_at": "2026-09-08T12:13:53.489739Z",
+  "cycle_id": "CYCLE-bc1b5a717667",
+  "embedded_response_event_hash": "e9422be26c25fb011c2126e71c8b4c68bd130dc446c09b264715ef7253402378",
+  "episode_id": "EP-ceeace1b93df3895",
+  "input_sha256": "886ac0ae7890137389f6e0e9ea6d9a95528c6728399adf482766cb5d63722c4e",
+  "new_snapshot_id": "SNAP-3ce29c9fc18652d1",
+  "new_state_hash": "0fd7b81359fc58725863b1daedc717f0e598d38cedeff5b0c9f9aae7f1f446ea",
+  "response_sha256": "ec40efd70e035105e2e51e54c8e82889448b39e53f348c00bb2fee0a04cf49f3",
+  "runtime_version": "4.2.0",
+  "schema": "mos-portable-turn-receipt/v1",
+  "session_id": "chatgpt-b2ae4ab027fa",
+  "source_snapshot_id": "SNAP-414746ceb70b0f52",
+  "source_state_commit": "3a2f8d2ddde81168c4199855f2786ecc6eafb820",
+  "turn_context_sha256": "cdc512f3633924b6e453d9b1f06e86c016fe71dba87d1bddd5fc6516c2f50a83",
+  "verify": {
+    "capabilities": {
+      "background_observer": {
+        "active": false,
+        "boundary": "A timer/maintenance loop, not introspection or consciousness.",
+        "supported": true
+      },
+      "base_model_weight_change": {
+        "active": false,
+        "boundary": "No model training or weight updates.",
+        "supported": false
+      },
+      "candidate_code_selection": {
+        "active": true,
+        "boundary": "Selects only host-supplied code candidates in the restricted worker.",
+        "supported": true
+      },
+      "consciousness_or_feelings": {
+        "active": false,
+        "boundary": "State labels are heuristic numbers, not subjective experience.",
+        "supported": false
+      },
+      "embedded_host_bridge": {
+        "active": false,
+        "boundary": "The host chat generates the answer between begin-turn and commit-turn.",
+        "supported": true
+      },
+      "epistemic_event_chain": {
+        "active": true,
+        "boundary": "Local SHA-256 chain; no external signature authority.",
+        "supported": true
+      },
+      "external_llm_bridge": {
+        "active": false,
+        "boundary": "A real provider is active only when the host supplies one.",
+        "supported": true
+      },
+      "full_state_relay": {
+        "active": true,
+        "boundary": "Snapshot import requires the same schema version.",
+        "supported": true
+      },
+      "hidden_cross_chat_memory": {
+        "active": false,
+        "boundary": "No hidden memory outside the retained database/snapshot.",
+        "supported": false
+      },
+      "persistent_state": {
+        "active": true,
+        "boundary": "Only while the SQLite file is retained.",
+        "supported": true
+      },
+      "research_adapter": {
+        "active": false,
+        "boundary": "Internet is used only when connected evidence proves a network request.",
+        "supported": true
+      },
+      "strategy_learning": {
+        "active": true,
+        "boundary": "Learns routing features; proposed descendants require a blind holdout gate.",
+        "supported": true
+      }
+    },
+    "db_integrity": "ok",
+    "episodes": 3,
+    "event_chain": true,
+    "hypotheses": 1,
+    "llm_mode": "local_rules",
+    "llm_provider_active": false,
+    "memes": 0,
+    "memory": 10,
+    "meta_memory": 0,
+    "observer_running": false,
+    "quarantined_strategies": 0,
+    "rejected_strategies": 0,
+    "research_adapter": false,
+    "runtime_version": "4.2.0",
+    "schema_version": 4,
+    "self_model": 10,
+    "strategies": 15,
+    "strategy_candidates": 0
+  }
+}
