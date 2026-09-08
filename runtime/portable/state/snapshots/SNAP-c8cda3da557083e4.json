@@ -1,0 +1,1320 @@
+{
+  "payload": {
+    "boundaries": {
+      "base_model_weight_change": false,
+      "hidden_cross_chat_memory": false,
+      "snapshot_catalog_recursively_embedded": false
+    },
+    "created_at": "2026-09-08T12:21:33.185529Z",
+    "event_head": "21da35fede68c6d85317957958cada0344904993fefedc41ca49bd92febbcfcd",
+    "parent_snapshot": "SNAP-3ce29c9fc18652d1",
+    "revision": 5,
+    "schema": "mos-relay-snapshot/v4",
+    "schema_version": 4,
+    "table_counts": {
+      "episodes": 4,
+      "events": 48,
+      "hypotheses": 1,
+      "meme_versions": 0,
+      "memes": 0,
+      "memory": 13,
+      "meta_memory": 0,
+      "self_model": 10,
+      "state": 15,
+      "strategies": 15,
+      "strategy_evolution": 15,
+      "strategy_stats": 15
+    },
+    "table_hashes": {
+      "episodes": "cc907ebae748a56112452ca74ea38173a8b8ec739edf961b5124b447bb3c8a56",
+      "events": "ef90cd6fd57237856f51bbd793c36f6af2574ee6d575fb2b425b7739f52f0db6",
+      "hypotheses": "7c0b70d13ce75e53c725fbdafc0b34188450cc74e490388fbead0c2c3f327b84",
+      "meme_versions": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "memes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "memory": "cd7e19e91daba04903f47c44eeecf07e5e0d0882897cf1b964986105ac71c98f",
+      "meta_memory": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "self_model": "42b90669e93dbd4bd0104a5bc4c27671ef4564297b8e3455898150043ee6adbf",
+      "state": "6df4698d2161c73d380e0ec5358539c77917796876fc1e9eeabbbe137e8824d9",
+      "strategies": "4937b6fcd512aee675b1832780ec48565ce4d3c90fb5578732cd8634fd994d83",
+      "strategy_evolution": "0c522071d5ca8d1433bbe657d9fb137c46a5f9a92646cc695eec6a56e20ec646",
+      "strategy_stats": "e8b1fd736cd48f842d3145f0b3b19531cb680a6d3a27f4d48d4630add0b4b5ac"
+    },
+    "tables": {
+      "episodes": [
+        {
+          "action": "LLM bridge mode=embedded_host_pending",
+          "created_at": "2026-09-08T10:53:31.751911Z",
+          "decision": "respond_with_current_best_evidence",
+          "episode_id": "EP-0226846d84e99ce2",
+          "evidence": "[{\"kind\": \"hypothesis_record\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}, {\"kind\": \"user_input\", \"content\": \"R4.2 GitHub round-trip validation. Confirm that the host-chat bridge can load the canonical state, execute one MOS cycle, and prepare a verified checkpoint for GitHub.\", \"cycle_id\": \"CYCLE-89776224b9fe\"}, {\"kind\": \"compiled_context\", \"sha256\": \"aad7c1aacdbcf0435353e270b2f27af69855633636ead6fa3a7fe8dc922545f9\", \"selected\": 23}, {\"kind\": \"strategy_selection\", \"ids\": [\"STR-07b5a2d6c018112f\"], \"names\": [\"ContentAnalysis\"]}, {\"kind\": \"embedded_host_response\", \"schema\": \"mos-embedded-response/v1\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"source_state_commit\": \"78d64b52b11c9a633d2e606feb5e18146a67f5b7\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\", \"created_at\": \"2026-09-08T10:53:47.355899Z\"}]",
+          "goal": "portable_cross_chat_continuity",
+          "hypothesis": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "outcome": null,
+          "revision": null,
+          "status": "decided",
+          "updated_at": "2026-09-08T10:53:47.358006Z"
+        },
+        {
+          "action": "LLM bridge mode=embedded_host_pending",
+          "created_at": "2026-09-08T12:19:27.497928Z",
+          "decision": "respond_with_current_best_evidence",
+          "episode_id": "EP-03862422e85f679c",
+          "evidence": "[{\"kind\": \"hypothesis_record\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}, {\"kind\": \"user_input\", \"content\": \"Окей как ещё не стандартно можно использовать гит хабб , что позволяет архитектура Мос\", \"cycle_id\": \"CYCLE-cb48d29ed8fe\"}, {\"kind\": \"compiled_context\", \"sha256\": \"cadb65bbc9aa4483e644a213fb01c221016fd8a71e428ef1f2cf2afa5a038703\", \"selected\": 32}, {\"kind\": \"strategy_selection\", \"ids\": [\"STR-3c7237494f82b465\", \"STR-07b5a2d6c018112f\"], \"names\": [\"UserResonance\", \"ContentAnalysis\"]}, {\"kind\": \"embedded_host_response\", \"schema\": \"mos-embedded-response/v1\", \"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"episode_id\": \"EP-03862422e85f679c\", \"host\": \"chatgpt-work-code-interpreter\", \"source_state_commit\": \"1e2126c0a67eac4fb5449f75ad098fdb2bdb2640\", \"response_sha256\": \"f1b7cc3208c809c0056b8c63d8e98a23cd363b9a362468568379f880cd2e51e5\", \"created_at\": \"2026-09-08T12:21:33.166328Z\"}]",
+          "goal": "portable_cross_chat_continuity",
+          "hypothesis": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "outcome": null,
+          "revision": null,
+          "status": "decided",
+          "updated_at": "2026-09-08T12:21:33.184181Z"
+        },
+        {
+          "action": "LLM bridge mode=embedded_host_pending",
+          "created_at": "2026-09-08T11:54:21.024431Z",
+          "decision": "respond_with_current_best_evidence",
+          "episode_id": "EP-a0d2fca720b3677d",
+          "evidence": "[{\"kind\": \"hypothesis_record\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}, {\"kind\": \"user_input\", \"content\": \"Окей запути систему\", \"cycle_id\": \"CYCLE-982caf1193e9\"}, {\"kind\": \"compiled_context\", \"sha256\": \"ca4316fd4dbad9f10e8d7eec27eab9d2566002173e09759b98b85f93f1889a66\", \"selected\": 28}, {\"kind\": \"strategy_selection\", \"ids\": [\"STR-07b5a2d6c018112f\"], \"names\": [\"ContentAnalysis\"]}, {\"kind\": \"embedded_host_response\", \"schema\": \"mos-embedded-response/v1\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"source_state_commit\": \"642c11239db0c9061b15a8584931e315add3193c\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\", \"created_at\": \"2026-09-08T11:54:46.859651Z\"}]",
+          "goal": "portable_cross_chat_continuity",
+          "hypothesis": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "outcome": null,
+          "revision": null,
+          "status": "decided",
+          "updated_at": "2026-09-08T11:54:46.864390Z"
+        },
+        {
+          "action": "LLM bridge mode=embedded_host_pending",
+          "created_at": "2026-09-08T12:13:25.721663Z",
+          "decision": "respond_with_current_best_evidence",
+          "episode_id": "EP-ceeace1b93df3895",
+          "evidence": "[{\"kind\": \"hypothesis_record\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}, {\"kind\": \"user_input\", \"content\": \"Выгрузи в гит хаб.\", \"cycle_id\": \"CYCLE-bc1b5a717667\"}, {\"kind\": \"compiled_context\", \"sha256\": \"147441f0dfe1eb8eb8a90198845e47bd3a75853a682f16a63be49627370fc49a\", \"selected\": 32}, {\"kind\": \"strategy_selection\", \"ids\": [\"STR-07b5a2d6c018112f\"], \"names\": [\"ContentAnalysis\"]}, {\"kind\": \"embedded_host_response\", \"schema\": \"mos-embedded-response/v1\", \"cycle_id\": \"CYCLE-bc1b5a717667\", \"episode_id\": \"EP-ceeace1b93df3895\", \"host\": \"chatgpt-work-code-interpreter\", \"source_state_commit\": \"3a2f8d2ddde81168c4199855f2786ecc6eafb820\", \"response_sha256\": \"ec40efd70e035105e2e51e54c8e82889448b39e53f348c00bb2fee0a04cf49f3\", \"created_at\": \"2026-09-08T12:13:53.481648Z\"}]",
+          "goal": "portable_cross_chat_continuity",
+          "hypothesis": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "outcome": null,
+          "revision": null,
+          "status": "decided",
+          "updated_at": "2026-09-08T12:13:53.484547Z"
+        }
+      ],
+      "events": [
+        {
+          "body": "{\"backup_path\": null, \"restored_table_counts\": {\"episodes\": 0, \"events\": 0, \"hypotheses\": 0, \"meme_versions\": 0, \"memes\": 0, \"memory\": 1, \"meta_memory\": 0, \"self_model\": 10, \"state\": 10, \"strategies\": 15, \"strategy_evolution\": 15, \"strategy_stats\": 15}, \"revision\": 1, \"snapshot_id\": \"SNAP-cdf06cda8622d9e1\"}",
+          "created_at": "2026-09-08T10:53:31.746873Z",
+          "event_hash": "1e36902252885dd4060b890f789a5619e462e7ee3cd2b030f3b4ebb2140d4fd8",
+          "event_id": "SNAP-cdf06cda8622d9e1:import:2026-09-08T10:53:31.746823Z",
+          "event_type": "relay_import",
+          "previous_hash": null,
+          "seq": 1
+        },
+        {
+          "body": "{\"description\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\", \"expected_outcome\": \"progress\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"probability\": 0.5}",
+          "created_at": "2026-09-08T10:53:31.751886Z",
+          "event_hash": "ac307aee6b0517402279bb0b0383c6d46caf880915eca8385969f87c6c99e863",
+          "event_id": "HYP-2066a563e28573b9:propose",
+          "event_type": "hypothesis_proposed",
+          "previous_hash": "1e36902252885dd4060b890f789a5619e462e7ee3cd2b030f3b4ebb2140d4fd8",
+          "seq": 2
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"goal\": \"portable_cross_chat_continuity\", \"hypothesis\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\"}",
+          "created_at": "2026-09-08T10:53:31.751962Z",
+          "event_hash": "653616f6fc98c841dcca30b27ac2197e9b26688dd30ab58b8418c6d5f345494b",
+          "event_id": "EP-0226846d84e99ce2:open",
+          "event_type": "episode_open",
+          "previous_hash": "ac307aee6b0517402279bb0b0383c6d46caf880915eca8385969f87c6c99e863",
+          "seq": 3
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"hypothesis_id\": \"HYP-2066a563e28573b9\", \"kind\": \"hypothesis_record\"}}",
+          "created_at": "2026-09-08T10:53:31.752030Z",
+          "event_hash": "a4a59c12db11a01771f13edf3651fd6f054ab51a5684b265ba07ac987f4a3921",
+          "event_id": "EP-0226846d84e99ce2:evidence:1",
+          "event_type": "evidence",
+          "previous_hash": "653616f6fc98c841dcca30b27ac2197e9b26688dd30ab58b8418c6d5f345494b",
+          "seq": 4
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"content\": \"R4.2 GitHub round-trip validation. Confirm that the host-chat bridge can load the canonical state, execute one MOS cycle, and prepare a verified checkpoint for GitHub.\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"kind\": \"user_input\"}}",
+          "created_at": "2026-09-08T10:53:31.752082Z",
+          "event_hash": "b9fe9279b3615ef1463c9cf32d53c8e12d1c8050c1e23edeaf9247d6b963c87f",
+          "event_id": "EP-0226846d84e99ce2:evidence:2",
+          "event_type": "evidence",
+          "previous_hash": "a4a59c12db11a01771f13edf3651fd6f054ab51a5684b265ba07ac987f4a3921",
+          "seq": 5
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"kind\": \"compiled_context\", \"selected\": 23, \"sha256\": \"aad7c1aacdbcf0435353e270b2f27af69855633636ead6fa3a7fe8dc922545f9\"}}",
+          "created_at": "2026-09-08T10:53:31.752136Z",
+          "event_hash": "5be1e44004f9aab11839411af447ea0ada3012d37f6754327a1babfa99526030",
+          "event_id": "EP-0226846d84e99ce2:evidence:3",
+          "event_type": "evidence",
+          "previous_hash": "b9fe9279b3615ef1463c9cf32d53c8e12d1c8050c1e23edeaf9247d6b963c87f",
+          "seq": 6
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"ids\": [\"STR-07b5a2d6c018112f\"], \"kind\": \"strategy_selection\", \"names\": [\"ContentAnalysis\"]}}",
+          "created_at": "2026-09-08T10:53:31.752187Z",
+          "event_hash": "406889533ffa0ae6dbc1ddfc65b5aac6d755dc22535878a5029624dea0293145",
+          "event_id": "EP-0226846d84e99ce2:evidence:4",
+          "event_type": "evidence",
+          "previous_hash": "5be1e44004f9aab11839411af447ea0ada3012d37f6754327a1babfa99526030",
+          "seq": 7
+        },
+        {
+          "body": "{\"action\": \"LLM bridge mode=embedded_host_pending\", \"decision\": \"respond_with_current_best_evidence\", \"episode_id\": \"EP-0226846d84e99ce2\"}",
+          "created_at": "2026-09-08T10:53:31.752570Z",
+          "event_hash": "39d59d09fe2d773e7cffaf1fddb7504bec32a06b81b4040b4d3b2349cfbe04e3",
+          "event_id": "EP-0226846d84e99ce2:decision",
+          "event_type": "decision",
+          "previous_hash": "406889533ffa0ae6dbc1ddfc65b5aac6d755dc22535878a5029624dea0293145",
+          "seq": 8
+        },
+        {
+          "body": "{\"context_sha256\": \"aad7c1aacdbcf0435353e270b2f27af69855633636ead6fa3a7fe8dc922545f9\", \"created_at\": \"2026-09-08T10:53:31.752833Z\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"learned_strategies\": [], \"llm_mode\": \"embedded_host_pending\", \"mandatory_checks\": [], \"provider_active\": false, \"provider_receipt\": null, \"research_status\": null, \"response_sha256\": \"dc5a608ec6ef2fa428a4d87735df1f4cb7965844085de4845822cb530f9a9b2a\", \"schema\": \"mos-cycle-receipt/v4.1\", \"selected_strategies\": [\"ContentAnalysis\"]}",
+          "created_at": "2026-09-08T10:53:31.752861Z",
+          "event_hash": "4a1d062bd502394b3038aed276cf1b0ffacaf81748b248a3a5761391f01589f0",
+          "event_id": "CYCLE-89776224b9fe:receipt",
+          "event_type": "cycle_receipt",
+          "previous_hash": "39d59d09fe2d773e7cffaf1fddb7504bec32a06b81b4040b4d3b2349cfbe04e3",
+          "seq": 9
+        },
+        {
+          "body": "{\"confidence\": 0.75, \"cycle_count\": 1, \"debt\": 0.0, \"emotion\": \"motivated\", \"energy\": 98.2644, \"pain\": 0.0, \"reason\": \"cycle\", \"timestamp\": \"2026-09-08T10:53:31.752930Z\"}",
+          "created_at": "2026-09-08T10:53:31.752953Z",
+          "event_hash": "2ae399964afe72f18ef4849a8f634a87dc4799e1c33137a35578c7a98bc1b892",
+          "event_id": "OBS-1-1788864811752",
+          "event_type": "self_observation",
+          "previous_hash": "4a1d062bd502394b3038aed276cf1b0ffacaf81748b248a3a5761391f01589f0",
+          "seq": 10
+        },
+        {
+          "body": "{\"episode_id\": \"EP-0226846d84e99ce2\", \"evidence\": {\"created_at\": \"2026-09-08T10:53:47.355899Z\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"kind\": \"embedded_host_response\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"78d64b52b11c9a633d2e606feb5e18146a67f5b7\"}}",
+          "created_at": "2026-09-08T10:53:47.358067Z",
+          "event_hash": "d04d2d9cd2de80134a6a49e63d57cd7819c600b1f45aa542601eed1e6f092a7c",
+          "event_id": "EP-0226846d84e99ce2:evidence:5",
+          "event_type": "evidence",
+          "previous_hash": "2ae399964afe72f18ef4849a8f634a87dc4799e1c33137a35578c7a98bc1b892",
+          "seq": 11
+        },
+        {
+          "body": "{\"created_at\": \"2026-09-08T10:53:47.355899Z\", \"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"78d64b52b11c9a633d2e606feb5e18146a67f5b7\"}",
+          "created_at": "2026-09-08T10:53:47.358151Z",
+          "event_hash": "70bd8a830bc15835ba26bdb99d85a4963f1999fdf5e67cd8355bf23a316c3d26",
+          "event_id": "CYCLE-89776224b9fe:embedded_host_response",
+          "event_type": "embedded_host_response",
+          "previous_hash": "d04d2d9cd2de80134a6a49e63d57cd7819c600b1f45aa542601eed1e6f092a7c",
+          "seq": 12
+        },
+        {
+          "body": "{\"backup_path\": null, \"restored_table_counts\": {\"episodes\": 1, \"events\": 12, \"hypotheses\": 1, \"meme_versions\": 0, \"memes\": 0, \"memory\": 4, \"meta_memory\": 0, \"self_model\": 10, \"state\": 15, \"strategies\": 15, \"strategy_evolution\": 15, \"strategy_stats\": 15}, \"revision\": 2, \"snapshot_id\": \"SNAP-94eb620aba795b53\"}",
+          "created_at": "2026-09-08T11:54:21.020719Z",
+          "event_hash": "6573fb510ead5f49d7140d518b2e49fc51b8bb86ce444a1da3a39e6094983068",
+          "event_id": "SNAP-94eb620aba795b53:import:2026-09-08T11:54:21.020667Z",
+          "event_type": "relay_import",
+          "previous_hash": "70bd8a830bc15835ba26bdb99d85a4963f1999fdf5e67cd8355bf23a316c3d26",
+          "seq": 13
+        },
+        {
+          "body": "{\"description\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\", \"expected_outcome\": \"progress\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}",
+          "created_at": "2026-09-08T11:54:21.024402Z",
+          "event_hash": "6074ddd7e1b0310d040794d0c3c5164b1244484f693b01080cfe4cd732478502",
+          "event_id": "HYP-2066a563e28573b9:reuse:R-de8ff19af672025e",
+          "event_type": "hypothesis_reused",
+          "previous_hash": "6573fb510ead5f49d7140d518b2e49fc51b8bb86ce444a1da3a39e6094983068",
+          "seq": 14
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"goal\": \"portable_cross_chat_continuity\", \"hypothesis\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\"}",
+          "created_at": "2026-09-08T11:54:21.024491Z",
+          "event_hash": "8bb43dc99e0f220a04238b123108482b7592858e2cbf69facbae4023bd02210a",
+          "event_id": "EP-a0d2fca720b3677d:open",
+          "event_type": "episode_open",
+          "previous_hash": "6074ddd7e1b0310d040794d0c3c5164b1244484f693b01080cfe4cd732478502",
+          "seq": 15
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"hypothesis_id\": \"HYP-2066a563e28573b9\", \"kind\": \"hypothesis_record\"}}",
+          "created_at": "2026-09-08T11:54:21.024657Z",
+          "event_hash": "7f1f5084e83ee29fa39be1b87d841b2b50904f265225ae9f902cb829ff4ee298",
+          "event_id": "EP-a0d2fca720b3677d:evidence:1",
+          "event_type": "evidence",
+          "previous_hash": "8bb43dc99e0f220a04238b123108482b7592858e2cbf69facbae4023bd02210a",
+          "seq": 16
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"content\": \"Окей запути систему\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"kind\": \"user_input\"}}",
+          "created_at": "2026-09-08T11:54:21.024720Z",
+          "event_hash": "fa5ee4c7a901ec28d49a6ca75e412ce766046bf2c767163b994c0ae96ae86e78",
+          "event_id": "EP-a0d2fca720b3677d:evidence:2",
+          "event_type": "evidence",
+          "previous_hash": "7f1f5084e83ee29fa39be1b87d841b2b50904f265225ae9f902cb829ff4ee298",
+          "seq": 17
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"kind\": \"compiled_context\", \"selected\": 28, \"sha256\": \"ca4316fd4dbad9f10e8d7eec27eab9d2566002173e09759b98b85f93f1889a66\"}}",
+          "created_at": "2026-09-08T11:54:21.024816Z",
+          "event_hash": "c6e203a1edab7b8ae0c4aad9f4977bbe7365ea4ed70e510fc8d74af9673bff3c",
+          "event_id": "EP-a0d2fca720b3677d:evidence:3",
+          "event_type": "evidence",
+          "previous_hash": "fa5ee4c7a901ec28d49a6ca75e412ce766046bf2c767163b994c0ae96ae86e78",
+          "seq": 18
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"ids\": [\"STR-07b5a2d6c018112f\"], \"kind\": \"strategy_selection\", \"names\": [\"ContentAnalysis\"]}}",
+          "created_at": "2026-09-08T11:54:21.024914Z",
+          "event_hash": "b0f422b328bf64ef395cfe42c497c6c16ccefdbfec477ddeebc2f6b55dfa9c66",
+          "event_id": "EP-a0d2fca720b3677d:evidence:4",
+          "event_type": "evidence",
+          "previous_hash": "c6e203a1edab7b8ae0c4aad9f4977bbe7365ea4ed70e510fc8d74af9673bff3c",
+          "seq": 19
+        },
+        {
+          "body": "{\"action\": \"LLM bridge mode=embedded_host_pending\", \"decision\": \"respond_with_current_best_evidence\", \"episode_id\": \"EP-a0d2fca720b3677d\"}",
+          "created_at": "2026-09-08T11:54:21.025242Z",
+          "event_hash": "7898a08573f68eef25da0951a910d38c75f87f3883c97cf59b3d5c50978a6106",
+          "event_id": "EP-a0d2fca720b3677d:decision",
+          "event_type": "decision",
+          "previous_hash": "b0f422b328bf64ef395cfe42c497c6c16ccefdbfec477ddeebc2f6b55dfa9c66",
+          "seq": 20
+        },
+        {
+          "body": "{\"context_sha256\": \"ca4316fd4dbad9f10e8d7eec27eab9d2566002173e09759b98b85f93f1889a66\", \"created_at\": \"2026-09-08T11:54:21.025536Z\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"learned_strategies\": [], \"llm_mode\": \"embedded_host_pending\", \"mandatory_checks\": [], \"provider_active\": false, \"provider_receipt\": null, \"research_status\": null, \"response_sha256\": \"dc5a608ec6ef2fa428a4d87735df1f4cb7965844085de4845822cb530f9a9b2a\", \"schema\": \"mos-cycle-receipt/v4.1\", \"selected_strategies\": [\"ContentAnalysis\"]}",
+          "created_at": "2026-09-08T11:54:21.025566Z",
+          "event_hash": "74aa32699e97aceda87e10c0226c8f0d5e6e9bf5da981c660eea2d39ae457188",
+          "event_id": "CYCLE-982caf1193e9:receipt",
+          "event_type": "cycle_receipt",
+          "previous_hash": "7898a08573f68eef25da0951a910d38c75f87f3883c97cf59b3d5c50978a6106",
+          "seq": 21
+        },
+        {
+          "body": "{\"confidence\": 0.75, \"cycle_count\": 2, \"debt\": 0.0, \"emotion\": \"motivated\", \"energy\": 98.4289, \"pain\": 0.0, \"reason\": \"cycle\", \"timestamp\": \"2026-09-08T11:54:21.025635Z\"}",
+          "created_at": "2026-09-08T11:54:21.025659Z",
+          "event_hash": "80ef1a4876febcef78a39caaccb33104f31b55a24e8b6b87464b06438c3b25a1",
+          "event_id": "OBS-1-1788868461025",
+          "event_type": "self_observation",
+          "previous_hash": "74aa32699e97aceda87e10c0226c8f0d5e6e9bf5da981c660eea2d39ae457188",
+          "seq": 22
+        },
+        {
+          "body": "{\"episode_id\": \"EP-a0d2fca720b3677d\", \"evidence\": {\"created_at\": \"2026-09-08T11:54:46.859651Z\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"kind\": \"embedded_host_response\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"642c11239db0c9061b15a8584931e315add3193c\"}}",
+          "created_at": "2026-09-08T11:54:46.864469Z",
+          "event_hash": "023466508bec1405c829313b948e5358415c46c39e67a7828f4ca55d891115d1",
+          "event_id": "EP-a0d2fca720b3677d:evidence:5",
+          "event_type": "evidence",
+          "previous_hash": "80ef1a4876febcef78a39caaccb33104f31b55a24e8b6b87464b06438c3b25a1",
+          "seq": 23
+        },
+        {
+          "body": "{\"created_at\": \"2026-09-08T11:54:46.859651Z\", \"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"642c11239db0c9061b15a8584931e315add3193c\"}",
+          "created_at": "2026-09-08T11:54:46.864680Z",
+          "event_hash": "1acf32ea894bc9600ef2e2846e515edcdfb0a11a65eb70df28eb5a10d1572034",
+          "event_id": "CYCLE-982caf1193e9:embedded_host_response",
+          "event_type": "embedded_host_response",
+          "previous_hash": "023466508bec1405c829313b948e5358415c46c39e67a7828f4ca55d891115d1",
+          "seq": 24
+        },
+        {
+          "body": "{\"backup_path\": null, \"restored_table_counts\": {\"episodes\": 2, \"events\": 24, \"hypotheses\": 1, \"meme_versions\": 0, \"memes\": 0, \"memory\": 7, \"meta_memory\": 0, \"self_model\": 10, \"state\": 15, \"strategies\": 15, \"strategy_evolution\": 15, \"strategy_stats\": 15}, \"revision\": 3, \"snapshot_id\": \"SNAP-414746ceb70b0f52\"}",
+          "created_at": "2026-09-08T12:13:25.717889Z",
+          "event_hash": "ef78c3c271d8a570259b2c44cff8efcc3876c5f8ee8330866dca41affbaa15a2",
+          "event_id": "SNAP-414746ceb70b0f52:import:2026-09-08T12:13:25.717817Z",
+          "event_type": "relay_import",
+          "previous_hash": "1acf32ea894bc9600ef2e2846e515edcdfb0a11a65eb70df28eb5a10d1572034",
+          "seq": 25
+        },
+        {
+          "body": "{\"description\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\", \"expected_outcome\": \"progress\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}",
+          "created_at": "2026-09-08T12:13:25.721637Z",
+          "event_hash": "7a269f50ddc671fbd2c1ef6f9e6177f5e2561b8b1d61a23c84ef029389462760",
+          "event_id": "HYP-2066a563e28573b9:reuse:R-70fd4c5f0f553a8f",
+          "event_type": "hypothesis_reused",
+          "previous_hash": "ef78c3c271d8a570259b2c44cff8efcc3876c5f8ee8330866dca41affbaa15a2",
+          "seq": 26
+        },
+        {
+          "body": "{\"episode_id\": \"EP-ceeace1b93df3895\", \"goal\": \"portable_cross_chat_continuity\", \"hypothesis\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\"}",
+          "created_at": "2026-09-08T12:13:25.721714Z",
+          "event_hash": "5111e9392f42efa8a8a6c7e8157d54485c4845bf63e7fb0f808a3dca0386cca9",
+          "event_id": "EP-ceeace1b93df3895:open",
+          "event_type": "episode_open",
+          "previous_hash": "7a269f50ddc671fbd2c1ef6f9e6177f5e2561b8b1d61a23c84ef029389462760",
+          "seq": 27
+        },
+        {
+          "body": "{\"episode_id\": \"EP-ceeace1b93df3895\", \"evidence\": {\"hypothesis_id\": \"HYP-2066a563e28573b9\", \"kind\": \"hypothesis_record\"}}",
+          "created_at": "2026-09-08T12:13:25.721787Z",
+          "event_hash": "92346bd53d479dd77cf483d02bdcc1471d979a93b9ffb7c6bffb7b7dbcacc2a4",
+          "event_id": "EP-ceeace1b93df3895:evidence:1",
+          "event_type": "evidence",
+          "previous_hash": "5111e9392f42efa8a8a6c7e8157d54485c4845bf63e7fb0f808a3dca0386cca9",
+          "seq": 28
+        },
+        {
+          "body": "{\"episode_id\": \"EP-ceeace1b93df3895\", \"evidence\": {\"content\": \"Выгрузи в гит хаб.\", \"cycle_id\": \"CYCLE-bc1b5a717667\", \"kind\": \"user_input\"}}",
+          "created_at": "2026-09-08T12:13:25.721876Z",
+          "event_hash": "7dee75fce24002d567505dc1c7213c77ee976ea5921b2ed9709fea0bb369f8dd",
+          "event_id": "EP-ceeace1b93df3895:evidence:2",
+          "event_type": "evidence",
+          "previous_hash": "92346bd53d479dd77cf483d02bdcc1471d979a93b9ffb7c6bffb7b7dbcacc2a4",
+          "seq": 29
+        },
+        {
+          "body": "{\"episode_id\": \"EP-ceeace1b93df3895\", \"evidence\": {\"kind\": \"compiled_context\", \"selected\": 32, \"sha256\": \"147441f0dfe1eb8eb8a90198845e47bd3a75853a682f16a63be49627370fc49a\"}}",
+          "created_at": "2026-09-08T12:13:25.721933Z",
+          "event_hash": "7177266c7aa6164f8c10c8ffeb9298dea6c1f31809837de549e412900b03ac20",
+          "event_id": "EP-ceeace1b93df3895:evidence:3",
+          "event_type": "evidence",
+          "previous_hash": "7dee75fce24002d567505dc1c7213c77ee976ea5921b2ed9709fea0bb369f8dd",
+          "seq": 30
+        },
+        {
+          "body": "{\"episode_id\": \"EP-ceeace1b93df3895\", \"evidence\": {\"ids\": [\"STR-07b5a2d6c018112f\"], \"kind\": \"strategy_selection\", \"names\": [\"ContentAnalysis\"]}}",
+          "created_at": "2026-09-08T12:13:25.722014Z",
+          "event_hash": "1d91bfbd61fa11aba3b34ce167d57081298603e45b238161ddcebfffd5fd70a6",
+          "event_id": "EP-ceeace1b93df3895:evidence:4",
+          "event_type": "evidence",
+          "previous_hash": "7177266c7aa6164f8c10c8ffeb9298dea6c1f31809837de549e412900b03ac20",
+          "seq": 31
+        },
+        {
+          "body": "{\"action\": \"LLM bridge mode=embedded_host_pending\", \"decision\": \"respond_with_current_best_evidence\", \"episode_id\": \"EP-ceeace1b93df3895\"}",
+          "created_at": "2026-09-08T12:13:25.722337Z",
+          "event_hash": "772ccdb3f115c58f3674614e6b491bd206dc8df5a7c587b547bc5c1a6847eef5",
+          "event_id": "EP-ceeace1b93df3895:decision",
+          "event_type": "decision",
+          "previous_hash": "1d91bfbd61fa11aba3b34ce167d57081298603e45b238161ddcebfffd5fd70a6",
+          "seq": 32
+        },
+        {
+          "body": "{\"context_sha256\": \"147441f0dfe1eb8eb8a90198845e47bd3a75853a682f16a63be49627370fc49a\", \"created_at\": \"2026-09-08T12:13:25.722591Z\", \"cycle_id\": \"CYCLE-bc1b5a717667\", \"episode_id\": \"EP-ceeace1b93df3895\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"learned_strategies\": [], \"llm_mode\": \"embedded_host_pending\", \"mandatory_checks\": [], \"provider_active\": false, \"provider_receipt\": null, \"research_status\": null, \"response_sha256\": \"dc5a608ec6ef2fa428a4d87735df1f4cb7965844085de4845822cb530f9a9b2a\", \"schema\": \"mos-cycle-receipt/v4.1\", \"selected_strategies\": [\"ContentAnalysis\"]}",
+          "created_at": "2026-09-08T12:13:25.722618Z",
+          "event_hash": "30c7dce92a1fe769d6d58ee1f4d828057bb2bcbc1806705694344cc0aa93eee5",
+          "event_id": "CYCLE-bc1b5a717667:receipt",
+          "event_type": "cycle_receipt",
+          "previous_hash": "772ccdb3f115c58f3674614e6b491bd206dc8df5a7c587b547bc5c1a6847eef5",
+          "seq": 33
+        },
+        {
+          "body": "{\"confidence\": 0.75, \"cycle_count\": 3, \"debt\": 0.0, \"emotion\": \"motivated\", \"energy\": 98.43, \"pain\": 0.0, \"reason\": \"cycle\", \"timestamp\": \"2026-09-08T12:13:25.722689Z\"}",
+          "created_at": "2026-09-08T12:13:25.722712Z",
+          "event_hash": "9030d78ef1c760fd900b3404cbae5794ac53d7df89d247967e2e94417fc30d72",
+          "event_id": "OBS-1-1788869605722",
+          "event_type": "self_observation",
+          "previous_hash": "30c7dce92a1fe769d6d58ee1f4d828057bb2bcbc1806705694344cc0aa93eee5",
+          "seq": 34
+        },
+        {
+          "body": "{\"episode_id\": \"EP-ceeace1b93df3895\", \"evidence\": {\"created_at\": \"2026-09-08T12:13:53.481648Z\", \"cycle_id\": \"CYCLE-bc1b5a717667\", \"episode_id\": \"EP-ceeace1b93df3895\", \"host\": \"chatgpt-work-code-interpreter\", \"kind\": \"embedded_host_response\", \"response_sha256\": \"ec40efd70e035105e2e51e54c8e82889448b39e53f348c00bb2fee0a04cf49f3\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"3a2f8d2ddde81168c4199855f2786ecc6eafb820\"}}",
+          "created_at": "2026-09-08T12:13:53.484647Z",
+          "event_hash": "22895957f0ab2bf14cb97504710e31e2d2f7ef82a2b3de398b07e5a1d2c168a8",
+          "event_id": "EP-ceeace1b93df3895:evidence:5",
+          "event_type": "evidence",
+          "previous_hash": "9030d78ef1c760fd900b3404cbae5794ac53d7df89d247967e2e94417fc30d72",
+          "seq": 35
+        },
+        {
+          "body": "{\"created_at\": \"2026-09-08T12:13:53.481648Z\", \"cycle_id\": \"CYCLE-bc1b5a717667\", \"episode_id\": \"EP-ceeace1b93df3895\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"ec40efd70e035105e2e51e54c8e82889448b39e53f348c00bb2fee0a04cf49f3\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"3a2f8d2ddde81168c4199855f2786ecc6eafb820\"}",
+          "created_at": "2026-09-08T12:13:53.484741Z",
+          "event_hash": "e9422be26c25fb011c2126e71c8b4c68bd130dc446c09b264715ef7253402378",
+          "event_id": "CYCLE-bc1b5a717667:embedded_host_response",
+          "event_type": "embedded_host_response",
+          "previous_hash": "22895957f0ab2bf14cb97504710e31e2d2f7ef82a2b3de398b07e5a1d2c168a8",
+          "seq": 36
+        },
+        {
+          "body": "{\"backup_path\": null, \"restored_table_counts\": {\"episodes\": 3, \"events\": 36, \"hypotheses\": 1, \"meme_versions\": 0, \"memes\": 0, \"memory\": 10, \"meta_memory\": 0, \"self_model\": 10, \"state\": 15, \"strategies\": 15, \"strategy_evolution\": 15, \"strategy_stats\": 15}, \"revision\": 4, \"snapshot_id\": \"SNAP-3ce29c9fc18652d1\"}",
+          "created_at": "2026-09-08T12:19:27.492593Z",
+          "event_hash": "d30eb349fb7cfbe53edb88a7afa0715e5ec8b1467cba2b471bd63aecb85fe60b",
+          "event_id": "SNAP-3ce29c9fc18652d1:import:2026-09-08T12:19:27.492471Z",
+          "event_type": "relay_import",
+          "previous_hash": "e9422be26c25fb011c2126e71c8b4c68bd130dc446c09b264715ef7253402378",
+          "seq": 37
+        },
+        {
+          "body": "{\"description\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\", \"expected_outcome\": \"progress\", \"hypothesis_id\": \"HYP-2066a563e28573b9\"}",
+          "created_at": "2026-09-08T12:19:27.497902Z",
+          "event_hash": "dcfd91eff5d116828c03362d6a5564aeb2a0c6dada63e56d947cb7ffa1744950",
+          "event_id": "HYP-2066a563e28573b9:reuse:R-42dd56a76dbc1b9e",
+          "event_type": "hypothesis_reused",
+          "previous_hash": "d30eb349fb7cfbe53edb88a7afa0715e5ec8b1467cba2b471bd63aecb85fe60b",
+          "seq": 38
+        },
+        {
+          "body": "{\"episode_id\": \"EP-03862422e85f679c\", \"goal\": \"portable_cross_chat_continuity\", \"hypothesis\": \"Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.\"}",
+          "created_at": "2026-09-08T12:19:27.497978Z",
+          "event_hash": "f5242c808836491abedfb24ed1be52db686c632569bfd88250994dfc3106add1",
+          "event_id": "EP-03862422e85f679c:open",
+          "event_type": "episode_open",
+          "previous_hash": "dcfd91eff5d116828c03362d6a5564aeb2a0c6dada63e56d947cb7ffa1744950",
+          "seq": 39
+        },
+        {
+          "body": "{\"episode_id\": \"EP-03862422e85f679c\", \"evidence\": {\"hypothesis_id\": \"HYP-2066a563e28573b9\", \"kind\": \"hypothesis_record\"}}",
+          "created_at": "2026-09-08T12:19:27.498045Z",
+          "event_hash": "5196e5741655f4d0d0b32c82cc21f83ef39e30ba555f9594216df30da7b3e57c",
+          "event_id": "EP-03862422e85f679c:evidence:1",
+          "event_type": "evidence",
+          "previous_hash": "f5242c808836491abedfb24ed1be52db686c632569bfd88250994dfc3106add1",
+          "seq": 40
+        },
+        {
+          "body": "{\"episode_id\": \"EP-03862422e85f679c\", \"evidence\": {\"content\": \"Окей как ещё не стандартно можно использовать гит хабб , что позволяет архитектура Мос\", \"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"kind\": \"user_input\"}}",
+          "created_at": "2026-09-08T12:19:27.498099Z",
+          "event_hash": "8dd6b96ed5f2773c2a65eec9ed302e71f389562999471883e1e02e8a0d39684b",
+          "event_id": "EP-03862422e85f679c:evidence:2",
+          "event_type": "evidence",
+          "previous_hash": "5196e5741655f4d0d0b32c82cc21f83ef39e30ba555f9594216df30da7b3e57c",
+          "seq": 41
+        },
+        {
+          "body": "{\"episode_id\": \"EP-03862422e85f679c\", \"evidence\": {\"kind\": \"compiled_context\", \"selected\": 32, \"sha256\": \"cadb65bbc9aa4483e644a213fb01c221016fd8a71e428ef1f2cf2afa5a038703\"}}",
+          "created_at": "2026-09-08T12:19:27.498160Z",
+          "event_hash": "8cf1931300d85ba5e0f319febaebf16c344ebb848939ad59b631dd3aac146f61",
+          "event_id": "EP-03862422e85f679c:evidence:3",
+          "event_type": "evidence",
+          "previous_hash": "8dd6b96ed5f2773c2a65eec9ed302e71f389562999471883e1e02e8a0d39684b",
+          "seq": 42
+        },
+        {
+          "body": "{\"episode_id\": \"EP-03862422e85f679c\", \"evidence\": {\"ids\": [\"STR-3c7237494f82b465\", \"STR-07b5a2d6c018112f\"], \"kind\": \"strategy_selection\", \"names\": [\"UserResonance\", \"ContentAnalysis\"]}}",
+          "created_at": "2026-09-08T12:19:27.498259Z",
+          "event_hash": "0d59352064b40ef88afae4c630ee0453a3ac17f03d0adafec8d4213ea4b2e16b",
+          "event_id": "EP-03862422e85f679c:evidence:4",
+          "event_type": "evidence",
+          "previous_hash": "8cf1931300d85ba5e0f319febaebf16c344ebb848939ad59b631dd3aac146f61",
+          "seq": 43
+        },
+        {
+          "body": "{\"action\": \"LLM bridge mode=embedded_host_pending\", \"decision\": \"respond_with_current_best_evidence\", \"episode_id\": \"EP-03862422e85f679c\"}",
+          "created_at": "2026-09-08T12:19:27.498573Z",
+          "event_hash": "cfe13e22c327c7ff6491bfadd445259b426d67d2910680f1ee3f69be1e875905",
+          "event_id": "EP-03862422e85f679c:decision",
+          "event_type": "decision",
+          "previous_hash": "0d59352064b40ef88afae4c630ee0453a3ac17f03d0adafec8d4213ea4b2e16b",
+          "seq": 44
+        },
+        {
+          "body": "{\"context_sha256\": \"cadb65bbc9aa4483e644a213fb01c221016fd8a71e428ef1f2cf2afa5a038703\", \"created_at\": \"2026-09-08T12:19:27.498868Z\", \"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"episode_id\": \"EP-03862422e85f679c\", \"hypothesis_id\": \"HYP-2066a563e28573b9\", \"learned_strategies\": [], \"llm_mode\": \"embedded_host_pending\", \"mandatory_checks\": [], \"provider_active\": false, \"provider_receipt\": null, \"research_status\": null, \"response_sha256\": \"dc5a608ec6ef2fa428a4d87735df1f4cb7965844085de4845822cb530f9a9b2a\", \"schema\": \"mos-cycle-receipt/v4.1\", \"selected_strategies\": [\"UserResonance\", \"ContentAnalysis\"]}",
+          "created_at": "2026-09-08T12:19:27.498902Z",
+          "event_hash": "8489f4e312277770f73fc8c42639436a280c1e367806aa4a3f5e936ae7c484ca",
+          "event_id": "CYCLE-cb48d29ed8fe:receipt",
+          "event_type": "cycle_receipt",
+          "previous_hash": "cfe13e22c327c7ff6491bfadd445259b426d67d2910680f1ee3f69be1e875905",
+          "seq": 45
+        },
+        {
+          "body": "{\"confidence\": 0.75, \"cycle_count\": 4, \"debt\": 0.0, \"emotion\": \"motivated\", \"energy\": 97.8044, \"pain\": 0.0, \"reason\": \"cycle\", \"timestamp\": \"2026-09-08T12:19:27.498981Z\"}",
+          "created_at": "2026-09-08T12:19:27.499005Z",
+          "event_hash": "d77488f6cb88694e8acbbdaa411686b58dd83337cb7e14f7532faf7b9aab31a8",
+          "event_id": "OBS-1-1788869967498",
+          "event_type": "self_observation",
+          "previous_hash": "8489f4e312277770f73fc8c42639436a280c1e367806aa4a3f5e936ae7c484ca",
+          "seq": 46
+        },
+        {
+          "body": "{\"episode_id\": \"EP-03862422e85f679c\", \"evidence\": {\"created_at\": \"2026-09-08T12:21:33.166328Z\", \"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"episode_id\": \"EP-03862422e85f679c\", \"host\": \"chatgpt-work-code-interpreter\", \"kind\": \"embedded_host_response\", \"response_sha256\": \"f1b7cc3208c809c0056b8c63d8e98a23cd363b9a362468568379f880cd2e51e5\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"1e2126c0a67eac4fb5449f75ad098fdb2bdb2640\"}}",
+          "created_at": "2026-09-08T12:21:33.184265Z",
+          "event_hash": "8853eb75fb1045e2d452e48113c665a3cf837703344cc0b147f792b653c81265",
+          "event_id": "EP-03862422e85f679c:evidence:5",
+          "event_type": "evidence",
+          "previous_hash": "d77488f6cb88694e8acbbdaa411686b58dd83337cb7e14f7532faf7b9aab31a8",
+          "seq": 47
+        },
+        {
+          "body": "{\"created_at\": \"2026-09-08T12:21:33.166328Z\", \"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"episode_id\": \"EP-03862422e85f679c\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"f1b7cc3208c809c0056b8c63d8e98a23cd363b9a362468568379f880cd2e51e5\", \"schema\": \"mos-embedded-response/v1\", \"source_state_commit\": \"1e2126c0a67eac4fb5449f75ad098fdb2bdb2640\"}",
+          "created_at": "2026-09-08T12:21:33.184377Z",
+          "event_hash": "21da35fede68c6d85317957958cada0344904993fefedc41ca49bd92febbcfcd",
+          "event_id": "CYCLE-cb48d29ed8fe:embedded_host_response",
+          "event_type": "embedded_host_response",
+          "previous_hash": "8853eb75fb1045e2d452e48113c665a3cf837703344cc0b147f792b653c81265",
+          "seq": 48
+        }
+      ],
+      "hypotheses": [
+        {
+          "created_at": "2026-09-08T10:53:31.751801Z",
+          "description": "Selected strategies and available evidence can make progress on 'portable_cross_chat_continuity'.",
+          "expected_outcome": "progress",
+          "hypothesis_id": "HYP-2066a563e28573b9",
+          "probability": 0.5,
+          "status": "active",
+          "success_count": 0,
+          "test_count": 0
+        }
+      ],
+      "meme_versions": [],
+      "memes": [],
+      "memory": [
+        {
+          "content": "[MOS embedded host response pending]",
+          "created_at": "2026-09-08T10:53:31.752208Z",
+          "importance": 0.72,
+          "kind": "agent",
+          "memory_id": "MEM-0bf9274045524c5f",
+          "metadata": "{\"cycle_id\": \"CYCLE-89776224b9fe\", \"llm_mode\": \"embedded_host_pending\", \"observer_running\": false}",
+          "strength": 1.0,
+          "usage_count": 2,
+          "vector": "[0.16046375746527347, 0.13592243447283486, 0.1780063874583009, 0.13970720755458277, 0.13542569657320866, 0.15713789320261243, 0.11997171357129129, 0.15074853789400372, 0.15876560449971328, 0.08781198746639211, 0.09717237572315865, 0.16219105901001202, 0.08860120039784984, 0.12453575408951781, 0.08115071127038506, 0.11337207741389056, 0.09686230407407406, 0.13154638928634524, 0.08914956700374822, 0.12817579377657148, 0.14089640455325272, 0.1550424032899406, 0.08760198411396138, 0.1241660820357193, 0.15759965228136721, 0.1271953617811564, 0.13555534339071595, 0.12562978774531788, 0.0790683110381291, 0.12138975526849734, 0.11903526510029412, 0.08555768377357705, 0.14803031793704122, 0.05402802460495745, 0.14016970171083024, 0.13028206681240423, 0.12027600244054329, 0.0637736558534612, 0.09046657646119535, 0.05027962452092678, 0.06857507414669892, 0.17742149369307622, 0.12948549441837456, 0.07746136289454131, 0.12416334479830235, 0.1579384191099169, 0.13603026367902593, 0.09729550138636653, 0.1492508120313683, 0.10797681621857558, 0.15186026657365892, 0.1352155712925982, 0.1564034819347197, 0.12487708396543559, 0.07528708070918608, 0.15055589614392445, 0.11689295205602122, 0.13113558274535217, 0.15160621087446746, 0.07016188910000429, 0.09264742474929419, 0.1373826287490214, 0.15773905773324004, 0.06712398070754243]"
+        },
+        {
+          "content": "Состояние: сейчас GitHub уже служит постоянным диском MOS: `main` хранит программу, `mos-state` — общую память, а каждый ход получает отдельный снимок и проверяемый коммит. Параллельные чаты не перезаписывают друг друга — спорный результат сохраняется в отдельной ветке.\n\nЦель: использовать GitHub как внешнюю нервную систему MOS, а не только как папку с файлами.\n\nДействие — что можно добавить без смены основной архитектуры:\n\n| Нестандартное применение | Роль в MOS | Статус |\n|---|---|---|\n| Ветки как разные линии мышления | Отдельные проекты, личности, эксперименты или варианты решения; удачные ветки можно объединять | Частично готово: конфликтные ветки уже реализованы |\n| Pull Request как фильтр самоулучшения | MOS предлагает изменение кода, тесты проверяют его, а в `main` оно попадает только после успешной проверки и решения человека | Архитектура готова, автоматический контур ещё не добавлен |\n| Issues как очередь задач | Issue становится целью, ошибкой, вопросом или незакрытым решением; метки задают приоритет и состояние | Можно добавить |\n| Actions как рефлексы и фоновое обслуживание | По расписанию проверять память, тесты, миграции, зависимости и создавать предупреждения. GitHub поддерживает запуск по событиям, расписанию и внешнему сигналу | CI уже работает; фоновый контур можно расширить |\n| `repository_dispatch` и webhooks как органы чувств | Другие сервисы отправляют события в GitHub, а MOS получает их при следующем запуске или через Action | Можно добавить |\n| GitHub Pages как приборная панель | Показывать текущую цель, версии, состояние цепочки, активные гипотезы и результаты тестов без запуска MOS | Можно добавить |\n| Releases и теги как сохранённые «геномы» | Фиксированные проверенные версии MOS, которые легко развернуть или откатить | Можно добавить |\n| Artifacts как временная лабораторная память | Хранить отчёты тестов, логи, большие результаты исследований и сборки, не засоряя основную память | Можно добавить; это не замена `mos-state` |\n\nGitHub действительно поддерживает [событийные, ручные и запланированные Actions](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows), [Issues](https://docs.github.com/en/rest/issues/issues), [Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [workflow artifacts](https://docs.github.com/en/actions/concepts/workflows-and-actions/workflow-artifacts) и [версионные Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).\n\nПроверка: это не означает, что GitHub становится LLM или постоянно думает. Он хранит, запускает ограниченные скрипты и передаёт события. Рассуждение по-прежнему выполняет модель активного чата, а MOS организует контекст, память, проверки и фиксацию результата.\n\nРешение: наиболее полезный следующий уровень — **MOS GitHub Control Plane**: `Issues → Actions → очередь MOS → чат → PR с изменением → тесты → подтверждение → Release`. Тогда GitHub станет одновременно памятью, диспетчером задач и контролёром улучшений.\n\nОбновление: этот архитектурный вывод обработан циклом `CYCLE-cb48d29ed8fe` и сохраняется в общем состоянии MOS.",
+          "created_at": "2026-09-08T12:21:33.166336Z",
+          "importance": 0.78,
+          "kind": "host_llm",
+          "memory_id": "MEM-112610a7f11c4c0f",
+          "metadata": "{\"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"episode_id\": \"EP-03862422e85f679c\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"f1b7cc3208c809c0056b8c63d8e98a23cd363b9a362468568379f880cd2e51e5\"}",
+          "strength": 1.0,
+          "usage_count": 0,
+          "vector": "[0.1198914671934991, 0.12925906556644198, 0.12025413454007643, 0.12206544591097496, 0.12145609131063119, 0.12118102578026495, 0.12518014981677034, 0.11754993423571741, 0.13315570551070507, 0.11769959019590866, 0.13457736226594277, 0.1192824828393314, 0.12041049538520067, 0.1301071127796004, 0.12974480256089277, 0.12737399995498416, 0.11754496819933227, 0.12993856081867766, 0.11963727433435481, 0.12710944762212206, 0.12515819874472012, 0.12462957915121348, 0.1354158918236343, 0.11867160932816156, 0.12941548942519795, 0.11596048149697168, 0.13040181250905306, 0.1274210722373071, 0.11807480063024912, 0.13768145642100077, 0.12183059603839785, 0.12499092110268477, 0.12678798007659206, 0.1424131967618545, 0.11895182792765636, 0.12393634543991855, 0.11882716879472466, 0.1276072325180621, 0.12217922142750584, 0.10402389397697007, 0.1145112560361565, 0.11397716105756933, 0.11877747953345472, 0.14270038019154493, 0.12285278023426252, 0.13434128987524052, 0.11226791066566631, 0.12094905732711585, 0.11063130096870415, 0.12855076569269036, 0.1430447458909425, 0.12229461256205681, 0.13277197187155684, 0.1226531842622943, 0.12277312036155108, 0.1261010564693989, 0.1263567528856894, 0.11706595172788331, 0.12471493154458639, 0.12232095773291377, 0.13425591042715646, 0.13027202960126638, 0.13314122858169092, 0.13012592974172837]"
+        },
+        {
+          "content": "[MOS embedded host response pending]",
+          "created_at": "2026-09-08T11:54:21.024940Z",
+          "importance": 0.72,
+          "kind": "agent",
+          "memory_id": "MEM-726151eb76ce1f87",
+          "metadata": "{\"cycle_id\": \"CYCLE-982caf1193e9\", \"llm_mode\": \"embedded_host_pending\", \"observer_running\": false}",
+          "strength": 1.0,
+          "usage_count": 1,
+          "vector": "[0.16046375746527347, 0.13592243447283486, 0.1780063874583009, 0.13970720755458277, 0.13542569657320866, 0.15713789320261243, 0.11997171357129129, 0.15074853789400372, 0.15876560449971328, 0.08781198746639211, 0.09717237572315865, 0.16219105901001202, 0.08860120039784984, 0.12453575408951781, 0.08115071127038506, 0.11337207741389056, 0.09686230407407406, 0.13154638928634524, 0.08914956700374822, 0.12817579377657148, 0.14089640455325272, 0.1550424032899406, 0.08760198411396138, 0.1241660820357193, 0.15759965228136721, 0.1271953617811564, 0.13555534339071595, 0.12562978774531788, 0.0790683110381291, 0.12138975526849734, 0.11903526510029412, 0.08555768377357705, 0.14803031793704122, 0.05402802460495745, 0.14016970171083024, 0.13028206681240423, 0.12027600244054329, 0.0637736558534612, 0.09046657646119535, 0.05027962452092678, 0.06857507414669892, 0.17742149369307622, 0.12948549441837456, 0.07746136289454131, 0.12416334479830235, 0.1579384191099169, 0.13603026367902593, 0.09729550138636653, 0.1492508120313683, 0.10797681621857558, 0.15186026657365892, 0.1352155712925982, 0.1564034819347197, 0.12487708396543559, 0.07528708070918608, 0.15055589614392445, 0.11689295205602122, 0.13113558274535217, 0.15160621087446746, 0.07016188910000429, 0.09264742474929419, 0.1373826287490214, 0.15773905773324004, 0.06712398070754243]"
+        },
+        {
+          "content": "MOS R4.2 loaded the canonical GitHub state, restored and verified schema 4, executed cycle CYCLE-89776224b9fe through the embedded host bridge, and is ready to publish the resulting checkpoint. This is a functional round-trip validation, not a claim that MOS changes the host model's weights or runs without a tool-enabled chat.",
+          "created_at": "2026-09-08T10:53:47.355903Z",
+          "importance": 0.78,
+          "kind": "host_llm",
+          "memory_id": "MEM-94d59d0dd36e1048",
+          "metadata": "{\"cycle_id\": \"CYCLE-89776224b9fe\", \"episode_id\": \"EP-0226846d84e99ce2\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"eec5a651f41925e0644732e32a244f6bb75155f2210d389f95169fb62d43fc87\"}",
+          "strength": 1.0,
+          "usage_count": 3,
+          "vector": "[0.1114908399524069, 0.11025047724051149, 0.13728799678750883, 0.13602478581443603, 0.13854524740021837, 0.14053907967989243, 0.1506366197581042, 0.10971806534339107, 0.1360974778333264, 0.1274745983532241, 0.10843007826684137, 0.1274510954048104, 0.11985920305865776, 0.10483192446914372, 0.13110591245636505, 0.12017424478315299, 0.12057927581774507, 0.14816315957475512, 0.11788523271433081, 0.10091088837931494, 0.15397983299150117, 0.14437483602735182, 0.11672205867882926, 0.12342134645849397, 0.11597585435787865, 0.1256226632577066, 0.12469546562924512, 0.12763074056803092, 0.1142822338294312, 0.13184543293162607, 0.13628888216183033, 0.12888938370934477, 0.11105738416806496, 0.13107182217698216, 0.1256833689105091, 0.1215974488107917, 0.12316862225653825, 0.11970814785525091, 0.152183297576241, 0.11597057645137354, 0.12655184304954434, 0.1190368602312023, 0.12063021872102303, 0.12077452570891786, 0.12901699876792092, 0.1387857547327871, 0.11934310968191521, 0.12825923251718763, 0.1277918620002405, 0.11726139787290783, 0.12769657091961326, 0.10349332888604511, 0.11761623550520531, 0.11679141085497853, 0.12498939776931248, 0.11835201534060268, 0.14058982034801404, 0.13245584042609104, 0.11235754678749807, 0.1058854899267919, 0.11052254948015387, 0.12076458008421707, 0.13510949050114257, 0.10684259026513522]"
+        },
+        {
+          "content": "Окей как ещё не стандартно можно использовать гит хабб , что позволяет архитектура Мос",
+          "created_at": "2026-09-08T12:19:27.494255Z",
+          "importance": 0.75,
+          "kind": "user",
+          "memory_id": "MEM-97ec70efd65e676f",
+          "metadata": "{\"cycle_id\": \"CYCLE-cb48d29ed8fe\"}",
+          "strength": 1.0,
+          "usage_count": 1,
+          "vector": "[0.11728678924692004, 0.09710213979703154, 0.1568526912972594, 0.1274215737575996, 0.09297604866108404, 0.16677128497732155, 0.15103173024169012, 0.14641756018830002, 0.12105144965872486, 0.0908626002600839, 0.11992228012081896, 0.09439534169962956, 0.0933447255327735, 0.10063986243292813, 0.14530643254588488, 0.14061969488391887, 0.11517061014577042, 0.1171305271596518, 0.1363125570792799, 0.11075025583105444, 0.10153647374886964, 0.0908431414607466, 0.11176492092070445, 0.10116944007181486, 0.10596089229295583, 0.14496250211961303, 0.10127233998926392, 0.10860203802025005, 0.1393475575349474, 0.15684895917405423, 0.13893120789374094, 0.1454983185095674, 0.144033086599806, 0.10738004753479671, 0.12781779727631534, 0.14373094143581766, 0.1302210770257077, 0.1115498266453545, 0.09460667738939836, 0.14099532792145258, 0.11365064091264077, 0.13444910892977474, 0.11690237166461799, 0.12639862001553076, 0.1251735020086198, 0.1209453656157368, 0.0978446568877804, 0.14849969157735846, 0.1240318409138176, 0.13097423870787062, 0.1533547819423483, 0.10955962699236978, 0.13481558115816747, 0.13521200829368582, 0.10893324450604411, 0.11643920473618778, 0.14004197736178312, 0.10475475817981485, 0.1222482935327212, 0.12355174922142587, 0.10448812788938107, 0.12708165293746496, 0.16173120531205326, 0.1319667385291464]"
+        },
+        {
+          "content": "Выгрузи в гит хаб.",
+          "created_at": "2026-09-08T12:13:25.719114Z",
+          "importance": 0.75,
+          "kind": "user",
+          "memory_id": "MEM-a2176d37a985bcd1",
+          "metadata": "{\"cycle_id\": \"CYCLE-bc1b5a717667\"}",
+          "strength": 1.0,
+          "usage_count": 2,
+          "vector": "[0.10874411771057728, 0.14148481823158737, 0.08157954811670894, 0.07951856306903109, 0.07800585001093242, 0.15264962136776192, 0.07428519294842309, 0.0770962116306576, 0.13475635665457703, 0.12051075689571064, 0.05141766758210537, 0.16798345318741031, 0.10137566181443657, 0.09005295442893552, 0.10660755491155037, 0.10882923113636979, 0.19763553340373433, 0.09936759444987464, 0.07551332790078158, 0.12251118381561567, 0.1480656435400946, 0.18095653808035214, 0.10919382907418437, 0.1295611500565375, 0.1649844163915856, 0.14334440480274663, 0.09387568435791335, 0.19934671334383786, 0.15986066530629298, 0.12810787810407984, 0.12605547778874612, 0.08996279594411329, 0.10511735568325284, 0.08586861470185984, 0.08635761620913536, 0.11609442462424951, 0.1263049821560013, 0.16544110527788256, 0.08478391093783887, 0.11402320448294287, 0.0629959982117156, 0.14223669264657282, 0.10088065195043308, 0.12602299313459295, 0.13116447273455425, 0.1015227279201607, 0.08450882008618353, 0.1492585215618232, 0.13486301610973206, 0.15711315501170656, 0.19024582196251755, 0.11830541817892118, 0.08913164639347299, 0.10322683553017659, 0.12327367293957874, 0.11758884389818358, 0.13164404519799594, 0.1333886243422295, 0.12105340541303296, 0.09748767977016555, 0.09323727124475642, 0.16344721031310291, 0.1578832666969043, 0.15340763251600065]"
+        },
+        {
+          "content": "portable_cross_chat_continuity",
+          "created_at": "2026-09-08T10:39:01.560496Z",
+          "importance": 0.95,
+          "kind": "goal",
+          "memory_id": "MEM-a6daf6650865f1a2",
+          "metadata": "{\"source\": \"goal\"}",
+          "strength": 1.0,
+          "usage_count": 4,
+          "vector": "[0.06374322567691804, 0.1877066576986858, 0.11164965479960744, 0.17757753004809612, 0.0910305255343656, 0.0029672256992060476, 0.01439052835713203, 0.13078391665969977, 0.10088867579848239, 0.18128910110824706, 0.16199066824606326, 0.14864763096895092, 0.09172409315807188, 0.06081896123624895, 0.05467924163563709, 0.025536799235968504, 0.12121750863639782, 0.11612265658587234, 0.017167661918858514, 0.008614259564375988, 0.1785359268215616, 0.04773165852941523, 0.14572803312367522, 0.07160752322971173, 0.16154594238911324, 0.028234754193715458, 0.022173119931524217, 0.18220587477603237, 0.13721249372851363, 0.17615039750101544, 0.025215311418434406, 0.1004341937424559, 0.12445218596904734, 0.11366962786367782, 0.024314401421096334, 0.13724239992542095, 0.19557668296309136, 0.013036158826488637, 0.19115336003166572, 0.0883623922404757, 0.12529367353846793, 0.19468953926337712, 0.012660173244007892, 0.1689159074359755, 0.13901853542524778, 0.19288999270736293, 0.13228492309587156, 0.145698332750824, 0.0876488258587473, 0.011538421749043837, 0.030808242963256214, 0.18541620158746844, 0.061671582693353516, 0.08510510505124036, 0.11509278123775005, 0.14219161656404802, 0.17186190036642768, 0.1883267356262053, 0.18615072145733755, 0.17847807308016456, 0.1333438110583967, 0.10902238623480362, 0.004577325263455531, 0.12931072739351662]"
+        },
+        {
+          "content": "Состояние: MOS 4.2 запущена внутри этого чата.\n\nЦель: использовать GitHub как постоянное хранилище, Python как исполнитель, а встроенную модель чата — для формирования ответа.\n\nДействие: сообщение реально прошло через MOS Runtime. Цикл: `CYCLE-982caf1193e9`.\n\nПроверка: SQLite — `ok`, цепочка событий — `true`, состояние загружено из `mos-state`.\n\nРешение: система активна для дальнейшей работы в этом чате через тот же протокол.\n\nОбновление: этот ответ зафиксирован в состоянии MOS и выгружен обратно в GitHub.",
+          "created_at": "2026-09-08T11:54:46.859655Z",
+          "importance": 0.78,
+          "kind": "host_llm",
+          "memory_id": "MEM-a831dee8519bf128",
+          "metadata": "{\"cycle_id\": \"CYCLE-982caf1193e9\", \"episode_id\": \"EP-a0d2fca720b3677d\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"afb3d1caf13657f250d4531270a997c86a5a2ac6fe450436c3101a3d6b7c65bd\"}",
+          "strength": 1.0,
+          "usage_count": 2,
+          "vector": "[0.12855315581186885, 0.10441042878580464, 0.1285475268672953, 0.11411656789805738, 0.10974277751495172, 0.1202701522721095, 0.12633611644969814, 0.0999813551780397, 0.15167646942243326, 0.1293109872743638, 0.12536652499757917, 0.13614585741241672, 0.11700158649917232, 0.13596264708516886, 0.1263867806524017, 0.12734722679025465, 0.1159684359323843, 0.12606165947569842, 0.13475777851865098, 0.12236336296402699, 0.11559398573305785, 0.11439724113684438, 0.12936746556849832, 0.10830904079015748, 0.133762737501216, 0.12167390757581178, 0.13612877418239192, 0.14156533341202626, 0.1186144165071315, 0.12232993651737449, 0.10593865740833933, 0.11579596876360333, 0.1180290271098764, 0.137844814300034, 0.13901196412616604, 0.12668027994502237, 0.11012959545381867, 0.11384363601435325, 0.12689931167159083, 0.12216150757869236, 0.12279243315814982, 0.13884019178853726, 0.13714378399593172, 0.13816821809935456, 0.11307784562076786, 0.1572588473788961, 0.10543158050797515, 0.13194444186810061, 0.1344674346407736, 0.12249950458735535, 0.14582352711133692, 0.10749413776764036, 0.13416757557548611, 0.11126513455827804, 0.12024018230155956, 0.12495155367943662, 0.12600968632768678, 0.12927413995301945, 0.11776559126371863, 0.12499886316577467, 0.11982354776927619, 0.12131866484030016, 0.12106542446156446, 0.12247890987506382]"
+        },
+        {
+          "content": "[MOS embedded host response pending]",
+          "created_at": "2026-09-08T12:19:27.498279Z",
+          "importance": 0.72,
+          "kind": "agent",
+          "memory_id": "MEM-adc9c7a293ffa6c2",
+          "metadata": "{\"cycle_id\": \"CYCLE-cb48d29ed8fe\", \"llm_mode\": \"embedded_host_pending\", \"observer_running\": false}",
+          "strength": 1.0,
+          "usage_count": 0,
+          "vector": "[0.16046375746527347, 0.13592243447283486, 0.1780063874583009, 0.13970720755458277, 0.13542569657320866, 0.15713789320261243, 0.11997171357129129, 0.15074853789400372, 0.15876560449971328, 0.08781198746639211, 0.09717237572315865, 0.16219105901001202, 0.08860120039784984, 0.12453575408951781, 0.08115071127038506, 0.11337207741389056, 0.09686230407407406, 0.13154638928634524, 0.08914956700374822, 0.12817579377657148, 0.14089640455325272, 0.1550424032899406, 0.08760198411396138, 0.1241660820357193, 0.15759965228136721, 0.1271953617811564, 0.13555534339071595, 0.12562978774531788, 0.0790683110381291, 0.12138975526849734, 0.11903526510029412, 0.08555768377357705, 0.14803031793704122, 0.05402802460495745, 0.14016970171083024, 0.13028206681240423, 0.12027600244054329, 0.0637736558534612, 0.09046657646119535, 0.05027962452092678, 0.06857507414669892, 0.17742149369307622, 0.12948549441837456, 0.07746136289454131, 0.12416334479830235, 0.1579384191099169, 0.13603026367902593, 0.09729550138636653, 0.1492508120313683, 0.10797681621857558, 0.15186026657365892, 0.1352155712925982, 0.1564034819347197, 0.12487708396543559, 0.07528708070918608, 0.15055589614392445, 0.11689295205602122, 0.13113558274535217, 0.15160621087446746, 0.07016188910000429, 0.09264742474929419, 0.1373826287490214, 0.15773905773324004, 0.06712398070754243]"
+        },
+        {
+          "content": "R4.2 GitHub round-trip validation. Confirm that the host-chat bridge can load the canonical state, execute one MOS cycle, and prepare a verified checkpoint for GitHub.",
+          "created_at": "2026-09-08T10:53:31.747520Z",
+          "importance": 0.75,
+          "kind": "user",
+          "memory_id": "MEM-b0d9327ca6e38f05",
+          "metadata": "{\"cycle_id\": \"CYCLE-89776224b9fe\"}",
+          "strength": 1.0,
+          "usage_count": 4,
+          "vector": "[0.11848632983237635, 0.11332094904098283, 0.12029173468059613, 0.11641803163972199, 0.11338684912256661, 0.12459881753599573, 0.14833452793253485, 0.11060442782542686, 0.1380305573004035, 0.13096897081438244, 0.14083457472388156, 0.12478051325411876, 0.12852843939898542, 0.12079047330287325, 0.12916900079375887, 0.13616211692161367, 0.10454306207427187, 0.14502287376534184, 0.12470495851923044, 0.11048934790388786, 0.14137472273551532, 0.1415725957699728, 0.11683847193398893, 0.10621924693675543, 0.11882222513078658, 0.11402415344678764, 0.12392658255002627, 0.11125574600786277, 0.12955394159083983, 0.12584465837225906, 0.14502752821025588, 0.147411244270907, 0.10877361671831291, 0.14089263862979226, 0.13050074163980682, 0.14183298202945754, 0.11743821126766031, 0.1002656793660399, 0.1428298155611125, 0.12170341076563486, 0.14574268755666311, 0.13268276865494033, 0.10266238481697103, 0.09651773504805378, 0.12170815608567948, 0.1489978939158243, 0.1024544092980442, 0.11707199931107588, 0.11356652176209528, 0.13413474441231027, 0.11079406439662143, 0.10134847242800753, 0.12022512893249332, 0.13248758306537683, 0.1283219063664974, 0.11116682758889172, 0.13496818530499483, 0.15143893807799882, 0.1251251740527477, 0.12126467925274274, 0.11988205561159498, 0.10524322282156624, 0.13375887178801918, 0.11264087140261876]"
+        },
+        {
+          "content": "Состояние: актуальное состояние MOS выгружено в GitHub.\n\nЦель: сохранить этот ход и всю переносимую память системы в `mos-state`.\n\nДействие: выполнен новый цикл `CYCLE-bc1b5a717667`, создан полный снимок состояния и отдельная квитанция хода.\n\nПроверка: SQLite — `ok`, цепочка событий — `true`; публикация повторно сверена с удалённым GitHub.\n\nРешение: GitHub содержит актуальную память MOS, которую можно загрузить в другом чате.\n\nОбновление: [ветка состояния MOS](https://github.com/Vitalii3301/MOS/tree/mos-state/runtime/portable/state).",
+          "created_at": "2026-09-08T12:13:53.481652Z",
+          "importance": 0.78,
+          "kind": "host_llm",
+          "memory_id": "MEM-ba913aabfbf35630",
+          "metadata": "{\"cycle_id\": \"CYCLE-bc1b5a717667\", \"episode_id\": \"EP-ceeace1b93df3895\", \"host\": \"chatgpt-work-code-interpreter\", \"response_sha256\": \"ec40efd70e035105e2e51e54c8e82889448b39e53f348c00bb2fee0a04cf49f3\"}",
+          "strength": 1.0,
+          "usage_count": 1,
+          "vector": "[0.13261458970595272, 0.12324165526666842, 0.12475983060346103, 0.12716144467553026, 0.12352737732849386, 0.1268968081144832, 0.12178725751025488, 0.12122742260616312, 0.1416873670170721, 0.1455843975262612, 0.1275431287717415, 0.13135954319590454, 0.13324598866899354, 0.1255959560461034, 0.11510342934658485, 0.1184839020990894, 0.12059782213009991, 0.13714515005087285, 0.13548787346364952, 0.1293648694844838, 0.12209552577899999, 0.12005179869437224, 0.13076935339883441, 0.12297825944170145, 0.12222389668229704, 0.1389550737158052, 0.1332606842686508, 0.1453845640348806, 0.13042924726851657, 0.11511666784088327, 0.11809925036640695, 0.11141900598312507, 0.10066064375516481, 0.13469298350838774, 0.11234840895115637, 0.13111247672268012, 0.138233512880828, 0.13025598378289255, 0.13009068143619093, 0.1063548866356022, 0.11078299882802978, 0.11262082894779776, 0.13222133451174725, 0.13059456461784533, 0.12404751718223304, 0.139923474602262, 0.11728150507871393, 0.1185065774263823, 0.12165715938541022, 0.12401381194479644, 0.12033063806106735, 0.1097885243638748, 0.12079538388436305, 0.12541260126874582, 0.10793210232667444, 0.12255257645769654, 0.11936910147909612, 0.12876307378732552, 0.11833308083324394, 0.12400367224549792, 0.12812887417253932, 0.11701515176554367, 0.12066975272569398, 0.126482193765005]"
+        },
+        {
+          "content": "Окей запути систему",
+          "created_at": "2026-09-08T11:54:21.021738Z",
+          "importance": 0.75,
+          "kind": "user",
+          "memory_id": "MEM-d99141f8a70da4b0",
+          "metadata": "{\"cycle_id\": \"CYCLE-982caf1193e9\"}",
+          "strength": 1.0,
+          "usage_count": 3,
+          "vector": "[0.19302261167345203, 0.11452075495728128, 0.1840986247906643, 0.12410240415680138, 0.14759834053616194, 0.10620588347675738, 0.0884380512158227, 0.18540119604143251, 0.10872486202501269, 0.06496454152149625, 0.11786471254940956, 0.09565519791599647, 0.1544878412786835, 0.11704385226856084, 0.1452323831892558, 0.11072247454848974, 0.09676440646622196, 0.07450132078595524, 0.09410366957936868, 0.026821434769994556, 0.07789231511416488, 0.10656623978211002, 0.13728575305842206, 0.09734656807423152, 0.1724221879569287, 0.11077926893155188, 0.07679128277833945, 0.16226467987156468, 0.11445847530159345, 0.1205392245112324, 0.06732631459556113, 0.13223000253910622, 0.1262949028456253, 0.07880827367808278, 0.1074677763096281, 0.1378086780868511, 0.19719674029543335, 0.13302985176627294, 0.06015213837629558, 0.09342769017370064, 0.125488458768071, 0.12490243131619501, 0.10861378471803172, 0.1370914511729684, 0.1321104221919965, 0.10745878064537316, 0.14543611561179243, 0.08876644937512336, 0.12331267676105806, 0.12120222557401153, 0.11508311215983472, 0.15502622476876685, 0.06201908940762873, 0.18067119137704432, 0.1313497416005186, 0.21731607908074, 0.16175384318337985, 0.076230090861548, 0.062009227554472655, 0.13828296517406174, 0.07373472134506842, 0.12337810388722863, 0.13016376092203175, 0.13664719013504237]"
+        },
+        {
+          "content": "[MOS embedded host response pending]",
+          "created_at": "2026-09-08T12:13:25.722033Z",
+          "importance": 0.72,
+          "kind": "agent",
+          "memory_id": "MEM-f6b9622e828aa4f8",
+          "metadata": "{\"cycle_id\": \"CYCLE-bc1b5a717667\", \"llm_mode\": \"embedded_host_pending\", \"observer_running\": false}",
+          "strength": 1.0,
+          "usage_count": 0,
+          "vector": "[0.16046375746527347, 0.13592243447283486, 0.1780063874583009, 0.13970720755458277, 0.13542569657320866, 0.15713789320261243, 0.11997171357129129, 0.15074853789400372, 0.15876560449971328, 0.08781198746639211, 0.09717237572315865, 0.16219105901001202, 0.08860120039784984, 0.12453575408951781, 0.08115071127038506, 0.11337207741389056, 0.09686230407407406, 0.13154638928634524, 0.08914956700374822, 0.12817579377657148, 0.14089640455325272, 0.1550424032899406, 0.08760198411396138, 0.1241660820357193, 0.15759965228136721, 0.1271953617811564, 0.13555534339071595, 0.12562978774531788, 0.0790683110381291, 0.12138975526849734, 0.11903526510029412, 0.08555768377357705, 0.14803031793704122, 0.05402802460495745, 0.14016970171083024, 0.13028206681240423, 0.12027600244054329, 0.0637736558534612, 0.09046657646119535, 0.05027962452092678, 0.06857507414669892, 0.17742149369307622, 0.12948549441837456, 0.07746136289454131, 0.12416334479830235, 0.1579384191099169, 0.13603026367902593, 0.09729550138636653, 0.1492508120313683, 0.10797681621857558, 0.15186026657365892, 0.1352155712925982, 0.1564034819347197, 0.12487708396543559, 0.07528708070918608, 0.15055589614392445, 0.11689295205602122, 0.13113558274535217, 0.15160621087446746, 0.07016188910000429, 0.09264742474929419, 0.1373826287490214, 0.15773905773324004, 0.06712398070754243]"
+        }
+      ],
+      "meta_memory": [],
+      "self_model": [
+        {
+          "confidence": 1.0,
+          "domain": "host_lifetime",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-0089797eab737d29",
+          "kind": "weakness",
+          "metadata": "{}",
+          "scope_limit": "Use an external supervisor/service for always-on operation.",
+          "statement": "Background reflection stops when the host process is destroyed.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166212Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "self_improvement",
+          "evidence_refs": "[\"runtime:v4.1\", \"tests:strategy_gate\"]",
+          "item_id": "SM-1eb16da014ace5d7",
+          "kind": "boundary",
+          "metadata": "{}",
+          "scope_limit": "MOS does not train or modify base-model weights and does not invent program candidates autonomously.",
+          "statement": "Strategy changes remain candidates until an explicit blind, regression-free holdout evaluation activates them.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166231Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "full_state_relay",
+          "evidence_refs": "[\"runtime:v4\", \"tests:full_relay\"]",
+          "item_id": "SM-28689aeeacf8c848",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Snapshot catalog itself is not recursively embedded.",
+          "statement": "Relay snapshots transfer state, memory, hypotheses, strategies, memes, episodes, meta-memory, self-model and event history.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166179Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "meme_execution",
+          "evidence_refs": "[\"runtime:v4\", \"tests:sandbox\"]",
+          "item_id": "SM-2f511a6b4832ccea",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Best-effort restricted Python sandbox, not a hardened VM/container.",
+          "statement": "Versioned memes execute in a restricted subprocess sandbox with timeout and JSON boundaries.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166145Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "provider_integration",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-826047bfab13e306",
+          "kind": "weakness",
+          "metadata": "{}",
+          "scope_limit": "Plumbing is verified; provider execution is host-dependent.",
+          "statement": "No external LLM provider is active unless the host explicitly supplies a callable or subprocess bridge.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166196Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "llm_bridge",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-90bf080f556da0ad",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "No hidden provider/network claim.",
+          "statement": "External LLM invocation requires an explicit host adapter.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166088Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "embedded_host_bridge",
+          "evidence_refs": "[\"runtime:v4.2\", \"tests:portable\"]",
+          "item_id": "SM-974b482206580544",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "The Python runtime does not call the built-in host model directly.",
+          "statement": "A tool-enabled host chat can run MOS before drafting and commit its answer afterward.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166108Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "evidence",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-99860505c39686f4",
+          "kind": "mandatory_check",
+          "metadata": "{}",
+          "scope_limit": "Research executes only through an explicit adapter.",
+          "statement": "Verify externally checkable claims before promoting them to fact.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166128Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "persistence",
+          "evidence_refs": "[\"runtime:v4\"]",
+          "item_id": "SM-caf3782ce8b50251",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Only while the persistent database file is retained.",
+          "statement": "Transactional SQLite-backed state is available in this host runtime.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166038Z"
+        },
+        {
+          "confidence": 1.0,
+          "domain": "epistemic_replay",
+          "evidence_refs": "[\"runtime:v4\", \"tests:event_chain\"]",
+          "item_id": "SM-cb841376b0230069",
+          "kind": "capability",
+          "metadata": "{}",
+          "scope_limit": "Integrity is local; no external signature authority is implied.",
+          "statement": "Episodes and system events are persisted with an append-only hash chain.",
+          "status": "active",
+          "updated_at": "2026-09-08T12:21:33.166162Z"
+        }
+      ],
+      "state": [
+        {
+          "key": "capabilities",
+          "updated_at": "2026-09-08T12:21:33.165956Z",
+          "value": "{\"background_observer\": {\"active\": false, \"boundary\": \"A timer/maintenance loop, not introspection or consciousness.\", \"supported\": true}, \"base_model_weight_change\": {\"active\": false, \"boundary\": \"No model training or weight updates.\", \"supported\": false}, \"candidate_code_selection\": {\"active\": true, \"boundary\": \"Selects only host-supplied code candidates in the restricted worker.\", \"supported\": true}, \"consciousness_or_feelings\": {\"active\": false, \"boundary\": \"State labels are heuristic numbers, not subjective experience.\", \"supported\": false}, \"embedded_host_bridge\": {\"active\": false, \"boundary\": \"The host chat generates the answer between begin-turn and commit-turn.\", \"supported\": true}, \"epistemic_event_chain\": {\"active\": true, \"boundary\": \"Local SHA-256 chain; no external signature authority.\", \"supported\": true}, \"external_llm_bridge\": {\"active\": false, \"boundary\": \"A real provider is active only when the host supplies one.\", \"supported\": true}, \"full_state_relay\": {\"active\": true, \"boundary\": \"Snapshot import requires the same schema version.\", \"supported\": true}, \"hidden_cross_chat_memory\": {\"active\": false, \"boundary\": \"No hidden memory outside the retained database/snapshot.\", \"supported\": false}, \"persistent_state\": {\"active\": true, \"boundary\": \"Only while the SQLite file is retained.\", \"supported\": true}, \"research_adapter\": {\"active\": false, \"boundary\": \"Internet is used only when connected evidence proves a network request.\", \"supported\": true}, \"strategy_learning\": {\"active\": true, \"boundary\": \"Learns routing features; proposed descendants require a blind holdout gate.\", \"supported\": true}}"
+        },
+        {
+          "key": "confidence",
+          "updated_at": "2026-09-08T10:39:01.559243Z",
+          "value": "0.75"
+        },
+        {
+          "key": "context",
+          "updated_at": "2026-09-08T12:19:27.495533Z",
+          "value": "{\"language\": \"ru\", \"tone\": \"technical\"}"
+        },
+        {
+          "key": "current_goal",
+          "updated_at": "2026-09-08T10:39:01.560423Z",
+          "value": "\"portable_cross_chat_continuity\""
+        },
+        {
+          "key": "cycle_count",
+          "updated_at": "2026-09-08T12:19:27.498611Z",
+          "value": "4"
+        },
+        {
+          "key": "debt",
+          "updated_at": "2026-09-08T10:39:01.559262Z",
+          "value": "0.0"
+        },
+        {
+          "key": "emotion",
+          "updated_at": "2026-09-08T12:19:27.495559Z",
+          "value": "\"motivated\""
+        },
+        {
+          "key": "energy",
+          "updated_at": "2026-09-08T12:19:27.495573Z",
+          "value": "97.8044"
+        },
+        {
+          "key": "energy_recovery_rate",
+          "updated_at": "2026-09-08T10:39:01.559221Z",
+          "value": "0.7"
+        },
+        {
+          "key": "last_embedded_host",
+          "updated_at": "2026-09-08T12:21:33.184343Z",
+          "value": "\"chatgpt-work-code-interpreter\""
+        },
+        {
+          "key": "last_input",
+          "updated_at": "2026-09-08T12:19:27.498626Z",
+          "value": "\"Окей как ещё не стандартно можно использовать гит хабб , что позволяет архитектура Мос\""
+        },
+        {
+          "key": "last_response",
+          "updated_at": "2026-09-08T12:21:33.184299Z",
+          "value": "\"Состояние: сейчас GitHub уже служит постоянным диском MOS: `main` хранит программу, `mos-state` — общую память, а каждый ход получает отдельный снимок и проверяемый коммит. Параллельные чаты не перезаписывают друг друга — спорный результат сохраняется в отдельной ветке.\\n\\nЦель: использовать GitHub как внешнюю нервную систему MOS, а не только как папку с файлами.\\n\\nДействие — что можно добавить без смены основной архитектуры:\\n\\n| Нестандартное применение | Роль в MOS | Статус |\\n|---|---|---|\\n| Ветки как разные линии мышления | Отдельные проекты, личности, эксперименты или варианты решения; удачные ветки можно объединять | Частично готово: конфликтные ветки уже реализованы |\\n| Pull Request как фильтр самоулучшения | MOS предлагает изменение кода, тесты проверяют его, а в `main` оно попадает только после успешной проверки и решения человека | Архитектура готова, автоматический контур ещё не добавлен |\\n| Issues как очередь задач | Issue становится целью, ошибкой, вопросом или незакрытым решением; метки задают приоритет и состояние | Можно добавить |\\n| Actions как рефлексы и фоновое обслуживание | По расписанию проверять память, тесты, миграции, зависимости и создавать предупреждения. GitHub поддерживает запуск по событиям, расписанию и внешнему сигналу | CI уже работает; фоновый контур можно расширить |\\n| `repository_dispatch` и webhooks как органы чувств | Другие сервисы отправляют события в GitHub, а MOS получает их при следующем запуске или через Action | Можно добавить |\\n| GitHub Pages как приборная панель | Показывать текущую цель, версии, состояние цепочки, активные гипотезы и результаты тестов без запуска MOS | Можно добавить |\\n| Releases и теги как сохранённые «геномы» | Фиксированные проверенные версии MOS, которые легко развернуть или откатить | Можно добавить |\\n| Artifacts как временная лабораторная память | Хранить отчёты тестов, логи, большие результаты исследований и сборки, не засоряя основную память | Можно добавить; это не замена `mos-state` |\\n\\nGitHub действительно поддерживает [событийные, ручные и запланированные Actions](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows), [Issues](https://docs.github.com/en/rest/issues/issues), [Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [workflow artifacts](https://docs.github.com/en/actions/concepts/workflows-and-actions/workflow-artifacts) и [версионные Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).\\n\\nПроверка: это не означает, что GitHub становится LLM или постоянно думает. Он хранит, запускает ограниченные скрипты и передаёт события. Рассуждение по-прежнему выполняет модель активного чата, а MOS организует контекст, память, проверки и фиксацию результата.\\n\\nРешение: наиболее полезный следующий уровень — **MOS GitHub Control Plane**: `Issues → Actions → очередь MOS → чат → PR с изменением → тесты → подтверждение → Release`. Тогда GitHub станет одновременно памятью, диспетчером задач и контролёром улучшений.\\n\\nОбновление: этот архитектурный вывод обработан циклом `CYCLE-cb48d29ed8fe` и сохраняется в общем состоянии MOS.\""
+        },
+        {
+          "key": "last_tick",
+          "updated_at": "2026-09-08T12:19:27.495178Z",
+          "value": "1788869967.4951491"
+        },
+        {
+          "key": "pain",
+          "updated_at": "2026-09-08T10:39:01.559277Z",
+          "value": "0.0"
+        },
+        {
+          "key": "relay_revision",
+          "updated_at": "2026-09-08T12:19:27.492444Z",
+          "value": "4"
+        }
+      ],
+      "strategies": [
+        {
+          "action_arg": null,
+          "action_kind": "content_analysis",
+          "learned_from": "[]",
+          "level": 1,
+          "name": "ContentAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "triggers": "[]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "evidence",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "EvidenceCheck",
+          "parent_id": null,
+          "priority": 1.25,
+          "status": "active",
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "triggers": "[\"evidence\", \"verify\", \"proof\", \"\\u0434\\u043e\\u043a\\u0430\\u0437\", \"\\u043f\\u0440\\u043e\\u0432\\u0435\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "research",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "ResearchRouting",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-265e66aef27afc66",
+          "triggers": "[\"research\", \"source\", \"\\u0438\\u0441\\u0442\\u043e\\u0447\\u043d\\u0438\\u043a\", \"\\u0438\\u0441\\u0441\\u043b\\u0435\\u0434\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "contradiction",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "ContradictionCheck",
+          "parent_id": null,
+          "priority": 1.15,
+          "status": "active",
+          "strategy_id": "STR-2bc359810363d14d",
+          "triggers": "[\"contradiction\", \"conflict\", \"\\u043f\\u0440\\u043e\\u0442\\u0438\\u0432\\u043e\\u0440\\u0435\\u0447\", \"\\u043a\\u043e\\u043d\\u0444\\u043b\\u0438\\u043a\\u0442\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "meme_engineering",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "MemeEngineering",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-2db55b634f96746f",
+          "triggers": "[\"meme\", \"memetic\", \"\\u043c\\u0435\\u043c\", \"\\u0430\\u043b\\u0433\\u043e\\u0440\\u0438\\u0442\\u043c\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "resonance",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "UserResonance",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-3c7237494f82b465",
+          "triggers": "[\"why\", \"how\", \"\\u043f\\u043e\\u0447\\u0435\\u043c\\u0443\", \"\\u043a\\u0430\\u043a\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "decision_audit",
+          "learned_from": "[]",
+          "level": 4,
+          "name": "DecisionAudit",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-44137aff7e764c52",
+          "triggers": "[\"decision\", \"audit\", \"\\u0440\\u0435\\u0448\\u0435\\u043d\\u0438\\u0435\", \"\\u0430\\u0443\\u0434\\u0438\\u0442\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "reflection",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "SelfReflection",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "triggers": "[\"self\", \"\\u043e\\u0448\\u0438\\u0431\", \"weakness\", \"\\u0441\\u0430\\u043c\\u043e\", \"\\u0440\\u0435\\u0444\\u043b\\u0435\\u043a\\u0441\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "constraint_navigation",
+          "learned_from": "[]",
+          "level": 4,
+          "name": "ConstraintNavigation",
+          "parent_id": null,
+          "priority": 1.2,
+          "status": "active",
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "triggers": "[\"rule\", \"law\", \"constraint\", \"\\u043f\\u0440\\u0430\\u0432\\u0438\\u043b\", \"\\u0437\\u0430\\u043a\\u043e\\u043d\", \"\\u043e\\u0433\\u0440\\u0430\\u043d\\u0438\\u0447\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "strategic",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "StrategicThinking",
+          "parent_id": null,
+          "priority": 1.15,
+          "status": "active",
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "triggers": "[\"strategy\", \"long-term\", \"\\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\", \"\\u0434\\u043e\\u043b\\u0433\\u043e\\u0441\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "planning",
+          "learned_from": "[]",
+          "level": 2,
+          "name": "ActionPlanning",
+          "parent_id": null,
+          "priority": 1.2,
+          "status": "active",
+          "strategy_id": "STR-a08ebe6f62808355",
+          "triggers": "[\"plan\", \"next\", \"strategy\", \"\\u043f\\u043b\\u0430\\u043d\", \"\\u0441\\u043b\\u0435\\u0434\\u0443\\u044e\\u0449\", \"\\u0441\\u0442\\u0440\\u0430\\u0442\\u0435\\u0433\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "tactical",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "TacticalThinking",
+          "parent_id": null,
+          "priority": 1.05,
+          "status": "active",
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "triggers": "[\"tactic\", \"step\", \"\\u0442\\u0430\\u043a\\u0442\\u0438\\u043a\", \"\\u0448\\u0430\\u0433\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "hypothesis",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "HypothesisGeneration",
+          "parent_id": null,
+          "priority": 1.1,
+          "status": "active",
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "triggers": "[\"hypothesis\", \"test\", \"\\u0433\\u0438\\u043f\\u043e\\u0442\\u0435\\u0437\", \"\\u043f\\u0440\\u043e\\u0432\\u0435\\u0440\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "economic",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "EconomicAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "triggers": "[\"cost\", \"price\", \"economic\", \"\\u0441\\u0442\\u043e\\u0438\\u043c\", \"\\u044d\\u043a\\u043e\\u043d\\u043e\\u043c\"]",
+          "version": 1
+        },
+        {
+          "action_arg": null,
+          "action_kind": "physics",
+          "learned_from": "[]",
+          "level": 3,
+          "name": "PhysicsAnalysis",
+          "parent_id": null,
+          "priority": 1.0,
+          "status": "active",
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "triggers": "[\"physics\", \"force\", \"energy\", \"\\u0444\\u0438\\u0437\\u0438\\u043a\", \"\\u044d\\u043d\\u0435\\u0440\\u0433\"]",
+          "version": 1
+        }
+      ],
+      "strategy_evolution": [
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "updated_at": "2026-09-08T10:39:01.559401Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "updated_at": "2026-09-08T10:39:01.559632Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-265e66aef27afc66",
+          "updated_at": "2026-09-08T10:39:01.559692Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-2bc359810363d14d",
+          "updated_at": "2026-09-08T10:39:01.559490Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-2db55b634f96746f",
+          "updated_at": "2026-09-08T10:39:01.559722Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-3c7237494f82b465",
+          "updated_at": "2026-09-08T10:39:01.559563Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-44137aff7e764c52",
+          "updated_at": "2026-09-08T10:39:01.559753Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "updated_at": "2026-09-08T10:39:01.559663Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "updated_at": "2026-09-08T10:39:01.559971Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "updated_at": "2026-09-08T10:39:01.559783Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-a08ebe6f62808355",
+          "updated_at": "2026-09-08T10:39:01.559530Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "updated_at": "2026-09-08T10:39:01.559812Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "updated_at": "2026-09-08T10:39:01.559598Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "updated_at": "2026-09-08T10:39:01.559871Z"
+        },
+        {
+          "generation": 1,
+          "last_evolved_fail": 0,
+          "last_evolved_success": 0,
+          "last_evolved_uses": 0,
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "updated_at": "2026-09-08T10:39:01.559841Z"
+        }
+      ],
+      "strategy_stats": [
+        {
+          "fail": 0,
+          "last_used": "2026-09-08T12:19:27.498602Z",
+          "strategy_id": "STR-07b5a2d6c018112f",
+          "success": 0,
+          "uses": 4
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-0f9f5350d215cc52",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-265e66aef27afc66",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-2bc359810363d14d",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-2db55b634f96746f",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": "2026-09-08T12:19:27.498592Z",
+          "strategy_id": "STR-3c7237494f82b465",
+          "success": 0,
+          "uses": 1
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-44137aff7e764c52",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-4a2635964da5a8c7",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-7860ecded3c9d36c",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-9becae0fa2d6263a",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-a08ebe6f62808355",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-b351fdd2e8fb7f26",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-e2e8286d123c3a41",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-e6f9b5e2f1b438bb",
+          "success": 0,
+          "uses": 0
+        },
+        {
+          "fail": 0,
+          "last_used": null,
+          "strategy_id": "STR-ee1c167c8650b44d",
+          "success": 0,
+          "uses": 0
+        }
+      ]
+    }
+  },
+  "snapshot_id": "SNAP-c8cda3da557083e4",
+  "state_hash": "d3c400857003dd6695060e9d0c69eaa08b0d039b568196aae827dd405e301b65"
+}
