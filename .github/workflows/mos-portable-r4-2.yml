@@ -1,0 +1,48 @@
+name: MOS Portable R4.2
+
+on:
+  push:
+    branches: [main, mos-state, "codex/**"]
+    paths:
+      - "runtime/portable/**"
+      - ".github/workflows/mos-portable-r4-2.yml"
+  pull_request:
+    paths:
+      - "runtime/portable/**"
+      - ".github/workflows/mos-portable-r4-2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test runner
+        run: python -m pip install "pytest>=8.4,<10"
+      - name: Compile portable runtime
+        working-directory: runtime/portable
+        run: python -m compileall -q mos MOS_*.py
+      - name: Verify manifest and seed state
+        working-directory: runtime/portable
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python verification/verify_portable.py
+      - name: Run complete MOS suite
+        working-directory: runtime/portable
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m pytest -p no:cacheprovider tests -q
+      - name: Clean install smoke test
+        run: |
+          python -m pip install ./runtime/portable
+          cd "$(mktemp -d)"
+          python -c "import mos; assert mos.__version__ == '4.2.0'; print(mos.__version__)"

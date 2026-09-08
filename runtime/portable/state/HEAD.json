@@ -1,0 +1,13 @@
+{
+  "last_cycle_id": null,
+  "last_session_id": null,
+  "parent_snapshot": null,
+  "revision": 1,
+  "runtime_version": "4.2.0",
+  "schema": "mos-git-state-head/v1",
+  "schema_version": 4,
+  "snapshot_id": "SNAP-cdf06cda8622d9e1",
+  "snapshot_path": "snapshots/SNAP-cdf06cda8622d9e1.json",
+  "state_hash": "39b8d3b9912fcf3bc5de94314638e812746bfb95f2b87d94ade8a1b74531e1bf",
+  "updated_at": "2026-09-08T10:39:01.561171Z"
+}

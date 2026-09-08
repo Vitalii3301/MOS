@@ -1,0 +1,87 @@
+{
+  "ContentAnalysis": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "ConflictResolution": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "UserResonance": {
+    "uses": 4,
+    "success": 0,
+    "fail": 4
+  },
+  "RuleBypass": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "ActionPlanning": {
+    "uses": 4,
+    "success": 4,
+    "fail": 0
+  },
+  "HypothesisGeneration": {
+    "uses": 1,
+    "success": 1,
+    "fail": 0
+  },
+  "StrategicThinking": {
+    "uses": 4,
+    "success": 0,
+    "fail": 4
+  },
+  "TacticalThinking": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "PhysicsAnalysis": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "EconomicAnalysis": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "Auto_По-русски": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "Auto_Сделать": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "Auto_Стратегию": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "ActionPlanning_v55": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "Auto_Следующий": {
+    "uses": 1,
+    "success": 1,
+    "fail": 0
+  },
+  "ActionPlanning_v95": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  },
+  "Auto_Планировать": {
+    "uses": 0,
+    "success": 0,
+    "fail": 0
+  }
+}
