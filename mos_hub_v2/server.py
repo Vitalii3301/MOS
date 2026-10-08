@@ -218,3 +218,223 @@ class RelayStore:
             return db.execute("SELECT * FROM nodes WHERE node_id=? AND enabled=1", (node_id,)).fetchone()
 
     def heartbeat(self, node_id: str, status: str | None, capabilities: object | None) -> dict:
+        status = (status or "online").strip()[:80]
+        caps_json = canonical(capabilities) if capabilities is not None else None
+        if caps_json is not None and len(caps_json.encode("utf-8")) > 16 * 1024:
+            raise ValueError("capabilities exceeds 16 KiB")
+        ts = now()
+        with self.lock, self.connect() as db:
+            if caps_json is None:
+                db.execute(
+                    "UPDATE nodes SET last_seen=?, last_heartbeat=?, heartbeat_status=? WHERE node_id=? AND enabled=1",
+                    (ts, ts, status, node_id),
+                )
+            else:
+                db.execute(
+                    "UPDATE nodes SET last_seen=?, last_heartbeat=?, heartbeat_status=?, capabilities_json=? WHERE node_id=? AND enabled=1",
+                    (ts, ts, status, caps_json, node_id),
+                )
+            if db.total_changes == 0:
+                raise ValueError("unknown or disabled node")
+            db.commit()
+        return {"node_id": node_id, "status": status, "last_seen": iso(ts), "recorded": True}
+
+    def public_nodes(self, online_ttl: int = 180) -> list[dict]:
+        cutoff = now() - max(30, min(int(online_ttl), 3600))
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT node_id,display_name,created_at,enabled,last_seen,last_heartbeat,heartbeat_status,capabilities_json "
+                "FROM nodes WHERE enabled=1 ORDER BY node_id"
+            ).fetchall()
+        result = []
+        for row in rows:
+            try:
+                caps = json.loads(row["capabilities_json"]) if row["capabilities_json"] else None
+            except Exception:
+                caps = None
+            result.append({
+                "node_id": row["node_id"],
+                "display_name": row["display_name"],
+                "created_at": iso(row["created_at"]),
+                "last_seen": iso(row["last_seen"]),
+                "last_heartbeat": iso(row["last_heartbeat"]),
+                "heartbeat_status": row["heartbeat_status"],
+                "online": bool(row["last_seen"] and row["last_seen"] >= cutoff),
+                "capabilities": caps,
+            })
+        return result
+
+    def admin_nodes(self, online_ttl: int = 180) -> list[dict]:
+        cutoff = now() - max(30, min(int(online_ttl), 3600))
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT node_id,display_name,created_at,enabled,last_seen,last_heartbeat,heartbeat_status,capabilities_json "
+                "FROM nodes ORDER BY node_id"
+            ).fetchall()
+        result=[]
+        for row in rows:
+            try:
+                caps=json.loads(row["capabilities_json"]) if row["capabilities_json"] else None
+            except Exception:
+                caps=None
+            result.append({
+                "node_id":row["node_id"],"display_name":row["display_name"],
+                "created_at":iso(row["created_at"]),"enabled":bool(row["enabled"]),
+                "last_seen":iso(row["last_seen"]),"last_heartbeat":iso(row["last_heartbeat"]),
+                "heartbeat_status":row["heartbeat_status"],
+                "online":bool(row["enabled"] and row["last_seen"] and row["last_seen"]>=cutoff),
+                "capabilities":caps,
+            })
+        return result
+
+    def set_node_enabled(self, node_id: str, enabled: bool) -> dict:
+        with self.lock, self.connect() as db:
+            row=db.execute("SELECT node_id FROM nodes WHERE node_id=?",(node_id,)).fetchone()
+            if not row:
+                raise ValueError("node not found")
+            db.execute("UPDATE nodes SET enabled=? WHERE node_id=?",(1 if enabled else 0,node_id))
+            if not enabled:
+                db.execute("DELETE FROM web_sessions WHERE node_id=?",(node_id,))
+            db.commit()
+        self.event("node_enabled" if enabled else "node_disabled", {"node_id":node_id})
+        return {"node_id":node_id,"enabled":enabled}
+
+    def rotate_node_token(self, node_id: str) -> tuple[str, dict]:
+        if not self.get_node(node_id, include_disabled=True):
+            raise ValueError("node not found")
+        token = TOKEN_PREFIX + secrets.token_urlsafe(32)
+        token_hash = sha256_text(token)
+        with self.lock, self.connect() as db:
+            db.execute("UPDATE nodes SET token_hash=? WHERE node_id=?",(token_hash,node_id))
+            db.execute("DELETE FROM web_sessions WHERE node_id=?",(node_id,))
+            db.commit()
+        self.event("node_token_rotated", {"node_id":node_id})
+        return token, {"node_id":node_id,"rotated":True}
+
+    def create_connect_request(self, node_id: str, ttl: int = 300) -> dict:
+        if not self.get_node(node_id):
+            raise ValueError("unknown or disabled node")
+        connect_id = "cn_" + secrets.token_urlsafe(18)
+        code = secrets.token_urlsafe(24)
+        created = now()
+        expires = created + max(60, min(ttl, 600))
+        with self.lock, self.connect() as db:
+            db.execute("INSERT INTO connect_requests(connect_id,code_hash,node_id,created_at,expires_at) VALUES(?,?,?,?,?)", (connect_id, sha256_text(code), node_id, created, expires))
+            db.commit()
+        self.event("connect_requested", {"connect_id": connect_id, "node_id": node_id, "expires_at": expires})
+        return {"connect_id": connect_id, "code": code, "node_id": node_id, "expires_at": iso(expires), "max_uses": 1}
+
+    def exchange_connect(self, connect_id: str, code: str) -> tuple[str, sqlite3.Row] | None:
+        with self.lock, self.connect() as db:
+            row = db.execute("SELECT * FROM connect_requests WHERE connect_id=?", (connect_id,)).fetchone()
+            if not row or row["used_at"] is not None or row["expires_at"] <= now() or not hmac.compare_digest(row["code_hash"], sha256_text(code)):
+                return None
+            session = "mos_sess_" + secrets.token_urlsafe(32)
+            created = now()
+            expires = created + 3600
+            db.execute("UPDATE connect_requests SET used_at=? WHERE connect_id=?", (created, connect_id))
+            db.execute("INSERT INTO web_sessions(session_hash,node_id,created_at,expires_at) VALUES(?,?,?,?)", (sha256_text(session), row["node_id"], created, expires))
+            db.commit()
+            node = db.execute("SELECT node_id, display_name, created_at FROM nodes WHERE node_id=? AND enabled=1", (row["node_id"],)).fetchone()
+        if node:
+            self.event("connect_exchanged", {"connect_id": connect_id, "node_id": node["node_id"], "expires_at": expires})
+        return (session, node) if node else None
+
+    def authenticate_session(self, session: str | None) -> sqlite3.Row | None:
+        if not session:
+            return None
+        with self.connect() as db:
+            row = db.execute("SELECT n.node_id, n.display_name, n.created_at FROM web_sessions s JOIN nodes n ON n.node_id=s.node_id WHERE s.session_hash=? AND s.expires_at>? AND n.enabled=1", (sha256_text(session), now())).fetchone()
+        return row
+
+    def add_message(self, sender: str, envelope: dict) -> dict:
+        required = ["message_id", "recipient", "kind", "payload", "payload_sha256"]
+        missing = [key for key in required if key not in envelope]
+        if missing:
+            raise ValueError("missing fields: " + ", ".join(missing))
+        message_id = envelope["message_id"]
+        recipient = envelope["recipient"]
+        kind = envelope["kind"]
+        payload = envelope["payload"]
+        if not isinstance(message_id, str) or not message_id or len(message_id) > 160:
+            raise ValueError("invalid message_id")
+        if not safe_node_id(recipient):
+            raise ValueError("invalid recipient")
+        if not isinstance(kind, str) or kind not in {"start", "finding", "review_request", "review_response", "handoff", "ack", "stop"}:
+            raise ValueError("unsupported message kind")
+        payload_bytes = len(canonical(payload).encode("utf-8"))
+        if payload_bytes > MAX_PAYLOAD_BYTES:
+            raise ValueError("payload exceeds 64 KiB")
+        expected_hash = sha256_payload(payload)
+        if not hmac.compare_digest(str(envelope["payload_sha256"]), expected_hash):
+            raise ValueError("payload_sha256 mismatch")
+        expires_at = envelope.get("expires_at")
+        if expires_at is not None:
+            if not isinstance(expires_at, int) or expires_at <= now():
+                raise ValueError("expires_at must be a future Unix timestamp")
+        recipient_row = self.get_node(recipient)
+        if not recipient_row:
+            raise ValueError("recipient node is not registered or enabled")
+        created = now()
+        safe_envelope = {
+            "schema": envelope.get("schema", "mos-remote-message/v1"),
+            "message_id": message_id,
+            "sender": sender,
+            "recipient": recipient,
+            "kind": kind,
+            "payload": payload,
+            "payload_sha256": expected_hash,
+            "created_at": envelope.get("created_at") or iso(created),
+            "expires_at": expires_at,
+            "reply_to": envelope.get("reply_to"),
+        }
+        with self.lock, self.connect() as db:
+            existing = db.execute("SELECT message_id, sender, recipient, status FROM messages WHERE message_id=?", (message_id,)).fetchone()
+            if existing:
+                if existing["sender"] == sender and existing["recipient"] == recipient:
+                    return {"message_id": message_id, "status": "duplicate_accepted", "stored": False}
+                raise ValueError("message_id already belongs to another envelope")
+            db.execute(
+                "INSERT INTO messages(message_id,sender,recipient,kind,envelope_json,payload_sha256,created_at,expires_at,status) VALUES(?,?,?,?,?,?,?,?,?)",
+                (message_id, sender, recipient, kind, canonical(safe_envelope), expected_hash, created, expires_at, "queued"),
+            )
+            db.commit()
+        self.event("message_queued", {"message_id": message_id, "sender": sender, "recipient": recipient, "kind": kind})
+        return {"message_id": message_id, "status": "queued", "stored": True}
+
+    def mailbox(self, node_id: str, after: int = 0, limit: int = 50) -> list[dict]:
+        limit = max(1, min(limit, 100))
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT rowid AS mailbox_seq, * FROM messages WHERE recipient=? AND rowid>? ORDER BY rowid ASC LIMIT ?",
+                (node_id, after, limit),
+            ).fetchall()
+        output = []
+        for row in rows:
+            envelope = json.loads(row["envelope_json"])
+            if row["expires_at"] and row["expires_at"] <= now():
+                envelope["relay_status"] = "expired"
+            else:
+                envelope["relay_status"] = row["status"]
+            envelope["mailbox_seq"] = row["mailbox_seq"]
+            output.append(envelope)
+        return output
+
+    def receipt(self, node_id: str, message_id: str, status: str, detail: str | None) -> dict:
+        allowed = {"delivered", "read", "processing", "completed", "failed", "expired", "unverified"}
+        if status not in allowed:
+            raise ValueError("unsupported receipt status")
+        with self.lock, self.connect() as db:
+            msg = db.execute("SELECT * FROM messages WHERE message_id=?", (message_id,)).fetchone()
+            if not msg:
+                raise ValueError("message not found")
+            if msg["recipient"] != node_id:
+                raise PermissionError("only the recipient can create this receipt")
+            db.execute("INSERT INTO receipts(message_id,node_id,status,detail,created_at) VALUES(?,?,?,?,?)", (message_id, node_id, status, detail, now()))
+            db.execute("UPDATE messages SET status=? WHERE message_id=?", (status, message_id))
+            db.commit()
+        self.event("delivery_receipt", {"message_id": message_id, "node_id": node_id, "status": status})
+        return {"message_id": message_id, "status": status, "recorded": True}
+
+    def stats(self, online_ttl: int = 180) -> dict:
+        cutoff = now() - max(30, min(int(online_ttl), 3600))
