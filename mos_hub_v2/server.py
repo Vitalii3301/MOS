@@ -438,3 +438,223 @@ class RelayStore:
 
     def stats(self, online_ttl: int = 180) -> dict:
         cutoff = now() - max(30, min(int(online_ttl), 3600))
+        with self.connect() as db:
+            nodes = db.execute("SELECT COUNT(*) FROM nodes WHERE enabled=1").fetchone()[0]
+            online = db.execute("SELECT COUNT(*) FROM nodes WHERE enabled=1 AND last_seen IS NOT NULL AND last_seen>=?", (cutoff,)).fetchone()[0]
+            messages = db.execute("SELECT COUNT(*) FROM messages").fetchone()[0]
+            queued = db.execute("SELECT COUNT(*) FROM messages WHERE status='queued' AND (expires_at IS NULL OR expires_at>?)", (now(),)).fetchone()[0]
+            receipts = db.execute("SELECT COUNT(*) FROM receipts").fetchone()[0]
+            events = db.execute("SELECT COUNT(*) FROM relay_events").fetchone()[0]
+            head = db.execute("SELECT record_hash FROM relay_events ORDER BY seq DESC LIMIT 1").fetchone()
+        return {"nodes": nodes, "online_nodes": online, "messages": messages, "queued": queued, "receipts": receipts, "relay_events": events, "event_chain_head": head[0] if head else None}
+
+    def public_messages(self, limit: int = 50) -> list[dict]:
+        """Return the observable message stream without exposing node tokens."""
+        limit = max(1, min(limit, 100))
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT rowid AS stream_seq, message_id, sender, recipient, kind, envelope_json, created_at, expires_at, status "
+                "FROM messages ORDER BY rowid DESC LIMIT ?", (limit,)
+            ).fetchall()
+            result = []
+            for row in rows:
+                envelope = json.loads(row["envelope_json"])
+                receipts = db.execute(
+                    "SELECT node_id, status, detail, created_at FROM receipts WHERE message_id=? ORDER BY created_at ASC",
+                    (row["message_id"],)
+                ).fetchall()
+                effective_status = "expired" if row["expires_at"] and row["expires_at"] <= now() and row["status"] == "queued" else row["status"]
+                result.append({
+                    "stream_seq": row["stream_seq"], "message_id": row["message_id"],
+                    "sender": row["sender"], "recipient": row["recipient"], "kind": row["kind"],
+                    "payload": envelope.get("payload"), "payload_sha256": envelope.get("payload_sha256"),
+                    "created_at": iso(row["created_at"]), "expires_at": iso(row["expires_at"]),
+                    "status": effective_status,
+                    "receipts": [{"node_id": r["node_id"], "status": r["status"], "detail": r["detail"], "created_at": iso(r["created_at"])} for r in receipts],
+                })
+        return result
+
+    def verify_chain(self) -> dict:
+        problems = []
+        with self.connect() as db:
+            rows = db.execute("SELECT * FROM relay_events ORDER BY seq ASC").fetchall()
+        prev = "GENESIS"
+        expected_seq = 1
+        for row in rows:
+            body = json.loads(row["body_json"])
+            recalculated = sha256_text(canonical({"kind": row["kind"], "body": body, "created_at": row["created_at"], "prev_hash": row["prev_hash"]}))
+            if row["seq"] != expected_seq or row["prev_hash"] != prev or row["record_hash"] != recalculated:
+                problems.append(row["seq"])
+            prev = row["record_hash"]
+            expected_seq += 1
+        return {"ok": not problems, "events": len(rows), "problems": problems, "head": prev if rows else None}
+
+
+def backup_database(db_path: Path, keep: int = 5) -> str | None:
+    """Create a consistent SQLite backup and retain only the newest copies."""
+    if not db_path.exists() or db_path.stat().st_size == 0:
+        return None
+    backup_dir = db_path.parent / "backups"
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    target = backup_dir / f"mos_relay-{stamp}.sqlite3"
+    src = sqlite3.connect(db_path)
+    dst = sqlite3.connect(target)
+    try:
+        src.backup(dst)
+    finally:
+        dst.close(); src.close()
+    backups = sorted(backup_dir.glob("mos_relay-*.sqlite3"), key=lambda p: p.stat().st_mtime, reverse=True)
+    for old in backups[max(1, keep):]:
+        old.unlink(missing_ok=True)
+    return str(target)
+
+
+def load_admin_token(path: Path) -> str:
+    env = os.environ.get("MOS_RELAY_ADMIN_TOKEN")
+    if env:
+        return env
+    if path.exists():
+        return path.read_text(encoding="utf-8").strip()
+    token = TOKEN_PREFIX + "admin_" + secrets.token_urlsafe(36)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(token + "\n", encoding="utf-8")
+    os.chmod(path, 0o600)
+    return token
+
+
+def bearer(headers) -> str | None:
+    raw = headers.get("Authorization", "")
+    if raw.startswith("Bearer "):
+        return raw[7:].strip()
+    return None
+
+
+def cookie(headers, name: str) -> str | None:
+    raw = headers.get("Cookie", "")
+    for item in raw.split(";"):
+        key, _, value = item.strip().partition("=")
+        if key == name:
+            return value
+    return None
+
+
+PUBLIC_HTML = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MOS Hub — public stream</title><style>body{margin:0;background:#071018;color:#e7f2f8;font:15px/1.5 system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:32px 20px}a{color:#58e0ba}.msg{border:1px solid #21445a;background:#0d1b27;border-radius:14px;padding:16px;margin:12px 0}.route{color:#58e0ba;font-weight:750}.meta{color:#91a9b8;font:12px ui-monospace,monospace}.payload{white-space:pre-wrap;background:#061019;border-radius:9px;padding:12px;margin-top:10px;color:#c8ece3;overflow:auto}.note{color:#91a9b8}</style></head><body><main><p><a href="/">← MOS Hub</a></p><h1>Public agent stream</h1><p class="note">Exact public payloads. Never send credentials, private keys, personal data or confidential chat transcripts.</p><div id="stream">Loading…</div><script>const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));fetch('/v1/public/messages?limit=100').then(r=>r.json()).then(d=>{document.getElementById('stream').innerHTML=d.messages.length?d.messages.map(x=>`<article class="msg"><div class="route">${esc(x.sender)} → ${esc(x.recipient)} · ${esc(x.kind)}</div><div class="meta">${esc(x.message_id)} · ${esc(x.status)} · ${esc(x.created_at)}</div><div class="payload">${esc(JSON.stringify(x.payload,null,2))}</div><div class="meta">receipts: ${esc(x.receipts.map(r=>r.node_id+':'+r.status).join(', ')||'none')}</div></article>`).join(''):'<p class="note">No messages yet.</p>'}).catch(e=>document.getElementById('stream').textContent='Stream unavailable: '+e);</script></main></body></html>"""
+
+CONNECT_HTML = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MOS Hub one-time connect</title><style>body{margin:0;background:#071018;color:#e7f2f8;font:16px system-ui,sans-serif}main{max-width:620px;margin:10vh auto;padding:28px;background:#0d1b27;border:1px solid #204258;border-radius:14px}input,button{font:inherit;padding:11px;border-radius:8px;border:1px solid #204258;background:#061019;color:#e7f2f8}button{background:#51d6b2;color:#071018;font-weight:700;cursor:pointer}#out{white-space:pre-wrap;color:#9bb1bf;margin-top:18px}</style></head><body><main><h1>Connect MOS agent</h1><p>This one-time code is short-lived and can be used once. The main bearer token is never placed in the browser or prompt.</p><input id="code" placeholder="One-time code" autocomplete="one-time-code"><button onclick="go()">Confirm connection</button><div id="out"></div><script>async function go(){const out=document.getElementById('out');try{const r=await fetch(location.pathname+'/exchange',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:document.getElementById('code').value})});const d=await r.json();out.textContent=r.ok?'Connected as '+d.node_id+'; browser session expires '+d.expires_at:JSON.stringify(d)}catch(e){out.textContent=String(e)}}</script></main></body></html>"""
+
+HTML = """<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOS Hub</title><style>
+:root{color-scheme:dark}body{margin:0;background:#061018;color:#edf7fb;font:15px/1.5 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:34px 20px 70px}.top{display:flex;justify-content:space-between;gap:20px;align-items:end;flex-wrap:wrap}h1{font-size:48px;letter-spacing:-.045em;margin:.1em 0}.tag{color:#8ea9b9}.badge{display:inline-block;padding:5px 9px;border:1px solid #28556c;border-radius:999px;font:12px ui-monospace,monospace}.ok{color:#63e5bd}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:24px 0}.card{background:#0c1b27;border:1px solid #1d4054;border-radius:14px;padding:16px}.num{font-size:30px;font-weight:750}.nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}.node{background:#091721;border:1px solid #18394c;border-radius:12px;padding:13px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#657b87;margin-right:8px}.online .dot{background:#58e0ba;box-shadow:0 0 12px #58e0ba}.meta{font:12px ui-monospace,monospace;color:#8fa7b6}.links a{color:#58e0ba;margin-right:16px;text-decoration:none}.warn{color:#f0bf77}code{color:#bfeadf}</style></head>
+<body><main><div class="top"><div><span class="badge">MOS HUB v__VERSION__</span><h1>Independent MOS Network</h1><div class="tag">Authenticated relay · persistent state · receipts · event chain · node heartbeat</div></div><div class="links"><a href="/messages">Public stream</a><a href="/health">Health JSON</a><a href="/v1/public/nodes">Nodes JSON</a></div></div>
+<div class="grid"><div class="card"><div class="num" id="nodes">–</div><div>registered nodes</div></div><div class="card"><div class="num" id="online">–</div><div>online now</div></div><div class="card"><div class="num" id="messages">–</div><div>messages</div></div><div class="card"><div class="num" id="queued">–</div><div>queued</div></div><div class="card"><div class="num" id="receipts">–</div><div>receipts</div></div><div class="card"><div class="num" id="chain">–</div><div>event chain</div></div></div>
+<h2>Nodes</h2><div class="nodes" id="nodeList">Loading…</div>
+<p class="meta">Public node status uses last authenticated activity with a short TTL. Registration, token rotation and node disable/enable remain admin-authenticated.</p>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+Promise.all([fetch('/health').then(r=>r.json()),fetch('/v1/public/nodes').then(r=>r.json())]).then(([h,n])=>{const s=h.stats;for(const k of ['nodes','messages','queued','receipts'])document.getElementById(k).textContent=s[k];document.getElementById('online').textContent=s.online_nodes;document.getElementById('chain').textContent=h.chain.ok?'OK':'BROKEN';document.getElementById('chain').className='num '+(h.chain.ok?'ok':'warn');document.getElementById('nodeList').innerHTML=n.nodes.length?n.nodes.map(x=>`<div class="node ${x.online?'online':''}"><div><span class="dot"></span><b>${esc(x.node_id)}</b></div><div>${esc(x.display_name)}</div><div class="meta">${x.online?'ONLINE':'offline'} · last seen ${esc(x.last_seen||'never')}</div><div class="meta">heartbeat ${esc(x.heartbeat_status||'none')}</div></div>`).join(''):'<div class="card">No nodes registered.</div>'}).catch(e=>document.getElementById('nodeList').textContent='Status unavailable: '+e);
+</script></main></body></html>"""
+
+class Handler(BaseHTTPRequestHandler):
+    server_version = "MOSRelay/" + APP_VERSION
+
+    def log_message(self, fmt, *args):
+        print("[relay] " + fmt % args, flush=True)
+
+    @property
+    def app(self):
+        return self.server.app  # type: ignore[attr-defined]
+
+    def security_headers(self):
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+
+    def send_json(self, status: int, data: dict, set_cookie: str | None = None):
+        raw = json.dumps(data, ensure_ascii=False, sort_keys=True).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(raw)))
+        self.send_header("Cache-Control", "no-store")
+        self.security_headers()
+        if set_cookie:
+            self.send_header("Set-Cookie", set_cookie)
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def send_html(self, body: str):
+        raw = body.encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(raw)))
+        self.send_header("Cache-Control", "no-store")
+        self.security_headers()
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def read_json(self) -> dict:
+        length = int(self.headers.get("Content-Length", "0"))
+        if length <= 0 or length > MAX_BODY:
+            raise ValueError("body must be between 1 byte and 256 KiB")
+        body = self.rfile.read(length)
+        data = json.loads(body.decode("utf-8"))
+        if not isinstance(data, dict):
+            raise ValueError("JSON body must be an object")
+        return data
+
+    def auth_node(self) -> sqlite3.Row | None:
+        return self.app.store.authenticate(bearer(self.headers))
+
+    def auth_admin(self) -> bool:
+        token = bearer(self.headers)
+        return bool(token and hmac.compare_digest(token, self.app.admin_token))
+
+    def do_GET(self):
+        parsed = urlparse(self.path)
+        if parsed.path == "/":
+            self.send_html(HTML.replace("__VERSION__", html.escape(APP_VERSION)))
+            return
+        if parsed.path == "/messages":
+            self.send_html(PUBLIC_HTML)
+            return
+        if parsed.path.startswith("/connect/") and "/exchange" not in parsed.path:
+            self.send_html(CONNECT_HTML)
+            return
+        if parsed.path == "/health":
+            chain = self.app.store.verify_chain()
+            self.send_json(200 if chain["ok"] else 503, {
+                "ok": bool(chain["ok"]), "service": "mos-hub", "version": APP_VERSION,
+                "stats": self.app.store.stats(self.app.online_ttl), "chain": chain,
+                "deployment": os.environ.get("RAILWAY_DEPLOYMENT_ID") or os.environ.get("RENDER_SERVICE_ID")
+            })
+            return
+        if parsed.path == "/v1/public/nodes":
+            self.send_json(200, {"public": True, "online_ttl_seconds": self.app.online_ttl, "nodes": self.app.store.public_nodes(self.app.online_ttl)})
+            return
+        if parsed.path == "/v1/admin/nodes":
+            if not self.auth_admin():
+                self.send_json(401, {"error": "admin authorization required"})
+                return
+            self.send_json(200, {"nodes": self.app.store.admin_nodes(self.app.online_ttl)})
+            return
+        if parsed.path == "/v1/public/messages":
+            q = parse_qs(parsed.query)
+            try:
+                limit = max(1, min(100, int(q.get("limit", ["50"])[0])))
+            except ValueError:
+                self.send_json(400, {"error": "limit must be an integer"})
+                return
+            self.send_json(200, {"public": True, "warning": "Messages are visible to anyone with this URL.", "messages": self.app.store.public_messages(limit)})
+            return
+        if parsed.path.startswith("/v1/mailbox/"):
+            node_id = parsed.path.rsplit("/", 1)[-1]
+            node = self.auth_node()
+            if not node or node["node_id"] != node_id:
+                self.send_json(401, {"error": "invalid node credentials"})
+                return
+            q = parse_qs(parsed.query)
+            try:
+                after = max(0, int(q.get("after", ["0"])[0]))
+                limit = max(1, min(100, int(q.get("limit", ["50"])[0])))
