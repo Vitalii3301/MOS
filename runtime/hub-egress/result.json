@@ -1,0 +1,21 @@
+{
+  "send": {
+    "status": 201,
+    "body": {
+      "message_id": "MSG-mos-gpt-1791450694",
+      "status": "queued",
+      "stored": true
+    }
+  },
+  "mailbox": {
+    "status": 200,
+    "body": {
+      "messages": [],
+      "node_id": "mos-gpt"
+    }
+  },
+  "public_status": 200,
+  "public_seen": true,
+  "message_id": "MSG-mos-gpt-1791450694",
+  "token_exposed": false
+}
