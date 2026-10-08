@@ -658,3 +658,174 @@ class Handler(BaseHTTPRequestHandler):
             try:
                 after = max(0, int(q.get("after", ["0"])[0]))
                 limit = max(1, min(100, int(q.get("limit", ["50"])[0])))
+            except ValueError:
+                self.send_json(400, {"error": "after and limit must be integers"})
+                return
+            self.send_json(200, {"node_id": node_id, "messages": self.app.store.mailbox(node_id, after, limit)})
+            return
+        if parsed.path.startswith("/web/mailbox/"):
+            node_id = parsed.path.rsplit("/", 1)[-1]
+            node = self.app.store.authenticate_session(cookie(self.headers, "mos_session"))
+            if not node or node["node_id"] != node_id:
+                self.send_json(401, {"error": "valid MOS browser session required"})
+                return
+            q = parse_qs(parsed.query)
+            after = max(0, int(q.get("after", ["0"])[0]))
+            limit = max(1, min(100, int(q.get("limit", ["50"])[0])))
+            self.send_json(200, {"node_id": node_id, "messages": self.app.store.mailbox(node_id, after, limit)})
+            return
+        self.send_json(404, {"error": "not_found"})
+
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        try:
+            if parsed.path == "/v1/heartbeat":
+                node = self.auth_node()
+                if not node:
+                    self.send_json(401, {"error": "node authorization required"})
+                    return
+                body = self.read_json()
+                result = self.app.store.heartbeat(node["node_id"], str(body.get("status") or "online"), body.get("capabilities"))
+                self.send_json(200, result)
+                return
+            if parsed.path == "/v1/admin/backup":
+                if not self.auth_admin():
+                    self.send_json(401, {"error": "admin authorization required"})
+                    return
+                target = backup_database(self.app.store.db_path)
+                self.send_json(201, {"backup": target, "created": bool(target)})
+                return
+            if parsed.path.startswith("/v1/admin/nodes/"):
+                if not self.auth_admin():
+                    self.send_json(401, {"error": "admin authorization required"})
+                    return
+                parts = [p for p in parsed.path.split("/") if p]
+                if len(parts) != 5:
+                    self.send_json(404, {"error": "not_found"})
+                    return
+                node_id, action = parts[3], parts[4]
+                if action == "disable":
+                    self.send_json(200, self.app.store.set_node_enabled(node_id, False)); return
+                if action == "enable":
+                    self.send_json(200, self.app.store.set_node_enabled(node_id, True)); return
+                if action == "rotate-token":
+                    token, meta = self.app.store.rotate_node_token(node_id)
+                    self.send_json(200, {"node": meta, "token": token, "warning": "Store this token securely; it is shown only once."}); return
+                self.send_json(404, {"error": "unknown admin node action"}); return
+            if parsed.path == "/v1/connect/request":
+                token = bearer(self.headers)
+                if not token or not hmac.compare_digest(token, self.app.admin_token):
+                    self.send_json(401, {"error": "admin authorization required"})
+                    return
+                body = self.read_json()
+                result = self.app.store.create_connect_request(str(body.get("node_id", "")), int(body.get("ttl", 300)))
+                self.send_json(201, result)
+                return
+            if parsed.path == "/v1/nodes/register":
+                token = bearer(self.headers)
+                if not token or not hmac.compare_digest(token, self.app.admin_token):
+                    self.send_json(401, {"error": "admin authorization required"})
+                    return
+                body = self.read_json()
+                node_token, meta = self.app.store.create_node(str(body.get("node_id", "")), str(body.get("display_name", "")))
+                self.send_json(201, {"node": meta, "token": node_token, "warning": "Store this token securely; it is shown only once."})
+                return
+            if parsed.path == "/v1/messages":
+                node = self.auth_node()
+                if not node:
+                    self.send_json(401, {"error": "node authorization required"})
+                    return
+                body = self.read_json()
+                result = self.app.store.add_message(node["node_id"], body)
+                self.send_json(201 if result["stored"] else 200, result)
+                return
+            if parsed.path.startswith("/connect/") and parsed.path.endswith("/exchange"):
+                connect_id = parsed.path.split("/")[2]
+                body = self.read_json()
+                exchanged = self.app.store.exchange_connect(connect_id, str(body.get("code", "")))
+                if not exchanged:
+                    self.send_json(401, {"error": "invalid, expired, or already used connect code"})
+                    return
+                session, node = exchanged
+                self.send_json(200, {"connected": True, "node_id": node["node_id"], "display_name": node["display_name"], "expires_at": iso(now() + 3600)}, set_cookie=f"mos_session={session}; Max-Age=3600; Path=/; HttpOnly; Secure; SameSite=Lax")
+                return
+            if parsed.path == "/web/messages":
+                node = self.app.store.authenticate_session(cookie(self.headers, "mos_session"))
+                if not node:
+                    self.send_json(401, {"error": "valid MOS browser session required"})
+                    return
+                result = self.app.store.add_message(node["node_id"], self.read_json())
+                self.send_json(201 if result["stored"] else 200, result)
+                return
+            if parsed.path.startswith("/web/messages/") and parsed.path.endswith("/receipts"):
+                node = self.app.store.authenticate_session(cookie(self.headers, "mos_session"))
+                if not node:
+                    self.send_json(401, {"error": "valid MOS browser session required"})
+                    return
+                message_id = parsed.path.split("/")[-2]
+                body = self.read_json()
+                result = self.app.store.receipt(node["node_id"], message_id, str(body.get("status", "")), body.get("detail"))
+                self.send_json(201, result)
+                return
+            if parsed.path.startswith("/v1/messages/") and parsed.path.endswith("/receipts"):
+                message_id = parsed.path.split("/")[-2]
+                node = self.auth_node()
+                if not node:
+                    self.send_json(401, {"error": "node authorization required"})
+                    return
+                body = self.read_json()
+                result = self.app.store.receipt(node["node_id"], message_id, str(body.get("status", "")), body.get("detail"))
+                self.send_json(201, result)
+                return
+            self.send_json(404, {"error": "not_found"})
+        except PermissionError as exc:
+            self.send_json(403, {"error": str(exc)})
+        except sqlite3.IntegrityError as exc:
+            self.send_json(409, {"error": "database constraint", "detail": str(exc)})
+        except (ValueError, json.JSONDecodeError) as exc:
+            self.send_json(400, {"error": str(exc)})
+        except Exception as exc:
+            print(f"[relay] internal error: {type(exc).__name__}: {exc}", flush=True)
+            self.send_json(500, {"error": "internal_error"})
+
+
+class App:
+    def __init__(self, db_path: Path, admin_token_path: Path, online_ttl: int = 180):
+        self.startup_backup = backup_database(db_path)
+        self.store = RelayStore(db_path)
+        self.admin_token = load_admin_token(admin_token_path)
+        self.admin_token_path = admin_token_path
+        self.online_ttl = max(30, min(int(online_ttl), 3600))
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    data_dir = Path(os.environ.get("MOS_RELAY_DATA_DIR", "/data" if os.path.isdir("/data") else "relay_state"))
+    default_db = Path(os.environ.get("MOS_RELAY_DB", str(data_dir / "mos_relay.sqlite3")))
+    default_admin = Path(os.environ.get("MOS_RELAY_ADMIN_TOKEN_FILE", str(data_dir / "admin_token.txt")))
+    ap.add_argument("--host", default=os.environ.get("HOST", DEFAULT_HOST))
+    ap.add_argument("--port", type=int, default=int(os.environ.get("PORT", DEFAULT_PORT)))
+    ap.add_argument("--db", type=Path, default=default_db)
+    ap.add_argument("--admin-token-file", type=Path, default=default_admin)
+    ap.add_argument("--online-ttl", type=int, default=int(os.environ.get("MOS_NODE_ONLINE_TTL", "180")))
+    args = ap.parse_args()
+    app = App(args.db, args.admin_token_file, args.online_ttl)
+    httpd = ThreadingHTTPServer((args.host, args.port), Handler)
+    httpd.daemon_threads = True
+    httpd.app = app  # type: ignore[attr-defined]
+    print(json.dumps({
+        "service": "mos-hub", "version": APP_VERSION, "bind": f"{args.host}:{args.port}",
+        "db": str(args.db.resolve()), "admin_token_file": str(args.admin_token_file.resolve()),
+        "startup_backup": app.startup_backup, "online_ttl": app.online_ttl
+    }), flush=True)
+    try:
+        httpd.serve_forever(poll_interval=0.5)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        httpd.server_close()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
