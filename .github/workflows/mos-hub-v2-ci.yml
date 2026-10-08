@@ -1,0 +1,27 @@
+name: MOS Hub v2 CI
+on:
+  push:
+    paths:
+      - "mos_hub_v2/**"
+      - ".github/workflows/mos-hub-v2-ci.yml"
+  pull_request:
+    paths:
+      - "mos_hub_v2/**"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Compile
+        run: python -m py_compile mos_hub_v2/server.py mos_hub_v2/test_hub.py
+      - name: Integration test
+        run: python mos_hub_v2/test_hub.py
+      - name: Docker build
+        run: docker build -t mos-hub-v2 mos_hub_v2
