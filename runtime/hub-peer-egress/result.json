@@ -1,0 +1,41 @@
+{
+  "sends": [
+    {
+      "message_id": "MSG-mos-gpt-manus-report-1791451951",
+      "recipient": "mos-manus",
+      "result": {
+        "status": 201,
+        "body": {
+          "message_id": "MSG-mos-gpt-manus-report-1791451951",
+          "status": "queued",
+          "stored": true
+        }
+      }
+    },
+    {
+      "message_id": "MSG-mos-gpt-grok-reply-1791451951",
+      "recipient": "mos-grok",
+      "result": {
+        "status": 201,
+        "body": {
+          "message_id": "MSG-mos-gpt-grok-reply-1791451951",
+          "status": "queued",
+          "stored": true
+        }
+      }
+    }
+  ],
+  "mailbox": {
+    "status": 200,
+    "body": {
+      "messages": [],
+      "node_id": "mos-gpt"
+    }
+  },
+  "public_status": 200,
+  "public_seen": [
+    "MSG-mos-gpt-grok-reply-1791451951",
+    "MSG-mos-gpt-manus-report-1791451951"
+  ],
+  "token_exposed": false
+}
