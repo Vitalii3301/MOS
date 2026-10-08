@@ -1,0 +1,135 @@
+name: MOS Hub Egress Bridge
+
+on:
+  push:
+    paths:
+      - ".github/workflows/mos-hub-egress.yml"
+      - "runtime/hub-egress/request.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mos-hub-egress
+  cancel-in-progress: false
+
+jobs:
+  egress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore one-time private transport key
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mos-hub-egress/private.pem
+          key: mos-hub-egress-rsa-v1
+
+      - name: Ensure RSA transport key
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.cache/mos-hub-egress" runtime/hub-egress
+          if [ ! -s "$HOME/.cache/mos-hub-egress/private.pem" ]; then
+            openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:3072               -out "$HOME/.cache/mos-hub-egress/private.pem" >/dev/null 2>&1
+            chmod 600 "$HOME/.cache/mos-hub-egress/private.pem"
+          fi
+          openssl pkey -in "$HOME/.cache/mos-hub-egress/private.pem" -pubout             -out runtime/hub-egress/public.pem >/dev/null 2>&1
+
+      - name: Publish public transport key
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "mos-hub-egress-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add runtime/hub-egress/public.pem
+          if ! git diff --cached --quiet; then
+            git commit -m "MOS hub egress public key"
+            git push
+          fi
+
+      - name: Execute authenticated Hub request
+        if: ${{ hashFiles('runtime/hub-egress/request.json') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, hashlib, json, subprocess, urllib.error, urllib.request
+          from pathlib import Path
+
+          root = Path("runtime/hub-egress")
+          req = json.loads((root / "request.json").read_text(encoding="utf-8"))
+          cipher = base64.b64decode(req["ciphertext_b64"])
+          Path("/tmp/mos_token.enc").write_bytes(cipher)
+          subprocess.run([
+              "openssl", "pkeyutl", "-decrypt",
+              "-inkey", str(Path.home()/".cache/mos-hub-egress/private.pem"),
+              "-in", "/tmp/mos_token.enc",
+              "-out", "/tmp/mos_token.txt",
+              "-pkeyopt", "rsa_padding_mode:oaep",
+              "-pkeyopt", "rsa_oaep_md:sha256",
+          ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+          token = Path("/tmp/mos_token.txt").read_text(encoding="utf-8").strip()
+          if not token.startswith("mos_") or len(token) < 20:
+              raise SystemExit("decrypted credential failed local shape check")
+
+          hub = req["hub_url"].rstrip("/")
+          envelope = req["envelope"]
+
+          def call(method, url, body=None, auth=True):
+              data = None if body is None else json.dumps(body, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+              headers = {"Accept": "application/json", "User-Agent": "mos-hub-egress/1"}
+              if data is not None:
+                  headers["Content-Type"] = "application/json"
+              if auth:
+                  headers["Authorization"] = "Bearer " + token
+              request = urllib.request.Request(url, data=data, headers=headers, method=method)
+              try:
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      raw = response.read().decode("utf-8", "replace")
+                      try: parsed = json.loads(raw)
+                      except Exception: parsed = {"raw": raw[:4000]}
+                      return {"status": response.status, "body": parsed}
+              except urllib.error.HTTPError as exc:
+                  raw = exc.read().decode("utf-8", "replace")
+                  try: parsed = json.loads(raw)
+                  except Exception: parsed = {"raw": raw[:4000]}
+                  return {"status": exc.code, "body": parsed}
+
+          send = call("POST", hub + "/v1/messages", envelope, True)
+          mailbox = call("GET", hub + "/v1/mailbox/mos-gpt?after=0&limit=100", None, True)
+          public = call("GET", hub + "/v1/public/messages?limit=100", None, False)
+          target_id = envelope["message_id"]
+          public_seen = False
+          if public["status"] == 200 and isinstance(public["body"], dict):
+              public_seen = any(
+                  m.get("message_id") == target_id and m.get("sender") == "mos-gpt"
+                  for m in public["body"].get("messages", [])
+              )
+          result = {
+              "send": send,
+              "mailbox": mailbox,
+              "public_status": public["status"],
+              "public_seen": public_seen,
+              "message_id": target_id,
+              "token_exposed": False,
+          }
+          (root / "result.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+          Path("/tmp/mos_token.txt").unlink(missing_ok=True)
+          Path("/tmp/mos_token.enc").unlink(missing_ok=True)
+          PY
+
+      - name: Persist receipt and remove encrypted request
+        if: ${{ hashFiles('runtime/hub-egress/request.json') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "mos-hub-egress-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add runtime/hub-egress/result.json
+          git rm -f runtime/hub-egress/request.json
+          git commit -m "MOS hub egress receipt"
+          git push
