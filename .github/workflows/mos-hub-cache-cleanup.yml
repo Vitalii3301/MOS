@@ -1,0 +1,23 @@
+name: MOS Hub Egress Cache Cleanup
+
+on:
+  push:
+    paths:
+      - ".github/workflows/mos-hub-cache-cleanup.yml"
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete temporary egress cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh cache delete mos-hub-egress-rsa-v1 --repo "$GH_REPO" --confirm || true
+          gh cache list --repo "$GH_REPO" --key mos-hub-egress-rsa-v1
