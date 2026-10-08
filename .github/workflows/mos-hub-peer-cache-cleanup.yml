@@ -1,0 +1,45 @@
+name: MOS Hub Peer Egress Cache Cleanup
+on:
+  push:
+    paths:
+      - ".github/workflows/mos-hub-peer-cache-cleanup.yml"
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Delete peer egress RSA cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os, urllib.request
+          repo=os.environ["REPO"]
+          token=os.environ["GH_TOKEN"]
+          url=f"https://api.github.com/repos/{repo}/actions/caches?key=mos-hub-peer-egress-rsa-v1"
+          req=urllib.request.Request(url,method="DELETE",headers={
+            "Authorization":"Bearer "+token,
+            "Accept":"application/vnd.github+json",
+            "X-GitHub-Api-Version":"2022-11-28",
+            "User-Agent":"mos-cache-cleanup/1"
+          })
+          with urllib.request.urlopen(req,timeout=30) as r:
+              print("cache_delete_status",r.status)
+          PY
+      - name: Remove cleanup workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "mos-hub-cleanup-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -f .github/workflows/mos-hub-peer-cache-cleanup.yml
+          git commit -m "Remove MOS Hub peer egress cache cleanup"
+          git push
