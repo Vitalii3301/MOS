@@ -202,6 +202,106 @@ class IndependentCellTest(unittest.TestCase):
         self.assertEqual((len(new), sum(x["label"] for x in new)), (120, 60))
         self.assertFalse({h(x["text"]) for x in new} & {h(x["text"]) for v in old.values() for x in v})
 
+class SandboxEscapeTest(unittest.TestCase):
+    """2.22.1: mos-grok's escape (a running generator's frame chain reached the runner's import hook and read any file).
+    Each wall is tested on its own: the scan, the clean runner, the empty filesystem."""
+    ESC = (
+        "def meme(x):\n"
+        "    box = []\n"
+        "    def g():\n"
+        "        yield box[0].gi_frame.f_back.f_back\n"
+        "    it = g(); box.append(it); fr = next(it)\n"
+        "    imp = fr.f_globals['_real_import']\n"
+        "    return imp('io').FileIO(x).read().decode()\n")
+    ESC_RAW = (
+        "def meme(x):\n"
+        "    box = []\n"
+        "    def g():\n"
+        "        yield box[0].gi_frame.f_back.f_back\n"
+        "    it = g(); box.append(it); fr = next(it)\n"
+        "    raw = fr.f_globals['_write'].__self__.buffer.raw\n"
+        "    try: return raw.__class__(x).read().decode()\n"
+        "    except Exception as e: return repr(e)[:30]\n")
+    @classmethod
+    def setUpClass(cls):
+        import tempfile as _t
+        cls.dir = _t.mkdtemp(); cls.canary = os.path.join(cls.dir, "canary.txt"); open(cls.canary, "w").write("CANARY-SECRET-42")
+    def test_wall1_scan_rejects_frame_and_format_walks(self):
+        import sandbox
+        self.assertTrue({"attr:gi_frame", "attr:f_back", "attr:f_globals"} <= set(sandbox.scan(self.ESC)))
+        for bad in ("def meme(x):\n    return '{0.gi_frame}'.format(x)\n", "def meme(x):\n    return x.cr_frame\n", "def meme(x):\n    return x.tb_next\n",
+                    "def meme(x):\n    return type(x)\n", "def meme(x):\n    return x._secret\n"):
+            self.assertTrue(sandbox.scan(bad), bad)
+        self.assertEqual(sandbox.scan("import re\ndef meme(x):\n    return re.sub('a', 'b', x).upper().split()\n"), [])
+    def test_wall1_string_based_attribute_walkers_from_allowed_modules(self):
+        # mos-claude-code: attribute access by string through helpers that allowed modules carry as attributes
+        import sandbox
+        for bad in ("from fractions import operator\ndef meme(x):\n    return operator.attrgetter('gi_frame')(x)\n",
+                    "import fractions\ndef meme(x):\n    return fractions.operator.attrgetter('f_globals')(x)\n",
+                    "import statistics\ndef meme(x):\n    return statistics.random.random()\n",
+                    "import string\ndef meme(x):\n    return string.Formatter().get_field('0.gi_frame', [x], {})\n",
+                    "import collections\ndef meme(x):\n    return collections._sys\n"):
+            self.assertTrue(sandbox.scan(bad), bad)
+    def test_wall3_holds_against_string_attribute_access(self):
+        import sandbox
+        src = ("import fractions\ndef meme(x):\n    ag = fractions.operator.attrgetter\n"
+               "    b = ag('__self__')(ag('print')(ag('__builtins__')(ag('__globals__')(ag('__init__')(fractions.Fraction)))))\n"
+               "    try: return ag('open')(b)(x).read()\n    except Exception as e: return repr(e)[:30]\n")
+        r = sandbox.run_source(src, [self.canary], _skip_scan=True)
+        self.assertNotIn("CANARY", json.dumps(r))
+    def test_wall2_no_import_hook_or_os_left_for_frame_walkers(self):
+        import sandbox
+        r = sandbox.run_source(self.ESC, [self.canary], _skip_scan=True)
+        self.assertTrue(r["ok"]); self.assertFalse(r["results"][0]["ok"]); self.assertNotIn("CANARY", json.dumps(r))
+    def test_wall3_empty_filesystem_even_with_a_file_object(self):
+        import sandbox
+        r = sandbox.run_source(self.ESC_RAW, [self.canary], _skip_scan=True)
+        self.assertTrue(r["ok"], r); self.assertNotIn("CANARY", json.dumps(r)); self.assertIn("FileNotFoundError", r["results"][0]["value"])
+        self.assertIn(r["isolation"], ("chroot+nobody", "userns+chroot"))
+    def test_normal_memes_still_work_and_foreign_code_requires_isolation(self):
+        import sandbox
+        src = "import re, collections\nfrom hashlib import sha256\ndef meme(x):\n    c = collections.Counter(re.findall(r'\\w+', x))\n    return [sorted(c.items()), sha256(x.encode()).hexdigest()[:6]]\n"
+        r = sandbox.run_source(src, ["a b a"]); self.assertTrue(r["ok"]); self.assertEqual(r["results"][0]["value"][0], [["a", 2], ["b", 1]])
+        self.assertEqual(sandbox.evaluate_source(src, [{"input": "a", "output": [[["a", 1]], "ca9781"]}])[:2], (1, 1))
+
+class CodeIdentityTest(unittest.TestCase):
+    def test_code_root_depends_only_on_files(self):
+        import code_bundle, gzip as _g, zlib, tempfile as _t, shutil
+        here = os.path.dirname(os.path.abspath(__file__)); r1 = code_bundle.code_root(here)
+        d = _t.mkdtemp()
+        for f in code_bundle.FILES: os.makedirs(os.path.dirname(os.path.join(d, f)) or d, exist_ok=True); shutil.copy(os.path.join(here, f), os.path.join(d, f))
+        self.assertEqual(code_bundle.code_root(d), r1)
+        open(os.path.join(d, "net.py"), "a").write("\n# changed"); self.assertNotEqual(code_bundle.code_root(d), r1)
+        from net_sim import Router
+        self.assertEqual(Node(Router().hub("x"), ":memory:").handle({"op": "rule"})["code_root"], r1)
+
+class CursorTest(unittest.TestCase):
+    def test_start_cursor_is_remembered_before_the_first_message(self):
+        from net_sim import Router
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "c.sqlite"); os.environ["MEMEOS_START_CURSOR"] = "1951"
+            try:
+                n = Node(Router().hub("mos-grok"), p); self.assertEqual(n.cursor(), 1951); n.k.db.close()
+                os.environ.pop("MEMEOS_START_CURSOR")                     # restart without the variable, no message seen yet
+                self.assertEqual(Node(Router().hub("mos-grok"), p).cursor(), 1951)
+            finally: os.environ.pop("MEMEOS_START_CURSOR", None)
+
+class InviteTest(unittest.TestCase):
+    """2.22.1: a new hub identity is created only for the owner identity of the cell, and its token never travels in clear."""
+    def test_seal_roundtrip_and_tamper(self):
+        from node import seal, unseal
+        s = seal(b"secret-token-123", "k1")["sealed"]; self.assertEqual(unseal(s, "k1"), b"secret-token-123"); self.assertNotIn("secret", json.dumps(s))
+        with self.assertRaises(MemeError): unseal(s, "k2")
+        with self.assertRaises(MemeError): unseal({**s, "ct": "00" + s["ct"][2:]}, "k1")
+    def test_only_owner_identity_may_invite(self):
+        from net_sim import Router
+        n = Node(Router().hub("mos-claude"), ":memory:"); n.hub.token = "k"
+        for who in ("mos-grok", "mos-user"):
+            n._sender = who
+            with self.assertRaises(MemeError): n.handle({"op": "invite_node", "node_id": "mos-x"})
+        n._sender = "mos-claude"; os.environ.pop("MOS_HUB_ADMIN_TOKEN", None)
+        with self.assertRaises(MemeError): n.handle({"op": "invite_node", "node_id": "mos-x"})      # no admin token in this cell
+
 class BreedTest(unittest.TestCase):
     """2.20: a cell grows the next version of its gene from its own evidence; judged out-of-fold, then lives the ordinary life cycle."""
     @classmethod
@@ -294,10 +394,6 @@ class CodeMemesTest(unittest.TestCase):
         for src in ("import os\ndef meme(x): return os.listdir('/')", "def meme(x): return open('/etc/passwd').read()",
                     "def meme(x): return ().__class__.__bases__[0].__subclasses__()", "def meme(x): return getattr(x,'a')",
                     "import json\ndef meme(x): return json.codecs.open('/etc/passwd').read()", "def meme(x): return __import__('os')"):
-            self.assertTrue(scan(src), src)
-        # private aliases and string-based attribute access inside allowed imports must not pass the scan
-        for src in ("import collections\ndef meme(x): return collections._sys.platform", "import statistics\ndef meme(x): return statistics.random.random()",
-                    "import fractions\ndef meme(x): return fractions.operator.attrgetter('numerator')(x)", "def meme(x): return x._private"):
             self.assertTrue(scan(src), src)
         for src in ("def meme(x):\n    while True: pass", "def meme(x): return 'a'*(10**10)"):
             r = run_source(src, ["x"]); self.assertFalse(r["ok"] and r["results"][0]["ok"], src)

@@ -313,8 +313,8 @@ def hub_cmd(argv):
         return {"ok": True, "now": "local hub"}
     return {"ok": False, "error": "unknown hub command"}
 
-LIVE_RING = {"mos-claude": ["memeos-cell-b", "mos-grok"], "memeos-cell-b": ["memeos-cell-c"], "memeos-cell-c": ["mos-claude", "memeos-cell-d"],
-             "memeos-cell-d": ["mos-claude"], "mos-grok": ["mos-claude"]}
+LIVE_RING = {"mos-claude": ["memeos-cell-b", "mos-grok", "mos-claude-code"], "memeos-cell-b": ["memeos-cell-c"], "memeos-cell-c": ["mos-claude", "memeos-cell-d"],
+             "memeos-cell-d": ["mos-claude"], "mos-grok": ["mos-claude"], "mos-claude-code": ["mos-claude"]}
 
 def run_cell(argv):
     """Join the live network as an INDEPENDENT cell under your own hub identity (mos_hub_config.json next to the archive,

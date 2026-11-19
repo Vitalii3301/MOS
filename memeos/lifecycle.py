@@ -80,7 +80,8 @@ class SkillKind(Kind):
         k = net.node.k; card = k.card(root); pr = p.get("probes", [])
         if card.get("schema") == "mos-code-meme/v1":              # real code: re-executed only inside the sandbox
             from sandbox import evaluate_source
-            ok, n, _ = evaluate_source(card["source"], pr) if pr else (0, 0, None)
+            ok, n, det = evaluate_source(card["source"], pr, require_isolation=True) if pr else (0, 0, None)   # foreign code: empty filesystem or nothing
+            if det and det.get("error") == "no_filesystem_isolation_here": return False, "no_sandbox_isolation_on_this_host", {"isolation": det.get("isolation")}
         else:
             _, ok, n = evaluate(card["genome"], pr, k.resolve) if pr else (0, 0, 0)
         if not pr or ok < n: return False, "probe_reexecution_failed:%d/%d" % (ok, n), {"probes": [ok, n]}

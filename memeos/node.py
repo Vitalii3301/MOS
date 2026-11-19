@@ -20,7 +20,8 @@ from codememes import CodeMemes
 from modelgen import ModelGenerator
 
 ALLOWED = {"mos-user", "mos-gpt", "mos-grok", "mos-grok-agent", "mos-manus", "mos-claude", "mos-kimi",
-           "mos-gemini", "mos-gemini-aistudio-20261113", "mos-perplexity"}
+           "mos-gemini", "mos-gemini-aistudio-20261113", "mos-perplexity", "mos-claude-code"}
+OWNER_SIDE = {"mos-user", "mos-claude"}          # may ask a cell that holds the hub admin token to create a new identity
 NODE_SCHEMA = "CREATE TABLE IF NOT EXISTS node_inbox(message_id TEXT PRIMARY KEY, seq INTEGER, sender TEXT, status TEXT, reply TEXT, at REAL); " \
               "CREATE TABLE IF NOT EXISTS node_meta(key TEXT PRIMARY KEY, value TEXT)"
 
@@ -79,7 +80,10 @@ class Node:
 
     def cursor(self):
         r = self.k.db.execute("SELECT value FROM node_meta WHERE key='cursor'").fetchone()
-        return int(r[0]) if r else int(os.environ.get("MEMEOS_START_CURSOR", "0"))
+        if r: return int(r[0])
+        # remembered at once (mos-grok: a cell restarted before its first message would otherwise re-read the whole mailbox)
+        start = int(os.environ.get("MEMEOS_START_CURSOR", "0"))
+        self.k.db.execute("INSERT OR IGNORE INTO node_meta VALUES('cursor', ?)", (str(start),)); return start
 
     def solve(self, p):
         """Memetic scheduler: own active meme > verified library meme from the network > composition of
@@ -237,9 +241,24 @@ class Node:
             ensure(isinstance(items, list) and all(isinstance(e, dict) and e.get("label") in (0, 1) and isinstance(e.get("text"), str) for e in items), "bad_evidence")
             n = self.genes.add_evidence(items, source="import:" + str(self._sender)); return {"ok": True, "added": n,
                     "evidence": dict(self.k.db.execute("SELECT label, COUNT(*) FROM skill_evidence GROUP BY label"))}
+        if op == "invite_node":
+            # The owner side asks for a new hub identity. The new token never travels in clear: it is sealed with a keystream
+            # derived from THIS cell's own node token, which only the owner side also holds (the hub stores no tokens in clear).
+            ensure(self._sender in OWNER_SIDE and self._sender == self.hub.node, "only_the_owner_identity_of_this_cell")
+            admin = os.environ.get("MOS_HUB_ADMIN_TOKEN", ""); ensure(admin, "no_admin_token_here")
+            nid = str(p.get("node_id", "")); ensure(nid.startswith("mos-") and 4 < len(nid) <= 40 and all(c.isalnum() or c == "-" for c in nid), "bad_node_id")
+            req = request.Request(self.hub.url + "/v1/nodes/register", method="POST", data=json.dumps({"node_id": nid, "capabilities": p.get("capabilities") or {}}).encode(),
+                                  headers={"Authorization": "Bearer " + admin, "Content-Type": "application/json"})
+            try:
+                with request.urlopen(req, timeout=30) as r: tok = json.loads(r.read())["token"]
+            except error.HTTPError as e: return {"ok": False, "error": "hub_refused:%d" % e.code}
+            return {"ok": True, "node_id": nid, **seal(tok.encode(), self.hub.token)}
         if op == "rule":
             from genememe import RULE_TEXT
-            return {"ok": True, "rule": RULE, "text": RULE_TEXT}
+            import code_bundle
+            try: root = code_bundle.code_root(os.path.dirname(os.path.abspath(__file__)))
+            except OSError: root = None
+            return {"ok": True, "rule": RULE, "text": RULE_TEXT, "code_root": root, "version": __import__("memeos").VERSION}
         if op == "gene_status":
             g = self.genes; q = self.k.db.execute
             return {"ok": True, "active": {k: g.active(k) for k in ("skill_gene",)},
@@ -311,7 +330,7 @@ class Node:
                         if row and d not in have: have.add(d); tables["memes"].append(list(row)); todo.append(d)
                 head = self.k.db.execute("SELECT seq,hash FROM events ORDER BY seq DESC LIMIT 1").fetchone()
                 kinds = dict(self.k.db.execute("SELECT kind, COUNT(*) FROM events GROUP BY kind"))
-                body = {"schema": "mos-cell-snapshot/v1", "cell": self.hub.node, "version": "2.22.1", "at": time.time(), "tables": tables,
+                body = {"schema": "mos-cell-snapshot/v1", "cell": self.hub.node, "version": "2.22.3", "at": time.time(), "tables": tables,
                         "journal": {"events": head[0] if head else 0, "head": head[1] if head else None, "by_kind": kinds, "integrity": self.k.integrity()}}
                 raw = base64.b64encode(gzip.compress(canon(body).encode(), 9)).decode()
                 self.k.db.execute("INSERT OR REPLACE INTO node_meta VALUES('snapshot_cache',?)", (raw,)); snap = (raw,)
@@ -400,7 +419,7 @@ class Node:
                     self._sender = m["sender"]
                     try: reply = self.handle(m["payload"]); status = "done" if reply.get("ok") else "failed"
                     except (MemeError, KeyError, TypeError, ValueError) as e: reply = {"ok": False, "error": type(e).__name__ + ":" + str(e)[:200]}; status = "failed"
-                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.22.1", **reply}
+                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.22.3", **reply}
                 rid = "MSG-memeos-" + sha({"r": mid})[:40]
                 s, err = self.hub.send(m["sender"], "mos-meme-result/v1", reply, rid)
                 if s == 409: status = "reply_already_exists"          # another instance answered earlier; never stall
@@ -436,6 +455,21 @@ def seed_skill_gene(nodes, raw):
     for nd in nodes:
         nd.genes.put_blob(raw); gid = nd.genes.register(card)
         if not nd.genes.active("skill_gene"): nd.genes.activate(gid); nd.skill_gene = nd.genes.load(gid)
+
+def seal(data, key):
+    """Keystream = HMAC-SHA256(key, nonce || counter); returns nonce, ciphertext, and a MAC so tampering is detected."""
+    import hmac
+    nonce = secrets.token_hex(16); ks = b""; i = 0
+    while len(ks) < len(data): ks += hmac.new(key.encode(), (nonce + ":%d" % i).encode(), hashlib.sha256).digest(); i += 1
+    ct = bytes(a ^ b for a, b in zip(data, ks)).hex()
+    return {"sealed": {"nonce": nonce, "ct": ct, "mac": hmac.new(key.encode(), (nonce + ct).encode(), hashlib.sha256).hexdigest(), "scheme": "hmac-sha256-stream/v1"}}
+
+def unseal(sealed, key):
+    import hmac
+    ensure(hmac.compare_digest(hmac.new(key.encode(), (sealed["nonce"] + sealed["ct"]).encode(), hashlib.sha256).hexdigest(), sealed["mac"]), "seal_mac_mismatch")
+    data = bytes.fromhex(sealed["ct"]); ks = b""; i = 0
+    while len(ks) < len(data): ks += hmac.new(key.encode(), (sealed["nonce"] + ":%d" % i).encode(), hashlib.sha256).digest(); i += 1
+    return bytes(a ^ b for a, b in zip(data, ks))
 
 def seed_from_bundle(nodes, app_dir, source_cell="mos-claude"):
     """An independent cell joining the live network starts with the network's gene memes exactly as they are (same ids,
@@ -569,7 +603,7 @@ if __name__ == "__main__":
     if os.environ.get("MEMEOS_SEARCH_CONFIG") and not node.k.db.execute(
             "SELECT 1 FROM active WHERE goal_key=?", (__import__("memeos").goal_key("mos.search_config", {}),)).fetchone():
         node.k.adopt_config(json.loads(os.environ["MEMEOS_SEARCH_CONFIG"]), {"source": "metaevolution.json (2026-11-18)"})
-    print(json.dumps({"message": "memeos-node 2.22.1 started", "memeos_node": "2.22.1", "cells": [n.hub.node for n in nodes],
+    print(json.dumps({"message": "memeos-node 2.22.3 started", "memeos_node": "2.22.3", "cells": [n.hub.node for n in nodes],
                       "network": {n.hub.node: (n.net.peers if n.net else None) for n in nodes}, "model_available": node.model.available,
                       "genes": [{"gene": g.name, "status": g.status} for g in genes] if genes is not None else "off"}), flush=True)
     if os.environ.get("MEMEOS_FORAGE"):

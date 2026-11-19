@@ -181,7 +181,7 @@ def restrict_python(source, cases, check_literals=True):
     except (MemeError, SyntaxError) as e: return {"ok": False, "reason": str(e)[:120]}
     rec = RECORD + body.replace("def meme(", "def _mos_inner(", 1) + \
           "\n\ndef meme(x):\n    _MOS_T.clear()\n    v = _mos_inner(x)\n    return [v, sorted(_MOS_T)]\n"
-    r = run_source(rec, [c["input"] for c in cases])
+    r = run_source(rec, [c["input"] for c in cases], require_isolation=True)          # foreign code
     if not r.get("ok"): return {"ok": False, "reason": "trace_failed:" + str(r.get("error"))}
     seen = set()
     for res, c in zip(r["results"], cases):

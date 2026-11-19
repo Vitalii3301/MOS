@@ -27,7 +27,7 @@
    "scratch_evolution": {
     "ok": true,
     "evaluations": 202962,
-    "seconds": 3.68,
+    "seconds": 3.69,
     "holdout": [
      2,
      2
@@ -51,7 +51,7 @@
    "scratch_evolution": {
     "ok": true,
     "evaluations": 478611,
-    "seconds": 8.69,
+    "seconds": 7.95,
     "holdout": [
      2,
      2
@@ -74,8 +74,8 @@
    },
    "scratch_evolution": {
     "ok": false,
-    "evaluations": 581166,
-    "seconds": 8.69,
+    "evaluations": 580779,
+    "seconds": 7.52,
     "holdout": null
    }
   },
@@ -96,7 +96,7 @@
    "scratch_evolution": {
     "ok": true,
     "evaluations": 380642,
-    "seconds": 5.97,
+    "seconds": 6.27,
     "holdout": [
      2,
      2
