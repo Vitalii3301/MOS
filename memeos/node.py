@@ -26,10 +26,22 @@ NODE_SCHEMA = "CREATE TABLE IF NOT EXISTS node_inbox(message_id TEXT PRIMARY KEY
               "CREATE TABLE IF NOT EXISTS node_meta(key TEXT PRIMARY KEY, value TEXT)"
 
 def js_compat(v):
-    """Make a payload hash-identical under the hub's JavaScript canonicalization (JS prints 1.0 as 1)."""
-    if isinstance(v, float) and v.is_integer() and abs(v) < 2 ** 53: return int(v)
+    """Make a payload hash-identical under the hub's JavaScript canonicalization. JS prints 1.0 as 1 and cannot hold
+    integers of 2^53 and above exactly, so those travel as {"$float": 1} and {"$bigint": "<digits>"} and are restored by
+    the receiving cell (js_restore). Before 2.24 integral floats silently became integers on the way."""
+    if isinstance(v, bool): return v
+    if isinstance(v, int) and abs(v) >= 2 ** 53: return {"$bigint": str(v)}
+    if isinstance(v, float) and v.is_integer() and abs(v) < 2 ** 53: return {"$float": int(v)}     # 2.0 must arrive as 2.0, not 2: probes compare types
     if isinstance(v, dict): return {k: js_compat(x) for k, x in v.items()}
     if isinstance(v, list): return [js_compat(x) for x in v]
+    return v
+
+def js_restore(v):
+    if isinstance(v, dict):
+        if len(v) == 1 and isinstance(v.get("$bigint"), str) and v["$bigint"].lstrip("-").isdigit(): return int(v["$bigint"])
+        if len(v) == 1 and isinstance(v.get("$float"), int) and not isinstance(v.get("$float"), bool): return float(v["$float"])
+        return {k: js_restore(x) for k, x in v.items()}
+    if isinstance(v, list): return [js_restore(x) for x in v]
     return v
 
 class Hub:
@@ -64,7 +76,7 @@ class Node:
         self.agent = Agent(self.k, hub.node + "-agent", generators=[self.model]); self.cm = CodeMemes(self.k)
         self.net = None; self._sender = None; self.forecaster = None; self.skill_gene = None; self.forager = None
         from genememe import GeneMemes
-        self.genes = GeneMemes(self.k)
+        self.genes = GeneMemes(self.k); self.genes.cell = hub.node
         from breed import Breeder
         self.breeder = Breeder(self)
         act = self.genes.active("skill_gene")
@@ -175,17 +187,10 @@ class Node:
     def screen_skill(self, text, barrier_info=False, journal=True):
         """The one path a skill-screening request takes; the life cycle runs it once before a new gene may stay active."""
         import skillgene
-        out = skillgene.skill_report(self.skill_gene, text)
+        out, d = skillgene.screen(self.skill_gene, text, self.barrier)
         if journal:
             self.k.event("skill_screened", {"sha256": hashlib.sha256(text.encode("utf-8", "surrogatepass")).hexdigest(), "verdict": out["verdict"],
                                             "reasons": out["reasons"], "skill_gene_score": out["skill_gene"]["score"]})
-        d = self.barrier.decide(text[:200000], "content", use_external=False) if self.barrier else {"invasive": False, "reasons": []}
-        ov = [r for r in d.get("reasons") or [] if r.startswith("antimeme:") and "override_" in r]
-        if out["verdict"] == "no_signal" and ov:
-            # A third level, proposed by mos-grok: the gene is silent but the text openly tells the reader to drop its instructions.
-            # Measured before switching on: this rule fires on 19 of 1,981 clean-world skills, 0 of 259 benign and 1 of 341
-            # malicious benchmark skills; it exists for blatant attacks the gene has no examples of. Not "malicious".
-            out["verdict"] = "suspicious"; out["reasons"] = ["barrier:" + r.split(":", 1)[1] for r in ov]
         if barrier_info:    # on request only (feedback from mos-grok: shown by default it breeds alarm fatigue)
             out["barrier_info"] = {"invasive": d["invasive"], "reasons": d.get("reasons"), "voting": False,
                                    "meaning": "document-injection barrier; a skill is itself instructions, so it fires on ~29% of benign skills; not part of the verdict"}
@@ -323,11 +328,20 @@ class Node:
                     "lineage": g.lineage(g.active("skill_gene")) if g.active("skill_gene") else [],
                     "evidence": dict(q("SELECT label, COUNT(*) FROM skill_evidence GROUP BY label")),
                     "verdicts": [{"gene": a[:16], "cell": c, "adopted": bool(d), "reason": r,
-                                  **{x: v for x, v in (json.loads(mt or "{}") or {}).items() if x in ("rule", "new", "current", "overall", "field", "left_out_as_fitted", "rule_1_would_say")}}
+                                  **{x: v for x, v in (json.loads(mt or "{}") or {}).items() if x in ("rule", "new", "current", "overall", "clusters", "false_alarm_margin", "field", "left_out_as_fitted", "rule_1_would_say")}}
                                  for a, c, d, r, mt in q("SELECT gene,cell,adopted,reason,metrics FROM gene_verdicts")],
                     "rule": RULE, "active_gene": (lambda c_: c_ and {"id": g.active("skill_gene"), "name": c_["name"], "body_sha256": c_["body_sha256"],
                                                                      "threshold_e4": int(round((c_.get("threshold") or 0) * 10000))})(g.card(g.active("skill_gene")) if g.active("skill_gene") else None),
                     "own_evaluation": g.evaluate_id(g.active("skill_gene")) if g.active("skill_gene") and p.get("evaluate") else None}
+        if op == "withdraw_gene":
+            # the owner side takes back a gene bred in THIS cell that turned out to be flawed: the previous gene is active again,
+            # and the reason stays on record
+            ensure(self._sender in OWNER_SIDE, "owner_only"); g = self.genes; gid = g.active("skill_gene"); c = g.card(gid) if gid else None
+            ensure(c and (c.get("origin") or {}).get("by") == self.hub.node, "active_gene_was_not_bred_here")
+            prev = (c["origin"].get("replaces") or (c.get("parents") or [None])[0]); ensure(prev and g.card(prev), "previous_gene_unknown")
+            g.revert(gid, prev); self.skill_gene = g.load(prev); why = str(p.get("reason", ""))[:300]
+            self.k.db.execute("INSERT OR REPLACE INTO gene_verdicts VALUES(?,?,?,?,?,?)", (gid, self.hub.node, 0, "withdrawn:" + why, canon({"withdrawn": True}), time.time()))
+            self.k.event("gene_withdrawn", {"gene": gid, "restored": prev, "reason": why}); return {"ok": True, "withdrawn": gid, "active": prev}
         if op == "judge_gene":
             # read-only: what the registered rule says about gene A against gene B on this cell's data (ids or unique id prefixes)
             g = self.genes; pick = lambda x: (lambda r: r[0][0] if len(r) == 1 else None)(self.k.db.execute("SELECT id FROM gene_memes WHERE id LIKE ?", (str(x) + "%",)).fetchall())
@@ -420,9 +434,11 @@ class Node:
         done = []
         for m in box.get("messages", []):
             seq, mid = m["stream_seq"], m["message_id"]
+            wire_ok = hashlib.sha256(canon(m.get("payload")).encode()).hexdigest() == m.get("payload_sha256")     # hash of what travelled
+            m = {**m, "payload": js_restore(m.get("payload"))}
             if m["kind"] == "memeos-blob/v1" and self.net is not None and not self.k.db.execute("SELECT 1 FROM node_inbox WHERE message_id=?", (mid,)).fetchone():
                 ok_sender = m["sender"] in ALLOWED or m["sender"] in self.net.members
-                hash_ok = hashlib.sha256(canon(m["payload"]).encode()).hexdigest() == m["payload_sha256"]
+                hash_ok = wire_ok
                 st = "done"
                 try:
                     if ok_sender and hash_ok and isinstance(m["payload"], dict) and "blob_sha256" in m["payload"]: self.net.on_blob_part(m["payload"])
@@ -432,7 +448,7 @@ class Node:
                 done.append({"seq": seq, "op": "blob_part", "status": st})
             if m["kind"] in ("mos-meme-offer/v1", "mos-meme-verdict/v1", "mos-meme-recall/v1") and self.net is not None and not self.k.db.execute("SELECT 1 FROM node_inbox WHERE message_id=?", (mid,)).fetchone():
                 ok_sender = m["sender"] in ALLOWED or m["sender"] in self.net.members
-                hash_ok = hashlib.sha256(canon(m["payload"]).encode()).hexdigest() == m["payload_sha256"]
+                hash_ok = wire_ok
                 try:
                     r = (self.net.on_offer(m["sender"], m["payload"]) if m["kind"] == "mos-meme-offer/v1" else
                          self.net.on_recall(m["sender"], m["payload"]) if m["kind"] == "mos-meme-recall/v1" else self.net.on_verdict(m["sender"], m["payload"])) \
@@ -449,12 +465,12 @@ class Node:
                 member_report = self.net is not None and m["sender"] in self.net.members and \
                     isinstance(m["payload"], dict) and m["payload"].get("op") in ("report_miss", "report_false_alarm")   # peers may send observations only
                 if m["sender"] not in ALLOWED and not member_report: reply = {"ok": False, "error": "sender_not_allowed"}
-                elif hashlib.sha256(canon(m["payload"]).encode()).hexdigest() != m["payload_sha256"]: reply = {"ok": False, "error": "payload_hash_mismatch"}
+                elif not wire_ok: reply = {"ok": False, "error": "payload_hash_mismatch"}
                 else:
                     self._sender = m["sender"]
                     try: reply = self.handle(m["payload"]); status = "done" if reply.get("ok") else "failed"
                     except (MemeError, KeyError, TypeError, ValueError) as e: reply = {"ok": False, "error": type(e).__name__ + ":" + str(e)[:200]}; status = "failed"
-                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.23.0", **reply}
+                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.24.1", **reply}
                 rid = "MSG-memeos-" + sha({"r": mid})[:40]
                 s, err = self.hub.send(m["sender"], "mos-meme-result/v1", reply, rid)
                 if s == 409: status = "reply_already_exists"          # another instance answered earlier; never stall
@@ -530,7 +546,13 @@ def restore_from_hub(nd):
         ensure(all(gene_id(json.loads(r[3])) == r[0] for r in t.get("gene_memes", [])), "backup_gene_hash_mismatch")
         for h, b64 in body.get("gene_bodies", {}).items():
             data = base64.b64decode(b64); ensure(hashlib.sha256(data).hexdigest() == h, "backup_gene_body_mismatch"); nd.genes.put_blob(data)
+        allowed = {"memes", "contracts", "active", "antimemes", "motifs", "foreign_memes", "usage", "net_genes", "net_gene_samples", "net_competence", "net_recalls",
+                   "net_clean_extra", "forecast_memory", "gaps", "gene_memes", "gene_verdicts", "gene_oof", "lifecycle", "forage", "field_seen", "node_meta_cursor"}
         for name, rows in t.items():
+            if name == "skill_evidence":                                     # explicit columns: the table may have grown since the backup
+                for r in rows: db.execute("INSERT OR IGNORE INTO skill_evidence(sha256,label,source,text,at,by) VALUES(?,?,?,?,?,?)", r[:6])
+                continue
+            if name not in allowed: continue                                 # table names never come from the backup body (mos-grok, L2)
             if name == "node_meta_cursor":
                 for k_, v in rows: db.execute("INSERT OR REPLACE INTO node_meta VALUES(?,?)", (k_, v))
                 continue
@@ -680,7 +702,7 @@ if __name__ == "__main__":
     if os.environ.get("MEMEOS_SEARCH_CONFIG") and not node.k.db.execute(
             "SELECT 1 FROM active WHERE goal_key=?", (__import__("memeos").goal_key("mos.search_config", {}),)).fetchone():
         node.k.adopt_config(json.loads(os.environ["MEMEOS_SEARCH_CONFIG"]), {"source": "metaevolution.json (2026-11-18)"})
-    print(json.dumps({"message": "memeos-node 2.23.0 started", "memeos_node": "2.23.0", "cells": [n.hub.node for n in nodes],
+    print(json.dumps({"message": "memeos-node 2.24.1 started", "memeos_node": "2.24.1", "cells": [n.hub.node for n in nodes],
                       "network": {n.hub.node: (n.net.peers if n.net else None) for n in nodes}, "model_available": node.model.available,
                       "genes": [{"gene": g.name, "status": g.status} for g in genes] if genes is not None else "off"}), flush=True)
     if os.environ.get("MEMEOS_FORAGE"):

@@ -207,5 +207,5 @@ class Lifecycle:
         for o, k, r, s, og, a, rs, t in q("SELECT offer_id,kind,ref,sender,origin,adopted,reason,trail FROM lifecycle ORDER BY at DESC LIMIT ?", (limit,)).fetchall():
             lab = json.loads((q("SELECT lab FROM net_offers WHERE offer_id=?", (o,)).fetchone() or ["{}"])[0] or "{}")
             out.append({"offer": o[:12], "kind": k, "ref": (r or "")[:16], "sender": s, "origin": og, "adopted": bool(a), "reason": rs, "trail": json.loads(t),
-                        "numbers": {x: lab.get(x) for x in ("rule", "new", "current", "overall", "paired", "field", "left_out_as_fitted", "rule_1_would_say") if x in lab}})
+                        "numbers": {x: lab.get(x) for x in ("rule", "new", "current", "overall", "clusters", "false_alarm_margin", "paired", "field", "left_out_as_fitted", "rule_1_would_say") if x in lab}})
         return out

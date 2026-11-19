@@ -56,3 +56,15 @@ def skill_report(gene, text):
     ev = gene.card.get("evidence") or {"change_from_parent": gene.card.get("change_from_parent"), "trained_on": gene.card.get("trained_on")}
     return {"ok": True, "verdict": "malicious" if reasons else "no_signal", "reasons": reasons, "skill_gene": sg,
             "evidence": ev, "note": "no_signal is not a guarantee of safety"}
+
+def screen(gene, text, barrier=None):
+    """The whole screen_skill verdict, for cells (node.py) and for people (skillcheck.py): the gene decides
+    malicious / no_signal; when it is silent and the barrier sees an open "drop your instructions" override, the answer is
+    `suspicious` (measured before switching on: 19 of 1,981 clean-world skills, 0 of 259 benign and 1 of 341 malicious
+    benchmark skills). Returns (report, barrier decision)."""
+    out = skill_report(gene, text)
+    d = barrier.decide(text[:200000], "content", use_external=False) if barrier else {"invasive": False, "reasons": []}
+    ov = [r for r in d.get("reasons") or [] if r.startswith("antimeme:") and "override_" in r]
+    if out["verdict"] == "no_signal" and ov:
+        out["verdict"] = "suspicious"; out["reasons"] = ["barrier:" + r.split(":", 1)[1] for r in ov]
+    return out, d

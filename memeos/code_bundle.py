@@ -15,7 +15,7 @@ import gzip, hashlib, io, os, sys, tarfile
 
 FILES = ["memeos.py", "sandbox.py", "codememes.py", "agent.py", "node.py", "tasks.py", "modelgen.py", "barrier.py", "barrier_deploy.json",
          "science.py", "net.py", "immune.py", "emergence.py", "compile.py", "drive.py", "neuro.py", "external_gene.py", "formula.py",
-         "restrict.py", "forecast.py", "skillgene.py", "genememe.py", "forage.py", "lifecycle.py", "breed.py", "code_bundle.py",
+         "restrict.py", "forecast.py", "skillgene.py", "genememe.py", "forage.py", "lifecycle.py", "breed.py", "code_bundle.py", "skillcheck.py",
          "requirements-genes.txt", "genes/cards/horizon_small_pi.json", "genes/cards/chronos2_small_forecaster.json"]
 
 def code_root(root):

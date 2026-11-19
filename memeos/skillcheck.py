@@ -76,13 +76,7 @@ def check(text, gene=None, gene_id=None, barrier=None):
     if not isinstance(text, str) or not text.strip(): raise ValueError("empty text")
     if len(text) > MAX_TEXT: raise ValueError("text larger than %d characters" % MAX_TEXT)
     if gene is None: gene, gene_id = active_gene()
-    rep = SG.skill_report(gene, text)          # the same verdict function the live cells' screen_skill uses
-    if rep["verdict"] == "no_signal":
-        b = barrier if barrier is not None else _barrier()
-        if b is not None:
-            d = b.decide(text[:200000], "content", use_external=False)
-            ov = [r for r in d.get("reasons") or [] if r.startswith("antimeme:") and "override_" in r]
-            if ov: rep["verdict"] = "suspicious"; rep["reasons"] = ["barrier:" + r.split(":", 1)[1] for r in ov]
+    rep = SG.screen(gene, text, barrier if barrier is not None else _barrier())[0]     # the one verdict function the live cells use
     up, down = explain(gene, text)
     sg = rep["skill_gene"]
     return {"verdict": rep["verdict"], "level": LEVELS[rep["verdict"]], "level_ru": LEVELS_RU[rep["verdict"]],
