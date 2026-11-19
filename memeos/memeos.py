@@ -22,7 +22,7 @@ from __future__ import annotations
 import difflib, hashlib, json, random, sqlite3, time, re
 from dataclasses import dataclass
 
-VERSION = "2.22.3"
+VERSION = "2.23.0"
 
 def canon(v) -> str:
     return json.dumps(v, sort_keys=True, separators=(",", ":"), ensure_ascii=False)

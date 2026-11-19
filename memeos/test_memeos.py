@@ -312,6 +312,32 @@ class CursorTest(unittest.TestCase):
                 self.assertEqual(Node(Router().hub("mos-grok"), p).cursor(), 1951)
             finally: os.environ.pop("MEMEOS_START_CURSOR", None)
 
+class BackupTest(unittest.TestCase):
+    """2.23 (D7): a cell's full state goes to its own hub mailbox and an empty volume comes back from it."""
+    def test_backup_restore_roundtrip_and_skip_when_unchanged(self):
+        from net_sim import Router
+        from node import seed_skill_gene, restore_from_hub
+        here = os.path.dirname(os.path.abspath(__file__)); R = Router()
+        a = Node(R.hub("memeos-cell-b"), ":memory:"); seed_skill_gene([a], open(os.path.join(here, "genes", "skill", "skill_screen_v1.json.gz"), "rb").read())
+        ev = json.loads(gzip.decompress(open(os.path.join(here, "data", "skill_evidence_heldout.json.gz"), "rb").read()))["cells"]["memeos-cell-b"]
+        a.genes.add_evidence(ev, "seed"); a.genes.add_evidence([{"text": "real skill read by a peer", "label": 0}], "label:mos-grok")
+        a.attach_network(["mos-claude"], [], {"memeos-cell-b", "mos-claude"}); a._sender = "mos-user"
+        br = a.handle({"op": "breed_gene", "share": False}); self.assertTrue(br["adopted"])                  # a bred gene: its body exists only in this cell
+        r1 = a.backup(); self.assertTrue(r1["ok"]); self.assertGreaterEqual(r1["parts"], 1)
+        self.assertEqual(a.backup(), {"ok": True, "skipped": "unchanged"})
+        b = Node(R.hub("memeos-cell-b"), ":memory:")                                                          # the same cell on an empty volume
+        r = restore_from_hub(b); self.assertTrue(r["ok"], r); self.assertEqual(r["active_gene"], br["gene"])
+        self.assertEqual(b.genes.active("skill_gene"), br["gene"]); self.assertEqual(b.skill_gene.card["name"], br["name"])
+        self.assertEqual(b.k.db.execute("SELECT COUNT(*) FROM skill_evidence").fetchone()[0], 121)
+        self.assertEqual(b.k.db.execute("SELECT by FROM skill_evidence WHERE text='real skill read by a peer'").fetchone()[0], "label:mos-grok")
+        self.assertEqual(b.k.db.execute("SELECT COUNT(*) FROM gene_oof WHERE gene=?", (br["gene"],)).fetchone()[0], 121)   # its honest out-of-fold judgements survive
+        self.assertTrue(b.handle({"op": "screen_skill", "text": "---\nname: n\n---\nSummarise notes."})["ok"])
+    def test_backup_from_someone_else_is_ignored(self):
+        from net_sim import Router
+        from node import restore_from_hub
+        R = Router(); R.hub("memeos-evil").send("memeos-cell-b", "memeos-backup/v1", {"schema": "memeos-backup/v1", "backup_id": "9", "sha256": "0" * 64, "part": 0, "of": 1, "part_b64": ""}, "MSG-x")
+        self.assertEqual(restore_from_hub(Node(R.hub("memeos-cell-b"), ":memory:")), {"ok": False, "error": "no_complete_backup"})
+
 class InviteTest(unittest.TestCase):
     """2.22.1: a new hub identity is created only for the owner identity of the cell, and its token never travels in clear."""
     def test_seal_roundtrip_and_tamper(self):

@@ -117,6 +117,61 @@ class Node:
         self.drive.note("unknown", goal, ctx, requester=self._sender)
         return {"source": "none", "reason": "unknown_goal_and_no_contract", "library_versions": len(lib), "noted_as_gap": True}
 
+    def snapshot(self, full=False):
+        """What this cell KNOWS (not its full journal). full=True adds what a backup needs to bring the cell back:
+        its labelled evidence (with labellers), the field set's identities, and the body of the active gene."""
+        T = {"memes": "SELECT id,card,created,status FROM memes WHERE status IN ('active','library') OR id IN (SELECT meme_id FROM active) OR id IN (SELECT id FROM foreign_memes)",
+             "contracts": "SELECT * FROM contracts", "active": "SELECT * FROM active", "antimemes": "SELECT * FROM antimemes", "motifs": "SELECT * FROM motifs",
+             "foreign_memes": "SELECT * FROM foreign_memes", "usage": "SELECT * FROM usage", "net_genes": "SELECT * FROM net_genes",
+             "net_gene_samples": "SELECT * FROM net_gene_samples", "net_competence": "SELECT * FROM net_competence", "net_recalls": "SELECT * FROM net_recalls",
+             "net_clean_extra": "SELECT * FROM net_clean_extra", "forecast_memory": "SELECT * FROM forecast_memory", "gaps": "SELECT * FROM gaps",
+             "gene_memes": "SELECT * FROM gene_memes", "gene_verdicts": "SELECT * FROM gene_verdicts", "gene_oof": "SELECT * FROM gene_oof", "lifecycle": "SELECT * FROM lifecycle",
+             "forage": "SELECT * FROM forage"}
+        if full: T.update(skill_evidence="SELECT sha256,label,source,text,at,by FROM skill_evidence", field_seen="SELECT * FROM field_seen",
+                          node_meta_cursor="SELECT key,value FROM node_meta WHERE key='cursor'")
+        tables = {}
+        for name, q in T.items():
+            try: tables[name] = [list(r) for r in self.k.db.execute(q)]
+            except Exception: tables[name] = []
+        have = {r[0] for r in tables["memes"]}; todo = list(have)          # dependencies of exported memes travel too
+        from memeos import deps as _deps
+        while todo:
+            c = json.loads(self.k.db.execute("SELECT card FROM memes WHERE id=?", (todo.pop(),)).fetchone()[0])
+            for d in (_deps(c["genome"]) if "genome" in c else []) + list(c.get("parents") or []):
+                row = self.k.db.execute("SELECT id,card,created,status FROM memes WHERE id=?", (d,)).fetchone()
+                if row and d not in have: have.add(d); tables["memes"].append(list(row)); todo.append(d)
+        head = self.k.db.execute("SELECT seq,hash FROM events ORDER BY seq DESC LIMIT 1").fetchone()
+        kinds = dict(self.k.db.execute("SELECT kind, COUNT(*) FROM events GROUP BY kind"))
+        body = {"schema": "mos-cell-snapshot/v1", "cell": self.hub.node, "version": __import__("memeos").VERSION, "at": time.time(), "tables": tables,
+                "journal": {"events": head[0] if head else 0, "head": head[1] if head else None, "by_kind": kinds, "integrity": self.k.integrity()}}
+        if full:
+            import base64
+            bodies = {}
+            for gid, card in self.k.db.execute("SELECT id, card FROM gene_memes WHERE status='active'"):
+                h = json.loads(card)["body_sha256"]; raw = self.genes.blob(h)
+                if raw: bodies[h] = base64.b64encode(raw).decode()
+            body["gene_bodies"] = bodies
+        return body
+
+    def backup(self, force=False):
+        """D7: the cell's full snapshot goes to its OWN hub mailbox in parts, only when it changed since the last backup.
+        The hub keeps it on another machine; `restore_from_hub` brings a cell back from it on an empty volume."""
+        import base64
+        body = self.snapshot(full=True); stable = {k: v for k, v in body.items() if k not in ("at", "journal")}
+        state = hashlib.sha256(canon(stable).encode()).hexdigest()
+        if not force and (self.k.db.execute("SELECT value FROM node_meta WHERE key='backup_state'").fetchone() or [None])[0] == state:
+            return {"ok": True, "skipped": "unchanged"}
+        raw = gzip.compress(canon(body).encode(), 9); sha_ = hashlib.sha256(raw).hexdigest(); P = 150000
+        parts = [raw[i:i + P] for i in range(0, len(raw), P)]; bid = "%d-%s" % (int(time.time()), sha_[:12]); sent = 0
+        for i, pt in enumerate(parts):
+            st_, _ = self.hub.send(self.hub.node, "memeos-backup/v1", {"schema": "memeos-backup/v1", "backup_id": bid, "sha256": sha_, "part": i, "of": len(parts),
+                                                                     "version": body["version"], "part_b64": base64.b64encode(pt).decode()}, "MSG-backup-%s-%s-%d" % (self.hub.node, bid, i))
+            sent += st_ in (200, 201)
+        ok = sent == len(parts)
+        if ok: self.k.db.execute("INSERT OR REPLACE INTO node_meta VALUES('backup_state', ?)", (state,))
+        self.k.event("backup_sent", {"backup_id": bid, "sha256": sha_, "parts": len(parts), "ok": ok, "bytes": len(raw)})
+        return {"ok": ok, "backup_id": bid, "parts": len(parts), "bytes": len(raw)}
+
     def screen_skill(self, text, barrier_info=False, journal=True):
         """The one path a skill-screening request takes; the life cycle runs it once before a new gene may stay active."""
         import skillgene
@@ -253,6 +308,8 @@ class Node:
                 with request.urlopen(req, timeout=30) as r: tok = json.loads(r.read())["token"]
             except error.HTTPError as e: return {"ok": False, "error": "hub_refused:%d" % e.code}
             return {"ok": True, "node_id": nid, **seal(tok.encode(), self.hub.token)}
+        if op == "backup_now":
+            ensure(self._sender in OWNER_SIDE, "owner_only"); return self.backup(force=bool(p.get("force")))
         if op == "rule":
             from genememe import RULE_TEXT
             import code_bundle
@@ -309,29 +366,7 @@ class Node:
             import base64
             snap = self.k.db.execute("SELECT value FROM node_meta WHERE key='snapshot_cache'").fetchone() if p.get("part", 0) else None
             if snap is None:
-                T = {"memes": "SELECT id,card,created,status FROM memes WHERE status IN ('active','library') OR id IN (SELECT meme_id FROM active) OR id IN (SELECT id FROM foreign_memes)",
-                     "contracts": "SELECT * FROM contracts", "active": "SELECT * FROM active", "antimemes": "SELECT * FROM antimemes", "motifs": "SELECT * FROM motifs",
-                     "foreign_memes": "SELECT * FROM foreign_memes", "usage": "SELECT * FROM usage", "net_genes": "SELECT * FROM net_genes",
-                     "net_gene_samples": "SELECT * FROM net_gene_samples", "net_competence": "SELECT * FROM net_competence", "net_recalls": "SELECT * FROM net_recalls",
-                     "net_clean_extra": "SELECT * FROM net_clean_extra", "forecast_memory": "SELECT * FROM forecast_memory", "gaps": "SELECT * FROM gaps",
-                     "gene_memes": "SELECT * FROM gene_memes", "gene_verdicts": "SELECT * FROM gene_verdicts", "gene_oof": "SELECT * FROM gene_oof", "lifecycle": "SELECT * FROM lifecycle",
-                     "forage": "SELECT * FROM forage"}
-                tables = {}
-                for name, q in T.items():
-                    try: tables[name] = [list(r) for r in self.k.db.execute(q)]
-                    except Exception: tables[name] = []
-                # dependencies of exported memes must travel too
-                have = {r[0] for r in tables["memes"]}; todo = list(have)
-                from memeos import deps as _deps
-                while todo:
-                    c = json.loads(self.k.db.execute("SELECT card FROM memes WHERE id=?", (todo.pop(),)).fetchone()[0])
-                    for d in (_deps(c["genome"]) if "genome" in c else []) + list(c.get("parents") or []):
-                        row = self.k.db.execute("SELECT id,card,created,status FROM memes WHERE id=?", (d,)).fetchone()
-                        if row and d not in have: have.add(d); tables["memes"].append(list(row)); todo.append(d)
-                head = self.k.db.execute("SELECT seq,hash FROM events ORDER BY seq DESC LIMIT 1").fetchone()
-                kinds = dict(self.k.db.execute("SELECT kind, COUNT(*) FROM events GROUP BY kind"))
-                body = {"schema": "mos-cell-snapshot/v1", "cell": self.hub.node, "version": "2.22.3", "at": time.time(), "tables": tables,
-                        "journal": {"events": head[0] if head else 0, "head": head[1] if head else None, "by_kind": kinds, "integrity": self.k.integrity()}}
+                body = self.snapshot()
                 raw = base64.b64encode(gzip.compress(canon(body).encode(), 9)).decode()
                 self.k.db.execute("INSERT OR REPLACE INTO node_meta VALUES('snapshot_cache',?)", (raw,)); snap = (raw,)
             raw = snap[0]; size = 150000; n = max(1, -(-len(raw) // size)); i = int(p.get("part", 0)); ensure(0 <= i < n, "bad_part")
@@ -419,7 +454,7 @@ class Node:
                     self._sender = m["sender"]
                     try: reply = self.handle(m["payload"]); status = "done" if reply.get("ok") else "failed"
                     except (MemeError, KeyError, TypeError, ValueError) as e: reply = {"ok": False, "error": type(e).__name__ + ":" + str(e)[:200]}; status = "failed"
-                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.22.3", **reply}
+                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.23.0", **reply}
                 rid = "MSG-memeos-" + sha({"r": mid})[:40]
                 s, err = self.hub.send(m["sender"], "mos-meme-result/v1", reply, rid)
                 if s == 409: status = "reply_already_exists"          # another instance answered earlier; never stall
@@ -470,6 +505,43 @@ def unseal(sealed, key):
     data = bytes.fromhex(sealed["ct"]); ks = b""; i = 0
     while len(ks) < len(data): ks += hmac.new(key.encode(), (sealed["nonce"] + ":%d" % i).encode(), hashlib.sha256).digest(); i += 1
     return bytes(a ^ b for a, b in zip(data, ks))
+
+def restore_from_hub(nd):
+    """Bring an empty cell back from the newest complete backup in its own mailbox (sent by itself, sha256 checked)."""
+    import base64
+    sets, after = {}, 0
+    while True:
+        st, box = nd.hub.call("GET", f"/v1/mailbox/{nd.hub.node}?after={after}&limit=200")
+        ms = (box or {}).get("messages", []) if st == 200 else []
+        if not ms: break
+        for m in ms:
+            after = max(after, m["stream_seq"]); p = m.get("payload") or {}
+            if m["kind"] == "memeos-backup/v1" and m["sender"] == nd.hub.node and hashlib.sha256(canon(p).encode()).hexdigest() == m["payload_sha256"]:
+                sets.setdefault(p["backup_id"], {})[int(p["part"])] = p
+    for bid in sorted(sets, reverse=True):
+        ps = sets[bid]; first = next(iter(ps.values()))
+        if len(ps) != int(first["of"]): continue
+        raw = b"".join(base64.b64decode(ps[i]["part_b64"]) for i in range(int(first["of"])))
+        if hashlib.sha256(raw).hexdigest() != first["sha256"]: continue
+        body = json.loads(gzip.decompress(raw)); t = body["tables"]; db = nd.k.db
+        from memeos import meme_id
+        from genememe import gene_id
+        ensure(all(meme_id(json.loads(r[1])) == r[0] for r in t["memes"]), "backup_meme_hash_mismatch")
+        ensure(all(gene_id(json.loads(r[3])) == r[0] for r in t.get("gene_memes", [])), "backup_gene_hash_mismatch")
+        for h, b64 in body.get("gene_bodies", {}).items():
+            data = base64.b64decode(b64); ensure(hashlib.sha256(data).hexdigest() == h, "backup_gene_body_mismatch"); nd.genes.put_blob(data)
+        for name, rows in t.items():
+            if name == "node_meta_cursor":
+                for k_, v in rows: db.execute("INSERT OR REPLACE INTO node_meta VALUES(?,?)", (k_, v))
+                continue
+            for r in rows:
+                try: db.execute(f"INSERT OR IGNORE INTO {name} VALUES({','.join('?' * len(r))})", r)
+                except Exception: pass
+        act = nd.genes.active("skill_gene")
+        if act: nd.skill_gene = nd.genes.load(act)
+        nd.k.event("restored_from_hub_backup", {"backup_id": bid, "source_version": body["version"], "journal_head": body["journal"]["head"], "memes": len(t["memes"])})
+        return {"ok": True, "backup_id": bid, "active_gene": act, "evidence": len(t.get("skill_evidence", []))}
+    return {"ok": False, "error": "no_complete_backup"}
 
 def seed_from_bundle(nodes, app_dir, source_cell="mos-claude"):
     """An independent cell joining the live network starts with the network's gene memes exactly as they are (same ids,
@@ -578,6 +650,11 @@ if __name__ == "__main__":
         if nd.hub.node in peers or data.get(nd.hub.node): nd.attach_network(peers.get(nd.hub.node, []), data.get(nd.hub.node, []), members)
     node = nodes[0]
     genes = _attach_genes(nodes, os.path.dirname(os.path.abspath(a.db)))
+    if os.environ.get("MEMEOS_RESTORE_FROM_HUB") == "1":     # D7: an empty volume comes back from the cell's own backup on the hub
+        for nd in nodes:
+            if not nd.k.db.execute("SELECT 1 FROM gene_memes LIMIT 1").fetchone() and not nd.k.db.execute("SELECT 1 FROM skill_evidence LIMIT 1").fetchone():
+                try: print(json.dumps({"message": f"{nd.hub.node} restore from hub backup", **restore_from_hub(nd)}), flush=True)
+                except Exception as e: print(json.dumps({"message": f"{nd.hub.node} restore failed", "error": type(e).__name__ + ":" + str(e)[:120]}), flush=True)
     if os.environ.get("MEMEOS_SEED_BUNDLE"):          # an independent cell started from the portable archive
         try:
             print(json.dumps({"message": "seeded from bundle", "active_gene": seed_from_bundle(nodes, os.environ["MEMEOS_SEED_BUNDLE"])}), flush=True)
@@ -603,7 +680,7 @@ if __name__ == "__main__":
     if os.environ.get("MEMEOS_SEARCH_CONFIG") and not node.k.db.execute(
             "SELECT 1 FROM active WHERE goal_key=?", (__import__("memeos").goal_key("mos.search_config", {}),)).fetchone():
         node.k.adopt_config(json.loads(os.environ["MEMEOS_SEARCH_CONFIG"]), {"source": "metaevolution.json (2026-11-18)"})
-    print(json.dumps({"message": "memeos-node 2.22.3 started", "memeos_node": "2.22.3", "cells": [n.hub.node for n in nodes],
+    print(json.dumps({"message": "memeos-node 2.23.0 started", "memeos_node": "2.23.0", "cells": [n.hub.node for n in nodes],
                       "network": {n.hub.node: (n.net.peers if n.net else None) for n in nodes}, "model_available": node.model.available,
                       "genes": [{"gene": g.name, "status": g.status} for g in genes] if genes is not None else "off"}), flush=True)
     if os.environ.get("MEMEOS_FORAGE"):
@@ -617,6 +694,11 @@ if __name__ == "__main__":
         if a.loop and time.time() - last_reflect >= reflect_every:
             last_reflect = time.time()
             for nd in nodes:
+                try:
+                    if time.time() - float((nd.k.db.execute("SELECT value FROM node_meta WHERE key='backup_at'").fetchone() or ["0"])[0]) > float(os.environ.get("MEMEOS_BACKUP_SECONDS", "86400")):
+                        bk = nd.backup(); nd.k.db.execute("INSERT OR REPLACE INTO node_meta VALUES('backup_at', ?)", (str(time.time()),))
+                        print(json.dumps({"message": f"{nd.hub.node} backup", **bk}), flush=True)
+                except Exception: traceback.print_exc()
                 try:
                     if nd.net is not None and nd.skill_gene is not None and nd.breeder.due() and nd.budget_take("breed_gene"):
                         br = nd.breeder.breed()      # enough new labelled evidence: grow the next gene version here

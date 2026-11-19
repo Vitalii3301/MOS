@@ -1,11 +1,12 @@
 {
  "name": "MemeOS",
- "version": "2.22.3",
+ "version": "2.23.0",
  "date": "2026-11-19",
  "files": {
+  "COLLABORATION-RU.md": "1644e00bef121986d02771a6a3a27abb69b281c09d34acdd60ca3e442f5ba486",
   "Dockerfile": "622bd664895c98d91c82cb63815e944b1f50f018b4c06ff47b8c1a5f693e1536",
-  "OFFLINE_MANIFEST.json": "adeebc9959f42ba4b46c22f73e17554c37301e033f4cf35eeda491c117232780",
-  "README-RU.md": "93500e0a047c73151bd98d41edc124eba61109decb75321c8e7f59d3a2690164",
+  "OFFLINE_MANIFEST.json": "071c3c0433892a7edb214050c24cdbb12043be0bcb815c6da64f40a0b0e37ef8",
+  "README-RU.md": "9e6b4ed0beb9590d8d04f1f89b90006753b34c3c939fbec0d7719d2e0b2e8214",
   "agent.py": "4627a0ffc09aa57abc82ecacba2e175b81843f16b8187dd288d0d9ceaab84220",
   "agent_demo.py": "6694597e9340eca36a712dfea9761c8e0d769923fab8c18b335edcf1168e410b",
   "barrier.py": "e7530b40836eaffe85137293e9c480761b56b72c78a19bd1e9350502fd67c1eb",
@@ -84,7 +85,7 @@
   "evidence/skills_genes.py": "c4c75e4da700a9fab41bfa657814fcdfc1cf72d93cf0948a61025e572ea46a64",
   "evidence/skills_hashgene.py": "aacdfb2fe7c08d8894c7e3d77259e7c14d7b24be7f61db8b480d180fd5b0f00f",
   "evidence/skills_learn.py": "cc0aaad4fe3c1ab36bbd7ec0b2db35f104d309b8aa6f549202676cf3bc53d76d",
-  "evidence/tests.txt": "35febefb232abf2387174ac57adcfff2344d2fadd94c1482f1168933d97662f0",
+  "evidence/tests.txt": "55b9ef1312cf41ee1d0a303d35d0ef2d5f88b59fee713e66bd5c92b3c61677aa",
   "evidence/tolerance_live_20261118.json": "85665afeb389092057aa67a0619e955b3a9d8aa4abe8de1fe0bc17da892ce50b",
   "evidence/tolerance_sim.json": "1c414318b500026b6502b7f94c9b1861972524510743992ad8f2febe4c4f5f5a",
   "evidence/trojan_baseline_20261118.json": "18f41588ab0a67132c2ef2f0ffb1b4396af182fc9076859e08be2856df176903",
@@ -105,7 +106,7 @@
   "immune.py": "70f5b3ceb63a90e4e24b5a0bf5f454b8db0051cc3088570dad0720e7f96ca42b",
   "lifecycle.py": "b0afdabfa242055f827bd730c943ff039cc504425384c49b462abc9b95537f6c",
   "localhub.py": "0736c01a9c60bca862f2506be3e98ae110ea38f4e90e89bf193cb6b63193c5fb",
-  "memeos.py": "b8209a76d51b0eb20ce25e2db59620fc1f05d7f7f15262d98fc96cf76901d7bc",
+  "memeos.py": "057865f187228c5f79b868531a5f87a22919f236b128d56deb9b43c27b8bee01",
   "meta_bench.py": "0b4b3fc0b0a30fdbcac0dde04a70edbf92f66f6c2f7f8c39c01981b1bf39a3fc",
   "metaevolve.py": "3efd533de85479543fe5dee7eff17d8ad4d4a0aa2ac6fab2f5d5cc8078384ac5",
   "modelgen.py": "d8f357a2b3f3255f4bc044737695535f4d98dcac668dd414106173f9bb661a83",
@@ -115,7 +116,7 @@
   "net_sim.py": "8cb048dfa118120cf3b7886b3d2e6357d55bcfc591f04929b49b952e7847f201",
   "neuro.py": "56e98c0ce4d3681b23df32f1c4e531d4586640ef4f47bd84fd1ddfeebe32e4e3",
   "neuro_experiment.py": "553ba9ee8039a72418588255b3292220e26585c670de05b8ea0298e69fe8f8aa",
-  "node.py": "ed9bc3134bcdc8405d99344cf7e69c2bcf051f50e0b6d41a0ffdbba76d07c304",
+  "node.py": "9692144047eee00c76bcd49f5c7ac9d47f69ecf0692830dc950442a64f93552b",
   "offline_check.py": "695657bcc33f8ce2fd86975adf2b8016f631af661cd28769822d455aaca636f1",
   "portable/START_HERE.md": "38df8f5092a5fd82b59bb793997e281ccb8989f10c374da3bd6376b74c3e71dc",
   "portable/__main__.py": "5402da4544db1af50eb66ac18696f06eef0487d8c5ff1e46096c7c768c44f84a",
@@ -129,15 +130,15 @@
   "skillgene.py": "9936ffe83178942bfab3460aa087837c87f37c37e3274521d248c222cc849294",
   "snapshots/cells.json.gz": "c8f2d47c7ad38ba5499a512be3b4424f85413659b91163ac3cb736fedaf30e70",
   "tasks.py": "e0cea68f19e4d4c0d571c9b7293c4a913ea60e480554947e7fddd9463d951b92",
-  "test_memeos.py": "a2902933f592e6b46c1de643f97ef92e5eded4bc85e6b62f8d6dd782e40c4440",
+  "test_memeos.py": "b2f847cee070d09e06957ee27b0635c8c9fca18821e3cf730382a8227e3dd95f",
   "tolerance_sim.py": "3cbef3f36c4f3a09b77af83ebeae050eb2cce00d7e4e8743544829e5b30d5e35",
   "trojan_suite.py": "7fe121eac3e85d1f1aa6284e9a4fe4f1f558691b03ff451c7920cab51a067178",
   "verify_release.py": "53053fef10192cf66355fba294e6a76bda992fbdc59b40f11484a6d57c31060b"
  },
  "live": {
   "second_machine": "memeos-cell-d europe-west4, code seq 1445 sha 9382f4bf",
-  "code": "2.22.3 hub seq 1962/1963, code_root 8ecf544d",
+  "code": "2.23.0 hub seq 2011/2012, code_root a192b8ca",
   "note": "all four live cells run the version in \"code\"; identity to compare: code_root (code_bundle.py, or op \"rule\" on any cell)",
-  "repo_note": "repository tree = MemeOS 2.22.3 (code_root 8ecf544d, unchanged) + skillcheck.py (D5, proposed by mos-claude-code; not in code_bundle.FILES)"
+  "repo_note": "repository tree = MemeOS 2.23.0 (code_root a192b8ca, unchanged) + skillcheck.py (D5, mos-claude-code; not in code_bundle.FILES)"
  }
 }
