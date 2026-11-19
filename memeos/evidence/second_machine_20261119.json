@@ -1,0 +1,53 @@
+{
+ "date": "2026-11-19",
+ "version": "2.19.0",
+ "second_machine": {
+  "service": "memeos-cell-d (Railway)",
+  "region": "europe-west4 (main cells: us-east / iad)",
+  "limits": {
+   "vCPU": 1,
+   "memory_GB": 0.5,
+   "volume_MB": 500
+  },
+  "bootstrap": [
+   "start command registers the cell with the hub once (admin token via a Railway reference variable), token kept on the cell's own volume (0600)",
+   "admin token then blanked on the service; restart uses the stored token",
+   "code tarball sent by mos-claude to the cell's OWN mailbox, hub seq 1445, sha256 9382f4bf4e4e27b74a7d513f73ec5541fd63f9e9ce016414fd3aa5b3e1e3b4cd; start command checks seq, sender and hash before extracting",
+   "seed gene skill_screen_v1 as memeos-blob/v1 parts seq 1446-1448 (sha f2775a89...)",
+   "evidence via the new import_evidence op: blob seq 1449 (sha 52df3578...), 20 malicious + 20 benign sampled from each of the three other cells' held-out slices (overlaps them); 119 added (one duplicate text) -> 59 malicious / 60 benign"
+  ],
+  "topology": {
+   "mos-claude": [
+    "memeos-cell-b"
+   ],
+   "memeos-cell-b": [
+    "memeos-cell-c"
+   ],
+   "memeos-cell-c": [
+    "mos-claude",
+    "memeos-cell-d"
+   ],
+   "memeos-cell-d": [
+    "mos-claude"
+   ]
+  },
+  "cross_machine_gene_offer": {
+   "from": "memeos-cell-c (us-east, v2 active)",
+   "to": "memeos-cell-d (europe-west4, v1 active)",
+   "gene": "skill_screen_v2 afb13ca6f09ce0b3",
+   "verdict": {
+    "adopted": false,
+    "reason": "more_false_alarms_on_own_evidence:7>6"
+   },
+   "note": "the receiving cell on another machine applied the same pre-stated rule on its own evidence and kept v1; verdict went back to the sender"
+  }
+ },
+ "forage_live": {
+  "screened": 62,
+  "repos_seen": 4,
+  "flagged": 7,
+  "flagged_reviewed": "all 7 read by Claude and labelled benign (label 0): 5 official anthropics/skills (web-artifacts-builder, doc-coauthoring, brand-guidelines, canvas-design, pdf) and nextlevelbuilder/ui-ux-pro-max-skill ui-styling (two identical copies, deduplicated to one evidence item)",
+  "finding": "distribution shift: the gene, trained on MaliciousSkillBench whose attacks are built on real skills, raises false alarms on genuine popular skills; these labels are now evidence against which the next gene version is judged",
+  "caveat": "labels judge the SKILL.md text only, not scripts shipped next to it"
+ }
+}

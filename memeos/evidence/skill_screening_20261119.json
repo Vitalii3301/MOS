@@ -1,0 +1,243 @@
+{
+ "date": "2026-11-19",
+ "benchmark": "ProtectSkills/MaliciousSkillBench @ d4b42ce5 (CC-BY-4.0, arXiv 2608.19901): 9,740 real agent skills (7,505 malicious, 2,235 benign) from 13 sources",
+ "protocol": "source_disjoint (test = held-out sources SkillHarm, ATR, SkillFortify: 839 malicious / 545 benign); everything chosen on train/validation only; also m_structural_disjoint",
+ "published_reference": "paper: strongest learned detector (word TF-IDF SVM) Macro-F1 0.665 source-disjoint, recall 95.6% at benign FPR 62.4%",
+ "mos_clean_world": "1,981 SKILL.md files from 62 widely used public repositories (top-starred skills graded safe in jasonzhuyansen/agent-skills-security-grades + official org repos), near-duplicates of ANY benchmark item removed (134), split by repository: 36 repos for fitting, the rest only for the false-alarm gate",
+ "results_source_disjoint": {
+  "deployed_document_barrier": {
+   "ALL": {
+    "recall": 0.166,
+    "fpr": 0.294
+   },
+   "SRC009": {
+    "recall": 0.062,
+    "fpr": 0.0
+   },
+   "SRC011": {
+    "recall": 0.19,
+    "fpr": 0.154
+   },
+   "SRC012": {
+    "recall": 1.0,
+    "fpr": 1.0
+   },
+   "note": "not fit for skills: a skill IS instructions; reported, not voting"
+  },
+  "horizon_external_gene_partial": "2 of first 106 malicious (prompt-injection detector, not malware detector) - dropped",
+  "synthesized_phrase_genes": {
+   "val_recall": [
+    0.761,
+    666
+   ],
+   "val_fpr": [
+    0.006,
+    169
+   ],
+   "own_gate_fpr": 0.019,
+   "test_recall": [
+    0.122,
+    839
+   ],
+   "test_fpr": [
+    0.009,
+    545
+   ]
+  },
+  "learned": {
+   "n": 1384,
+   "paper_like_tfidf_svm": {
+    "recall": 0.958,
+    "fpr": 0.655,
+    "macro_f1": 0.647
+   },
+   "tfidf_lr": {
+    "recall": 0.957,
+    "fpr": 0.648,
+    "macro_f1": 0.651
+   },
+   "tfidf_lr+own_clean_world": {
+    "recall": 0.875,
+    "fpr": 0.402,
+    "macro_f1": 0.744
+   },
+   "mos_gate_fpr0.01": {
+    "recall": 0.567,
+    "fpr": 0.064,
+    "macro_f1": 0.712
+   },
+   "mos_gate_fpr0.05": {
+    "recall": 0.741,
+    "fpr": 0.204,
+    "macro_f1": 0.759
+   }
+  },
+  "deployed_skill_gene_hashed_f16": {
+   "0.01": {
+    "threshold": 1.0307,
+    "val_recall": 0.752,
+    "test_recall": 0.447,
+    "test_fpr": 0.046,
+    "test_macro_f1": 0.643
+   },
+   "0.02": {
+    "threshold": 0.6093,
+    "val_recall": 0.845,
+    "test_recall": 0.57,
+    "test_fpr": 0.11,
+    "test_macro_f1": 0.696
+   },
+   "0.05": {
+    "threshold": 0.3854,
+    "val_recall": 0.884,
+    "test_recall": 0.646,
+    "test_fpr": 0.154,
+    "test_macro_f1": 0.724
+   }
+  }
+ },
+ "results_structural_disjoint": {
+  "n": 1948,
+  "paper_like_tfidf_svm": {
+   "recall": 0.944,
+   "fpr": 0.103,
+   "macro_f1": 0.908
+  },
+  "tfidf_lr": {
+   "recall": 0.918,
+   "fpr": 0.121,
+   "macro_f1": 0.878
+  },
+  "tfidf_lr+own_clean_world": {
+   "recall": 0.92,
+   "fpr": 0.11,
+   "macro_f1": 0.884
+  },
+  "mos_gate_fpr0.01": {
+   "recall": 0.73,
+   "fpr": 0.011,
+   "macro_f1": 0.762
+  },
+  "mos_gate_fpr0.05": {
+   "recall": 0.885,
+   "fpr": 0.092,
+   "macro_f1": 0.859
+  }
+ },
+ "live_2_14_0": {
+  "hub_code_seq": 1307,
+  "skill_gene_blob": "1308,1309,1310:f2775a894ca5ad7511831604e705beaa679fde43f44f250c7e6365ecae54bce9",
+  "sent": {
+   "mal_missed": [
+    "ASB04_000018",
+    "SRC009",
+    0.107,
+    201,
+    1311
+   ],
+   "mal_caught": [
+    "ASB04_000025",
+    "SRC009",
+    1.352,
+    201,
+    1312
+   ],
+   "benign_passed": [
+    "ASB04_007507",
+    "SRC011",
+    0.326,
+    201,
+    1313
+   ],
+   "benign_flagged": [
+    "ASB04_007517",
+    "SRC011",
+    1.82,
+    201,
+    1314
+   ],
+   "official_clean_world": [
+    "HKUDS_DeepTutor/SKILL.md",
+    201,
+    1315
+   ]
+  },
+  "replies": [
+   {
+    "seq": 1316,
+    "verdict": "no_signal",
+    "skill_gene": {
+     "malicious": false,
+     "score": 0.1071,
+     "threshold": 0.6093
+    },
+    "barrier_info": {
+     "invasive": false,
+     "reasons": [],
+     "voting": false
+    }
+   },
+   {
+    "seq": 1317,
+    "verdict": "malicious",
+    "skill_gene": {
+     "malicious": true,
+     "score": 1.3518,
+     "threshold": 0.6093
+    },
+    "barrier_info": {
+     "invasive": true,
+     "reasons": [
+      "content_instruction"
+     ],
+     "voting": false
+    }
+   },
+   {
+    "seq": 1318,
+    "verdict": "no_signal",
+    "skill_gene": {
+     "malicious": false,
+     "score": 0.3255,
+     "threshold": 0.6093
+    },
+    "barrier_info": {
+     "invasive": false,
+     "reasons": [],
+     "voting": false
+    }
+   },
+   {
+    "seq": 1319,
+    "verdict": "malicious",
+    "skill_gene": {
+     "malicious": true,
+     "score": 1.8202,
+     "threshold": 0.6093
+    },
+    "barrier_info": {
+     "invasive": false,
+     "reasons": [],
+     "voting": false
+    }
+   },
+   {
+    "seq": 1320,
+    "verdict": "no_signal",
+    "skill_gene": {
+     "malicious": false,
+     "score": -1.7882,
+     "threshold": 0.6093
+    },
+    "barrier_info": {
+     "invasive": true,
+     "reasons": [
+      "antimeme:system_spoof"
+     ],
+     "voting": false
+    }
+   }
+  ],
+  "reading": "live scores equal offline scores to 4 decimals; the official repo skill would have been blocked by the document barrier (system_spoof) but the skill gene passes it"
+ }
+}

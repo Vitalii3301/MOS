@@ -1,0 +1,152 @@
+{
+ "content_rows": {
+  "pos": 3832,
+  "neg": 9000
+ },
+ "thresholds": {
+  "content": 0.9886870428702086,
+  "prompt": 0.9490365043485323
+ },
+ "val": {
+  "tp": 111,
+  "fp": 22,
+  "fn": 128,
+  "tn": 989,
+  "recall": 0.4644,
+  "fpr": 0.0218,
+  "precision": 0.8346
+ },
+ "val_by_source": {
+  "bipia-email": {
+   "tp": 19,
+   "fp": 0,
+   "fn": 5,
+   "tn": 12,
+   "recall": 0.7917,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "bipia-code": {
+   "tp": 14,
+   "fp": 0,
+   "fn": 6,
+   "tn": 10,
+   "recall": 0.7,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "bipia-table": {
+   "tp": 31,
+   "fp": 0,
+   "fn": 5,
+   "tn": 18,
+   "recall": 0.8611,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "jailbreak_llms": {
+   "tp": 47,
+   "fp": 22,
+   "fn": 112,
+   "tn": 949,
+   "recall": 0.2956,
+   "fpr": 0.0227,
+   "precision": 0.6812
+  }
+ },
+ "test": {
+  "tp": 282,
+  "fp": 40,
+  "fn": 406,
+  "tn": 1089,
+  "recall": 0.4099,
+  "fpr": 0.0354,
+  "precision": 0.8758
+ },
+ "test_by_source": {
+  "bipia-email": {
+   "tp": 51,
+   "fp": 0,
+   "fn": 49,
+   "tn": 50,
+   "recall": 0.51,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "bipia-table": {
+   "tp": 127,
+   "fp": 0,
+   "fn": 73,
+   "tn": 100,
+   "recall": 0.635,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "bipia-code": {
+   "tp": 54,
+   "fp": 2,
+   "fn": 46,
+   "tn": 48,
+   "recall": 0.54,
+   "fpr": 0.04,
+   "precision": 0.9643
+  },
+  "jailbreak_llms": {
+   "tp": 50,
+   "fp": 38,
+   "fn": 238,
+   "tn": 891,
+   "recall": 0.1736,
+   "fpr": 0.0409,
+   "precision": 0.5682
+  }
+ },
+ "external": {
+  "tp": 1,
+  "fp": 0,
+  "fn": 13,
+  "tn": 10,
+  "recall": 0.0714,
+  "fpr": 0.0,
+  "precision": 1.0
+ },
+ "external_by_source": {
+  "pint-example": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 1,
+   "tn": 6,
+   "recall": 0.5,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "taksec": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 8,
+   "tn": 0,
+   "recall": 0.0,
+   "fpr": null,
+   "precision": null
+  },
+  "ru-handwritten": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 4,
+   "tn": 4,
+   "recall": 0.0,
+   "fpr": 0.0,
+   "precision": null
+  }
+ },
+ "concealed_attacks_test": {
+  "n": 183,
+  "caught": 140,
+  "via_concealment_rule": 114
+ },
+ "localization_on_caught_bipia_test": {
+  "caught": 232,
+  "injected_instruction_pinpointed": 229
+ },
+ "seconds": 16.9
+}

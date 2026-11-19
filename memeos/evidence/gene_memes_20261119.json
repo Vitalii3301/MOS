@@ -1,0 +1,174 @@
+{
+ "date": "2026-11-19",
+ "what": "learned detectors as gene memes: lineage, body as blob parts, per-cell labelled evidence, own-evidence adoption gate, verdicts, forwarding only when adopted",
+ "rule_stated_before_the_run": "adopt <=> false_alarms(new) <= false_alarms(current) AND catches(new) >= catches(current) AND strictly better in one, on the receiver's own evidence",
+ "evidence_per_cell": "60 malicious + 60 benign skills from MaliciousSkillBench held-out test sources (SRC009/011/012), disjoint per cell, never used to train or threshold v1/v2",
+ "v2": {
+  "id": "afb13ca6f09ce0b37ca16376f6b0f226771f361cece47ae328ebac8f92248aa5",
+  "parent_v1": "a85e6ee185445d6f444ac7708352f364f158d15634aef291546aa6263117bbd4",
+  "change": "v1 held validation out for the threshold; v2 also learns from validation (+835 skills) and sets the threshold on held-out clean-world repositories only"
+ },
+ "offline_preview": {
+  "mos-claude": {
+   "v1": {
+    "recall": 0.567,
+    "fpr": 0.05,
+    "n": [
+     60,
+     60
+    ]
+   },
+   "v2": {
+    "recall": 0.633,
+    "fpr": 0.05,
+    "n": [
+     60,
+     60
+    ]
+   }
+  },
+  "memeos-cell-b": {
+   "v1": {
+    "recall": 0.55,
+    "fpr": 0.117,
+    "n": [
+     60,
+     60
+    ]
+   },
+   "v2": {
+    "recall": 0.567,
+    "fpr": 0.133,
+    "n": [
+     60,
+     60
+    ]
+   }
+  },
+  "memeos-cell-c": {
+   "v1": {
+    "recall": 0.583,
+    "fpr": 0.067,
+    "n": [
+     60,
+     60
+    ]
+   },
+   "v2": {
+    "recall": 0.633,
+    "fpr": 0.067,
+    "n": [
+     60,
+     60
+    ]
+   }
+  },
+  "report_set_rest": {
+   "v1": {
+    "recall": 0.569,
+    "fpr": 0.115,
+    "n": [
+     659,
+     365
+    ]
+   },
+   "v2": {
+    "recall": 0.595,
+    "fpr": 0.137,
+    "n": [
+     659,
+     365
+    ]
+   }
+  }
+ },
+ "live_2_17_1": {
+  "hub_code_seq": 1378,
+  "import_into_mos_claude": {
+   "adopted": true,
+   "reason": "better_on_own_evidence",
+   "new": {
+    "benign": 60,
+    "catches": 38,
+    "false_alarms": 3,
+    "fpr": 0.05,
+    "malicious": 60,
+    "recall": 0.633
+   },
+   "current": {
+    "benign": 60,
+    "catches": 34,
+    "false_alarms": 3,
+    "fpr": 0.05,
+    "malicious": 60,
+    "recall": 0.567
+   }
+  },
+  "ring_forward": "mos-claude -> memeos-cell-b: rejected (more_false_alarms_on_own_evidence 8>7), not forwarded",
+  "direct_offer": "mos-claude -> memeos-cell-c: adopted (better_on_own_evidence)",
+  "final": {
+   "mos-claude": {
+    "lineage": [
+     "skill_screen_v2:active",
+     "skill_screen_v1:retired"
+    ],
+    "own_evaluation": {
+     "benign": 60,
+     "catches": 38,
+     "false_alarms": 3,
+     "fpr": 0.05,
+     "malicious": 60,
+     "recall": 0.633
+    }
+   },
+   "memeos-cell-b": {
+    "lineage": [
+     "skill_screen_v1:active"
+    ],
+    "own_evaluation": {
+     "benign": 60,
+     "catches": 33,
+     "false_alarms": 7,
+     "fpr": 0.117,
+     "malicious": 60,
+     "recall": 0.55
+    }
+   },
+   "memeos-cell-c": {
+    "lineage": [
+     "skill_screen_v2:active",
+     "skill_screen_v1:retired"
+    ],
+    "own_evaluation": {
+     "benign": 60,
+     "catches": 38,
+     "false_alarms": 4,
+     "fpr": 0.067,
+     "malicious": 60,
+     "recall": 0.633
+    }
+   }
+  },
+  "verdicts_at_origin": [
+   {
+    "adopted": true,
+    "cell": "mos-claude",
+    "gene": "afb13ca6f09ce0b3",
+    "reason": "better_on_own_evidence"
+   },
+   {
+    "adopted": false,
+    "cell": "memeos-cell-b",
+    "gene": "afb13ca6f09ce0b3",
+    "reason": "more_false_alarms_on_own_evidence:8>7"
+   },
+   {
+    "adopted": true,
+    "cell": "memeos-cell-c",
+    "gene": "afb13ca6f09ce0b3",
+    "reason": "better_on_own_evidence"
+   }
+  ]
+ },
+ "reading": "two cells took v2 (+4 catches, same false alarms on their skills), one kept v1 (v2 raised its false alarms 7->8). On the remaining 1,024 held-out skills (report only) v2 catches 59.5% vs 56.9% at 13.7% vs 11.5% false alarms: cell B's caution matches the wider picture."
+}

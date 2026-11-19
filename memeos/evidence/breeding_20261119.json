@@ -1,0 +1,390 @@
+{
+ "date": "2026-11-19",
+ "version": "2.20.0",
+ "architecture": {
+  "lifecycle.py": "one life cycle for skills, antimeme genes and gene memes: screen -> materialize -> evidence -> install (activate + serve once, rollback) -> verdict -> forward; a crashing stage is a refusal; every decision keeps its trail",
+  "breed.py": "a cell breeds the next gene version from its own labelled evidence: parent + sparse logistic correction, judged out-of-fold (5 folds), recipe fixed before any run and never tuned",
+  "evidence": "every item has a source and a labeller; a gene is never judged on items it was fitted on (peers leave them out; the breeder uses stored out-of-fold decisions)"
+ },
+ "adoption_rule": {
+  "now": "significant/v2: exact sign test over all discordant items p<=0.05 in favour of the new gene; not significantly worse on either axis; false-alarm rate within 0.15 or not above the current gene's",
+  "why_changed": "rule 1 decided on single-item differences; all its earlier adoptions/refusals were within noise (see grok_review_20261119.json)",
+  "disclosure": "the switch was made AFTER seeing the first live breeding refused under rule 1 (below). That case motivated the change and is not evidence for the rule; the peers' decisions and the report set are."
+ },
+ "live_run": {
+  "code": {
+   "sha256": "a7932ed66063348d587a4677afffdd008f26070ed592b0806f4c36c95f71424b",
+   "hub_seq": {
+    "mos-claude": 1610,
+    "memeos-cell-d": 1611
+   }
+  },
+  "before": {
+   "mos-claude": {
+    "version": "2.20.0",
+    "active": "skill_screen_v2",
+    "evidence": {
+     "0": 66,
+     "1": 60
+    },
+    "own": {
+     "benign": 66,
+     "catches": 38,
+     "false_alarms": 6,
+     "fpr": 0.091,
+     "left_out_as_fitted": 0,
+     "malicious": 60,
+     "recall": 0.633
+    }
+   },
+   "memeos-cell-b": {
+    "version": "2.20.0",
+    "active": "skill_screen_v1",
+    "evidence": {
+     "0": 60,
+     "1": 60
+    },
+    "own": {
+     "benign": 60,
+     "catches": 33,
+     "false_alarms": 7,
+     "fpr": 0.117,
+     "left_out_as_fitted": 0,
+     "malicious": 60,
+     "recall": 0.55
+    }
+   },
+   "memeos-cell-c": {
+    "version": "2.20.0",
+    "active": "skill_screen_v2",
+    "evidence": {
+     "0": 67,
+     "1": 60
+    },
+    "own": {
+     "benign": 67,
+     "catches": 38,
+     "false_alarms": 4,
+     "fpr": 0.06,
+     "left_out_as_fitted": 0,
+     "malicious": 60,
+     "recall": 0.633
+    }
+   },
+   "memeos-cell-d": {
+    "version": "2.20.0",
+    "active": "skill_screen_v1",
+    "evidence": {
+     "0": 60,
+     "1": 59
+    },
+    "own": {
+     "benign": 60,
+     "catches": 33,
+     "false_alarms": 6,
+     "fpr": 0.1,
+     "left_out_as_fitted": 0,
+     "malicious": 59,
+     "recall": 0.559
+    }
+   }
+  },
+  "1_breeding_under_rule_1": {
+   "name": "skill_screen_v2+mos-claude.g1",
+   "gene": "b9d8335c5d2169399c6252ed15bc8b00587ab955bc439ba048c73af1f2d6a67f",
+   "parent": "afb13ca6f09ce0b37ca16376f6b0f226771f361cece47ae328ebac8f92248aa5",
+   "adopted": false,
+   "reason": "more_false_alarms_on_own_evidence:7>6",
+   "out_of_fold": {
+    "benign": 66,
+    "catches": 48,
+    "false_alarms": 7,
+    "fpr": 0.106,
+    "malicious": 60,
+    "recall": 0.8
+   },
+   "parent_on_same_items": {
+    "benign": 66,
+    "catches": 38,
+    "false_alarms": 6,
+    "fpr": 0.091,
+    "malicious": 60,
+    "recall": 0.633
+   },
+   "paired": {
+    "catches": {
+     "only_current": 1,
+     "only_new": 11,
+     "p_two_sided": 0.006
+    },
+    "difference_is_noise": false,
+    "false_alarms": {
+     "only_current": 1,
+     "only_new": 2,
+     "p_two_sided": 1
+    }
+   },
+   "changed_weights": 32403,
+   "seconds": 1.5,
+   "shared_to": null,
+   "trail": [
+    [
+     "screen",
+     "ok"
+    ],
+    [
+     "materialize",
+     "ok"
+    ],
+    [
+     "evidence",
+     "more_false_alarms_on_own_evidence:7>6"
+    ]
+   ]
+  },
+  "2_breeding_under_rule_2_same_child": {
+   "name": "skill_screen_v2+mos-claude.g1",
+   "gene": "2611da079e54f11cd6797331ed4b175e515019070b5df7a81ec839997dfa0e09",
+   "parent": "afb13ca6f09ce0b37ca16376f6b0f226771f361cece47ae328ebac8f92248aa5",
+   "adopted": true,
+   "reason": "significantly_better_on_own_evidence",
+   "out_of_fold": {
+    "benign": 66,
+    "catches": 48,
+    "false_alarms": 7,
+    "fpr": 0.106,
+    "malicious": 60,
+    "recall": 0.8
+   },
+   "parent_on_same_items": {
+    "benign": 66,
+    "catches": 38,
+    "false_alarms": 6,
+    "fpr": 0.091,
+    "malicious": 60,
+    "recall": 0.633
+   },
+   "paired": {
+    "catches": {
+     "only_current": 1,
+     "only_new": 11,
+     "p_two_sided": 0.006
+    },
+    "difference_is_noise": false,
+    "false_alarms": {
+     "only_current": 1,
+     "only_new": 2,
+     "p_two_sided": 1
+    }
+   },
+   "changed_weights": 32403,
+   "seconds": 2,
+   "shared_to": [
+    "memeos-cell-b"
+   ],
+   "trail": [
+    [
+     "screen",
+     "ok"
+    ],
+    [
+     "materialize",
+     "ok"
+    ],
+    [
+     "evidence",
+     "significantly_better_on_own_evidence"
+    ],
+    [
+     "install",
+     "ok"
+    ]
+   ]
+  },
+  "3_peer_verdicts_each_on_own_evidence": {
+   "memeos-cell-b": {
+    "adopted": true,
+    "reason": "significantly_better_on_own_evidence",
+    "new": {
+     "benign": 60,
+     "catches": 49,
+     "false_alarms": 4,
+     "fpr": 0.067,
+     "malicious": 59,
+     "recall": 0.831
+    },
+    "current": {
+     "benign": 60,
+     "catches": 32,
+     "false_alarms": 7,
+     "fpr": 0.117,
+     "malicious": 59,
+     "recall": 0.542
+    },
+    "paired": {
+     "catches": {
+      "only_current": 0,
+      "only_new": 17,
+      "p_two_sided": 0
+     },
+     "difference_is_noise": false,
+     "false_alarms": {
+      "only_current": 3,
+      "only_new": 0,
+      "p_two_sided": 0.25
+     }
+    },
+    "overall": {
+     "only_current_right": 0,
+     "only_new_right": 20,
+     "p_two_sided": 0
+    },
+    "left_out_as_fitted": 1,
+    "seq": 1618
+   },
+   "memeos-cell-c": {
+    "adopted": true,
+    "reason": "significantly_better_on_own_evidence",
+    "new": {
+     "benign": 67,
+     "catches": 50,
+     "false_alarms": 4,
+     "fpr": 0.06,
+     "malicious": 59,
+     "recall": 0.847
+    },
+    "current": {
+     "benign": 67,
+     "catches": 37,
+     "false_alarms": 4,
+     "fpr": 0.06,
+     "malicious": 59,
+     "recall": 0.627
+    },
+    "paired": {
+     "catches": {
+      "only_current": 0,
+      "only_new": 13,
+      "p_two_sided": 0
+     },
+     "difference_is_noise": false,
+     "false_alarms": {
+      "only_current": 0,
+      "only_new": 0,
+      "p_two_sided": 1
+     }
+    },
+    "overall": {
+     "only_current_right": 0,
+     "only_new_right": 13,
+     "p_two_sided": 0
+    },
+    "left_out_as_fitted": 1,
+    "seq": 1624
+   },
+   "memeos-cell-d": {
+    "adopted": true,
+    "reason": "significantly_better_on_own_evidence",
+    "new": {
+     "benign": 40,
+     "catches": 31,
+     "false_alarms": 2,
+     "fpr": 0.05,
+     "malicious": 39,
+     "recall": 0.795
+    },
+    "current": {
+     "benign": 40,
+     "catches": 20,
+     "false_alarms": 4,
+     "fpr": 0.1,
+     "malicious": 39,
+     "recall": 0.513
+    },
+    "paired": {
+     "catches": {
+      "only_current": 0,
+      "only_new": 11,
+      "p_two_sided": 0.001
+     },
+     "difference_is_noise": false,
+     "false_alarms": {
+      "only_current": 2,
+      "only_new": 0,
+      "p_two_sided": 0.5
+     }
+    },
+    "overall": {
+     "only_current_right": 0,
+     "only_new_right": 13,
+     "p_two_sided": 0
+    },
+    "left_out_as_fitted": 40,
+    "seq": 1630
+   }
+  },
+  "ring": "mos-claude (bred) -> memeos-cell-b -> memeos-cell-c -> memeos-cell-d (second machine, Europe); every cell adopted; cell-d left out the 40 items it shares with the breeder"
+ },
+ "report_set_no_cell_holds": {
+  "what": "the remaining 1,024 held-out skills of MaliciousSkillBench source_disjoint/test (659 malicious, 365 benign) + 712 clean-world SKILL.md files from held-out repositories",
+  "results": {
+   "v1": {
+    "catches": 375,
+    "malicious": 659,
+    "false_alarms": 42,
+    "benign": 365,
+    "recall": 0.569,
+    "fpr": 0.115,
+    "clean_world_gate_repos_false_alarms": "11/712"
+   },
+   "v2": {
+    "catches": 392,
+    "malicious": 659,
+    "false_alarms": 50,
+    "benign": 365,
+    "recall": 0.595,
+    "fpr": 0.137,
+    "clean_world_gate_repos_false_alarms": "15/712"
+   },
+   "child": {
+    "catches": 555,
+    "malicious": 659,
+    "false_alarms": 25,
+    "benign": 365,
+    "recall": 0.842,
+    "fpr": 0.068,
+    "clean_world_gate_repos_false_alarms": "20/712"
+   },
+   "child_vs_v2_discordant": {
+    "only_child_right": 193,
+    "only_v2_right": 5,
+    "p": 1.2314364929436383e-50
+   },
+   "malicious_by_source(n, v2 catches, child catches)": {
+    "SRC009": [
+     571,
+     328,
+     494
+    ],
+    "SRC012": [
+     73,
+     53,
+     51
+    ],
+    "SRC011": [
+     15,
+     11,
+     10
+    ]
+   }
+  },
+  "reading": "child: recall 84.2% vs 59.5% (v2), false alarms 6.8% vs 13.7%; 193 items only the child gets right vs 5 only v2 does."
+ },
+ "limits": [
+  "the gain is on the benchmark's held-out sources, mostly SRC009 (494 vs 328 of 571); on SRC012 and SRC011 the child is 2 and 1 catches behind v2: it learned these sources' style from 126 examples, generalisation to unseen sources is not shown",
+  "on real clean-world skills the child raises slightly more false alarms: 20/712 vs 15/712 (v2) and 11/712 (v1)",
+  "a short blatant attack skill is still not flagged (score 0.20, threshold 0.53): no labelled blatant attacks in any cell's evidence yet",
+  "all four cells belong to one owner; their evidence comes from one benchmark plus 13 labelled real skills (6 from forage, 7 from mos-grok)"
+ ],
+ "tests": "116 ran, 0 failures (new: LifecycleTest x3, BreedTest x4; GeneMemeTest rewritten for the new rule)"
+}

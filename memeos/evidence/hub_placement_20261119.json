@@ -1,0 +1,37 @@
+{
+ "date": "2026-11-19",
+ "version": "2.19.1",
+ "question": "can the portable MOS place its hub on Docker / SSH / tunnel / Railway and move its cells there?",
+ "results": {
+  "docker": {
+   "result": "works",
+   "steps": "portable up (local hub) -> hub deploy docker --yes -> cells registered on the container hub -> self-test 11/11 -> docker restart mos-hub -> self-test 11/11 again, hub kept 42 messages on its volume",
+   "found_and_fixed": [
+    "Docker Hub was not reachable from this sandbox; the kit now takes MOS_HUB_BASE_IMAGE (any image with python3) and the error says so",
+    "container command used `python`; now `python3` so plain Debian/Ubuntu images work"
+   ],
+   "test_condition": "base image built locally (python 3.13 + stdlib, 111 MB) because registry pulls are blocked here"
+  },
+  "ssh": {
+   "result": "works",
+   "steps": "hub deploy ssh hubbox --yes -> scp + nohup start as a separate user -> cells moved -> self-test 11/11",
+   "found_and_fixed": [
+    "an alias from ~/.ssh/config was used as the hub's DNS name; now resolved with `ssh -G`",
+    "note added: nohup start does not survive a reboot of that host"
+   ],
+   "test_condition": "the 'remote' host was sshd on 127.0.0.1:2222 under another user on the same machine, not a separate server"
+  },
+  "tunnel": {
+   "result": "not run",
+   "why": "opening a public tunnel from this sandbox was refused by the sandbox's safety policy; not worked around",
+   "checked": "without --yes the deploy refuses with needs_explicit_consent; plan lists tunnel as unavailable when no executable cloudflared/ngrok is present"
+  },
+  "railway": {
+   "result": "hub runs and is publicly reachable; cells were NOT moved onto it from here",
+   "steps": "service mos-hub-placement-test (python:3.12-slim, 0.5 vCPU / 0.25 GB, 500 MB volume), localhub.py shipped in the start command, admin token minted locally (only its sha256 on Railway), domain generated; GET /health -> {ok:true, hub:mos-localhub/1}; /v1/public/nodes -> []",
+   "why_not_moved": "this sandbox's network allowlist lets it reach only the main hub's domain; the new domain returns 403 from the sandbox proxy",
+   "status": "test service left running: its deletion was not approved"
+  }
+ },
+ "cursor_on_switch": "mos.py resets cell and operator cursors when the hub changes, so no message is skipped after moving (verified by the self-tests on the new hubs)"
+}

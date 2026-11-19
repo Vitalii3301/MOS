@@ -1,0 +1,148 @@
+{
+ "base_learned": [
+  "csv_sum",
+  "dedupe_sort",
+  "initials",
+  "reverse_words",
+  "slug",
+  "snake_case",
+  "title_words",
+  "word_count"
+ ],
+ "tasks": {
+  "reverse_then_slug": {
+   "composition": {
+    "ok": true,
+    "evaluations": 16,
+    "seconds": 0.0,
+    "composed_of": [
+     "reverse_words",
+     "slug"
+    ],
+    "holdout": [
+     2,
+     2
+    ]
+   },
+   "scratch_evolution": {
+    "ok": true,
+    "evaluations": 202962,
+    "seconds": 3.69,
+    "holdout": [
+     2,
+     2
+    ]
+   }
+  },
+  "title_then_reverse": {
+   "composition": {
+    "ok": true,
+    "evaluations": 19,
+    "seconds": 0.0,
+    "composed_of": [
+     "reverse_words",
+     "title_words"
+    ],
+    "holdout": [
+     2,
+     2
+    ]
+   },
+   "scratch_evolution": {
+    "ok": true,
+    "evaluations": 478611,
+    "seconds": 7.95,
+    "holdout": [
+     2,
+     2
+    ]
+   }
+  },
+  "reverse_then_initials": {
+   "composition": {
+    "ok": true,
+    "evaluations": 22,
+    "seconds": 0.0,
+    "composed_of": [
+     "reverse_words",
+     "initials"
+    ],
+    "holdout": [
+     2,
+     2
+    ]
+   },
+   "scratch_evolution": {
+    "ok": false,
+    "evaluations": 580779,
+    "seconds": 7.52,
+    "holdout": null
+   }
+  },
+  "reverse_then_snake": {
+   "composition": {
+    "ok": true,
+    "evaluations": 25,
+    "seconds": 0.0,
+    "composed_of": [
+     "reverse_words",
+     "snake_case"
+    ],
+    "holdout": [
+     2,
+     2
+    ]
+   },
+   "scratch_evolution": {
+    "ok": true,
+    "evaluations": 380642,
+    "seconds": 6.27,
+    "holdout": [
+     2,
+     2
+    ]
+   }
+  }
+ },
+ "emergent": {
+  "memes": 12,
+  "probe_inputs": 37,
+  "behaviour_clusters": 12,
+  "convergent_evolution": [],
+  "synonym_goals": [],
+  "hidden_identities": [
+   {
+    "identity": "slug = reverse_words ∘ reverse_then_slug",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "title_words = reverse_words ∘ title_then_reverse",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "initials = reverse_words ∘ reverse_then_initials",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "snake_case = reverse_words ∘ reverse_then_snake",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "title_words = title_then_reverse ∘ reverse_words",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "slug = title_then_reverse ∘ reverse_then_slug",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "initials = title_then_reverse ∘ reverse_then_initials",
+    "evidence_inputs": 37
+   },
+   {
+    "identity": "snake_case = title_then_reverse ∘ reverse_then_snake",
+    "evidence_inputs": 37
+   }
+  ]
+ }
+}

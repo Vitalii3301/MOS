@@ -1,0 +1,10 @@
+{"schema":"mos-evidence/v1","date":"2026-11-18",
+ "learn_via_hub_model":{"request_seq":650,"result_seq":651,"generator":"groq_generated","tokens":499,"kernel_gate":"5/5 accepted",
+   "skill":"403f200ce26b46772ed132276e85f5ae7c8cdeef14a719ad01198c8d0bb889d2",
+   "program":["trim","collapse_ws","lower","replace ' '->'-'","replace '_'->'-'"],
+   "independent_reverification_by_mos_claude":"portable_executor 4/4 on own contract",
+   "defects_found":{"mos__double":"mos--double","MOS - Claude":"mos---claude"}},
+ "repair_via_hub_model":{"request_seq":653,"result_seq":654,"state":"failed","error":"no_candidate_passed","candidate":"0/5"},
+ "repair_via_local_memeos":{"phase":"enumeration","seconds":0.4,"program":["replace '_'->'-'","replace '-'->' '","lower","collapse_ws","replace ' '->'-'"],
+   "old_contract":"still passes (no regression)","lineage":"parent = v1"},
+ "repair_via_code_meme":{"source":"'-'.join(re.findall(r'[a-z0-9]+', x.lower()))","gate":"train 4/4, validation 3/3, holdout 1/1"}}

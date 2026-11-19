@@ -1,0 +1,46 @@
+{
+ "title_then_reverse": {
+  "source": "composition",
+  "output": "One",
+  "composed_of": [
+   "reverse_words",
+   "title_words"
+  ],
+  "evaluations": 18,
+  "expected": "One"
+ },
+ "reverse_then_initials": {
+  "source": "composition",
+  "output": "BA",
+  "composed_of": [
+   "reverse_words",
+   "initials"
+  ],
+  "evaluations": 22,
+  "expected": "BA"
+ },
+ "reverse_then_snake": {
+  "source": "composition",
+  "output": "two_one",
+  "composed_of": [
+   "reverse_words",
+   "snake_case"
+  ],
+  "evaluations": 23,
+  "expected": "two_one"
+ },
+ "library": [
+  {
+   "from": "memeos-cell-b",
+   "goal": "initials"
+  },
+  {
+   "from": "memeos-cell-c",
+   "goal": "snake_case"
+  },
+  {
+   "from": "memeos-cell-b",
+   "goal": "title_words"
+  }
+ ]
+}

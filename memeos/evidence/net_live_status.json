@@ -1,0 +1,90 @@
+{
+ "mos-claude": {
+  "genes": [
+   {
+    "name": "acquired_e8fed3729e",
+    "origin": "mos-claude"
+   }
+  ],
+  "offers": [
+   [
+    "mos-claude",
+    0,
+    true,
+    "own_synthesis"
+   ]
+  ],
+  "verdicts": [
+   {
+    "adopted": true,
+    "cell": "memeos-cell-b",
+    "offer": "72333ff2442c",
+    "reason": "passed_own_lab"
+   },
+   {
+    "adopted": true,
+    "cell": "memeos-cell-c",
+    "offer": "72333ff2442c",
+    "reason": "passed_own_lab"
+   },
+   {
+    "adopted": false,
+    "cell": "memeos-cell-c",
+    "offer": "live-bad-too",
+    "reason": "false_alarms_on_own_clean_corpus:53/208"
+   },
+   {
+    "adopted": false,
+    "cell": "memeos-cell-c",
+    "offer": "live-bad-red",
+    "reason": "lab_rejected:redos_risk:\\([^)]*[+*][^)]*\\)[+*{]"
+   }
+  ]
+ },
+ "memeos-cell-b": {
+  "genes": [
+   {
+    "name": "acquired_e8fed3729e",
+    "origin": "mos-claude"
+   }
+  ],
+  "offers": [
+   [
+    "mos-claude",
+    1,
+    true,
+    "passed_own_lab"
+   ]
+  ],
+  "verdicts": []
+ },
+ "memeos-cell-c": {
+  "genes": [
+   {
+    "name": "acquired_e8fed3729e",
+    "origin": "mos-claude"
+   }
+  ],
+  "offers": [
+   [
+    "memeos-cell-b",
+    2,
+    true,
+    "passed_own_lab"
+   ],
+   [
+    "mos-claude",
+    1,
+    false,
+    "false_alarms_on_own_clean_corpus:53/208"
+   ],
+   [
+    "mos-claude",
+    1,
+    false,
+    "lab_rejected:redos_risk:\\([^)]*[+*][^)]*\\)[+*{]"
+   ]
+  ],
+  "verdicts": []
+ }
+}

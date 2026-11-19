@@ -1,0 +1,35 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "live_node": "memeos-node 2.4.0 (Railway)",
+ "base_skills": {
+  "reverse_words": "enumeration, 194327 evaluations",
+  "slug": "enumeration, 8867 evaluations"
+ },
+ "composite_goal": {
+  "name": "reverse_then_slug",
+  "generator": "memeos-composition",
+  "composed_of": [
+   "reverse_words",
+   "slug"
+  ],
+  "evaluations": 7,
+  "gate": {
+   "train": [
+    3,
+    3
+   ],
+   "validation": [
+    2,
+    2
+   ],
+   "holdout": [
+    2,
+    2
+   ]
+  }
+ },
+ "node_emergence": [
+  "slug = reverse_words ∘ reverse_then_slug"
+ ]
+}

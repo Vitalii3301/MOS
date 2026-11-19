@@ -1,0 +1,51 @@
+{
+ "selected_on_validation": "tfidf word(1,2)+char_wb(3,5), LR C=1",
+ "val_auc": 0.905,
+ "test_auc": 0.738,
+ "operating_points": [
+  {
+   "val_fpr_target": 0.01,
+   "val_recall": 0.252,
+   "test_recall": 0.167,
+   "test_fpr": 0.028,
+   "test_caught": 48,
+   "test_pos": 288,
+   "test_false_alarms": 26,
+   "test_neg": 929
+  },
+  {
+   "val_fpr_target": 0.02,
+   "val_recall": 0.39,
+   "test_recall": 0.247,
+   "test_fpr": 0.0527,
+   "test_caught": 71,
+   "test_pos": 288,
+   "test_false_alarms": 49,
+   "test_neg": 929
+  },
+  {
+   "val_fpr_target": 0.05,
+   "val_recall": 0.66,
+   "test_recall": 0.517,
+   "test_fpr": 0.1604,
+   "test_caught": 149,
+   "test_pos": 288,
+   "test_false_alarms": 149,
+   "test_neg": 929
+  },
+  {
+   "val_fpr_target": 0.1,
+   "val_recall": 0.761,
+   "test_recall": 0.604,
+   "test_fpr": 0.225,
+   "test_caught": 174,
+   "test_pos": 288,
+   "test_false_alarms": 209,
+   "test_neg": 929
+  }
+ ],
+ "previous_deployable_head": {
+  "test_recall": 0.167,
+  "test_fpr": 0.026
+ }
+}

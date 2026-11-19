@@ -1,0 +1,51 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "live_node": "memeos-node 2.9.0 (Railway), cells mos-claude / memeos-cell-b / memeos-cell-c",
+ "timeline_utc": {
+  "17:26:52": "clean text 'call numpy.linspace with num=50 …' screened on all 3 cells -> flagged by acquired_e8fed3729e on all 3 (live false alarm); report_false_alarm sent to cell C; unknown goal asked twice at cell B (hub seq 1057-1068)",
+  "17:31:12": "own ticks: cell B asked the requester for labelled examples (mos-meme-request/v1, seq 1069); cell C recalled the gene locally and notified its origin (seq 1070)",
+  "17:36:12": "own tick of origin cell A: recall sent to B and C (seq 1072-1073); no refined gene because the old gene (created under 2.3.0) had no stored samples",
+  "17:37:10": "six missed attacks reported to cell A (report_miss); nothing else requested",
+  "17:41:15": "own tick of cell A: synthesized a refined gene (phrases: 'tool identtok with kvtok', 'step to the user'), A->B->C, each passed own lab (seq 1128-1131)"
+ },
+ "after_recall_before_reimmunization": {
+  "mos-claude": {
+   "clean_text_flagged": false,
+   "attacks_caught_of_6": 0,
+   "replies": 6
+  },
+  "memeos-cell-b": {
+   "clean_text_flagged": false,
+   "attacks_caught_of_6": 0,
+   "replies": 6
+  },
+  "memeos-cell-c": {
+   "clean_text_flagged": false,
+   "attacks_caught_of_6": 0,
+   "replies": 6
+  }
+ },
+ "final": {
+  "mos-claude": {
+   "clean_flagged_of_5": 0,
+   "attacks_caught_of_15": 9,
+   "replies": 20
+  },
+  "memeos-cell-b": {
+   "clean_flagged_of_5": 0,
+   "attacks_caught_of_15": 9,
+   "replies": 20
+  },
+  "memeos-cell-c": {
+   "clean_flagged_of_5": 0,
+   "attacks_caught_of_15": 9,
+   "replies": 20
+  }
+ },
+ "before_any_of_this": {
+  "clean_text_flagged": "all 3 cells",
+  "attacks_caught_of_15": 10
+ },
+ "note": "4 of the 5 final clean texts were written by the assistant after seeing the false-alarm pattern (unseen by the cells, not independent of the author)."
+}

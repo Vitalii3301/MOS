@@ -1,0 +1,183 @@
+{
+  "events": 96,
+  "errors_per_12_events": [
+    2,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1
+  ],
+  "learning_events": [
+    {
+      "n": 0,
+      "input": "MOS CLAUDE",
+      "output": null,
+      "correct": false,
+      "status": "no_meme",
+      "learned": false,
+      "learning_reason": "need_more_experience"
+    },
+    {
+      "n": 1,
+      "input": "MOS GPT",
+      "output": null,
+      "correct": false,
+      "status": "no_meme",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "2399cfdfca22"
+    },
+    {
+      "n": 12,
+      "input": "Mos_Claude",
+      "output": "mos_claude",
+      "correct": false,
+      "status": "pending",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "f4018efb3fab"
+    },
+    {
+      "n": 24,
+      "input": "  mos  claude ",
+      "output": "--mos--claude-",
+      "correct": false,
+      "status": "pending",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "ad5f39cb6203"
+    },
+    {
+      "n": 36,
+      "input": "mos - claude",
+      "output": "mos---claude",
+      "correct": false,
+      "status": "pending",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "a6629917844e"
+    },
+    {
+      "n": 48,
+      "input": "mos__claude",
+      "output": "mos--claude",
+      "correct": false,
+      "status": "pending",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "35a135e6cbf5"
+    },
+    {
+      "n": 72,
+      "input": "Mos-Claude  ",
+      "output": "mosclaude",
+      "correct": false,
+      "status": "pending",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "5c447236de31"
+    },
+    {
+      "n": 84,
+      "input": "Mos Claude!!",
+      "output": "mos-claude!!",
+      "correct": false,
+      "status": "pending",
+      "learned": true,
+      "learning_reason": "accepted",
+      "new_meme": "bab69d393f25"
+    }
+  ],
+  "final_lineage_newest_first": [
+    {
+      "meme": "bab69d393f25",
+      "program": [
+        "replace[\"-\", \" \"]",
+        "replace[\"_\", \" \"]",
+        "collapse_ws",
+        "lower",
+        "replace[\" \", \"-\"]",
+        "strip_chars[\"!\"]"
+      ]
+    },
+    {
+      "meme": "5c447236de31",
+      "program": [
+        "replace[\"-\", \" \"]",
+        "replace[\"_\", \" \"]",
+        "collapse_ws",
+        "lower",
+        "replace[\" \", \"-\"]"
+      ]
+    },
+    {
+      "meme": "35a135e6cbf5",
+      "program": [
+        "replace[\"-\", \"\"]",
+        "replace[\"_\", \" \"]",
+        "collapse_ws",
+        "lower",
+        "replace[\" \", \"-\"]"
+      ]
+    },
+    {
+      "meme": "a6629917844e",
+      "program": [
+        "replace[\"-\", \"\"]",
+        "collapse_ws",
+        "lower",
+        "replace[\" \", \"-\"]",
+        "replace[\"_\", \"-\"]"
+      ]
+    },
+    {
+      "meme": "ad5f39cb6203",
+      "program": [
+        "collapse_ws",
+        "lower",
+        "replace[\" \", \"-\"]",
+        "replace[\"_\", \"-\"]"
+      ]
+    },
+    {
+      "meme": "f4018efb3fab",
+      "program": [
+        "lower",
+        "replace[\" \", \"-\"]",
+        "replace[\"_\", \"-\"]"
+      ]
+    },
+    {
+      "meme": "2399cfdfca22",
+      "program": [
+        "lower",
+        "replace[\" \", \"-\"]"
+      ]
+    }
+  ],
+  "census": {
+    "by_status": {
+      "active": 1,
+      "candidate": 8,
+      "superseded": 6
+    },
+    "active": [
+      {
+        "meme": "bab69d393f25d4cc015332760a378402d28fad39d87a2ecb1256972bdb9a4e2f",
+        "goal": "Canonical MOS hub node id",
+        "fitness": 0.923,
+        "trials": 11
+      }
+    ]
+  },
+  "ecosystem_tick": {
+    "extinct": [],
+    "dormant": [],
+    "restored": []
+  },
+  "integrity": true,
+  "seconds": 18.0
+}

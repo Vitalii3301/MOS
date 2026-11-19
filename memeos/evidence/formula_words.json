@@ -1,0 +1,94 @@
+{
+ "is_even": {
+  "with_formula_words": {
+   "ok": true,
+   "phase": "formula",
+   "evaluations": 1675,
+   "holdout": [
+    4,
+    4
+   ],
+   "seconds": 0.03
+  },
+  "native_only": {
+   "ok": false,
+   "phase": null,
+   "evaluations": 235273,
+   "holdout": null,
+   "seconds": 2.22
+  }
+ },
+ "divisible_by_3": {
+  "with_formula_words": {
+   "ok": true,
+   "phase": "formula",
+   "evaluations": 2005,
+   "holdout": [
+    4,
+    4
+   ],
+   "seconds": 0.01
+  },
+  "native_only": {
+   "ok": false,
+   "phase": null,
+   "evaluations": 261070,
+   "holdout": null,
+   "seconds": 2.47
+  }
+ },
+ "divisible_by_5": {
+  "with_formula_words": {
+   "ok": true,
+   "phase": "formula",
+   "evaluations": 2665,
+   "holdout": [
+    4,
+    4
+   ],
+   "seconds": 0.01
+  },
+  "native_only": {
+   "ok": false,
+   "phase": null,
+   "evaluations": 299458,
+   "holdout": null,
+   "seconds": 2.9
+  }
+ },
+ "is_negative": {
+  "with_formula_words": {
+   "ok": true,
+   "phase": "formula",
+   "evaluations": 22,
+   "holdout": [
+    4,
+    4
+   ],
+   "seconds": 0.0
+  },
+  "native_only": {
+   "ok": false,
+   "phase": null,
+   "evaluations": 216517,
+   "holdout": null,
+   "seconds": 1.65
+  }
+ },
+ "is_prime": {
+  "with_formula_words": {
+   "ok": false,
+   "phase": null,
+   "evaluations": 278940,
+   "holdout": null,
+   "seconds": 3.51
+  },
+  "native_only": {
+   "ok": false,
+   "phase": null,
+   "evaluations": 278940,
+   "holdout": null,
+   "seconds": 3.37
+  }
+ }
+}

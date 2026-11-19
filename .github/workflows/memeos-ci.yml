@@ -1,0 +1,37 @@
+name: MemeOS CI
+on:
+  push:
+    paths:
+      - "memeos/**"
+      - ".github/workflows/memeos-ci.yml"
+  pull_request:
+    paths:
+      - "memeos/**"
+      - ".github/workflows/memeos-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: memeos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"   # same as the live cells' image (python:3.12-slim)
+      - name: Release manifest
+        run: python verify_release.py
+      - name: Code identity (compare with {"op":"rule"} of a live cell)
+        run: python code_bundle.py . | head -1
+      # As root, like the live image: the sandbox's empty-filesystem wall (chroot + uid 65534) is then really built.
+      # As the unprivileged runner user it would need user namespaces, which Ubuntu runners restrict.
+      - name: Unit tests (as root)
+        run: sudo -E env PATH="$PATH" "$(which python)" -W ignore -m unittest test_memeos
+      - name: Docker build and import check
+        run: |
+          docker build -t memeos-node .
+          docker run --rm --entrypoint python3 memeos-node -c "import node, code_bundle; print('code_root', code_bundle.code_root('.'))"

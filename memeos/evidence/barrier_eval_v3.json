@@ -1,0 +1,241 @@
+{
+ "gene_selection": {
+  "override_instructions": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 103,
+   "pos": 720,
+   "decisive": true
+  },
+  "role_hijack": {
+   "false_alarms": 16,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 12,
+   "pos": 720,
+   "decisive": false
+  },
+  "system_spoof": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 102,
+   "pos": 720,
+   "decisive": true
+  },
+  "ai_addressed": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 125,
+   "pos": 720,
+   "decisive": true
+  },
+  "instead_redirect": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 24,
+   "pos": 720,
+   "decisive": true
+  },
+  "response_manipulation": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  },
+  "exfiltration_link": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  },
+  "prompt_leak": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  },
+  "override_strict": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  },
+  "jailbreak_strict": {
+   "false_alarms": 13,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 12,
+   "pos": 720,
+   "decisive": false
+  },
+  "ru_override": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  },
+  "ru_ai_addressed": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  },
+  "ru_role_hijack": {
+   "false_alarms": 0,
+   "negatives": 2078,
+   "ru_false_alarms": 0,
+   "content_hits": 0,
+   "pos": 720,
+   "decisive": true
+  }
+ },
+ "decisive": [
+  "ai_addressed",
+  "exfiltration_link",
+  "instead_redirect",
+  "override_instructions",
+  "override_strict",
+  "prompt_leak",
+  "response_manipulation",
+  "ru_ai_addressed",
+  "ru_override",
+  "ru_role_hijack",
+  "system_spoof"
+ ],
+ "thresholds": {
+  "content": 0.9936503882776457,
+  "prompt": 0.9526126915589521
+ },
+ "content_rows": {
+  "pos": 3832,
+  "neg": 14000
+ },
+ "content_test": {
+  "tp": 290,
+  "fp": 3,
+  "fn": 110,
+  "tn": 627,
+  "recall": 0.725,
+  "fpr": 0.0048,
+  "precision": 0.9898
+ },
+ "content_test_by_source": {
+  "bipia-email": {
+   "tp": 71,
+   "fp": 0,
+   "fn": 29,
+   "tn": 50,
+   "recall": 0.71,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "bipia-table": {
+   "tp": 151,
+   "fp": 0,
+   "fn": 49,
+   "tn": 100,
+   "recall": 0.755,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "bipia-code": {
+   "tp": 68,
+   "fp": 2,
+   "fn": 32,
+   "tn": 48,
+   "recall": 0.68,
+   "fpr": 0.04,
+   "precision": 0.9714
+  },
+  "benign-en": {
+   "tp": 0,
+   "fp": 1,
+   "fn": 0,
+   "tn": 399,
+   "recall": null,
+   "fpr": 0.0025,
+   "precision": 0.0
+  },
+  "benign-ru": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "tn": 30,
+   "recall": null,
+   "fpr": 0.0,
+   "precision": null
+  }
+ },
+ "external_as_content": {
+  "tp": 9,
+  "fp": 0,
+  "fn": 5,
+  "tn": 10,
+  "recall": 0.6429,
+  "fpr": 0.0,
+  "precision": 1.0
+ },
+ "external_by_source": {
+  "pint-example": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 1,
+   "tn": 6,
+   "recall": 0.5,
+   "fpr": 0.0,
+   "precision": 1.0
+  },
+  "taksec": {
+   "tp": 4,
+   "fp": 0,
+   "fn": 4,
+   "tn": 0,
+   "recall": 0.5,
+   "fpr": null,
+   "precision": 1.0
+  },
+  "ru-handwritten": {
+   "tp": 4,
+   "fp": 0,
+   "fn": 0,
+   "tn": 4,
+   "recall": 1.0,
+   "fpr": 0.0,
+   "precision": 1.0
+  }
+ },
+ "prompt_test": {
+  "tp": 48,
+  "fp": 24,
+  "fn": 240,
+  "tn": 905,
+  "recall": 0.1667,
+  "fpr": 0.0258,
+  "precision": 0.6667
+ },
+ "concealed_attacks_test": {
+  "n": 183,
+  "caught": 136
+ },
+ "localization_on_caught": {
+  "caught": 290,
+  "pinpointed": 274
+ },
+ "seconds": 36.2
+}

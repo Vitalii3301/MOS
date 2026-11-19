@@ -1,0 +1,422 @@
+{
+ "date": "2026-11-19",
+ "preregistration": {
+  "meta_bench.py_sha256": "0b4b3fc0b0a30fdbcac0dde04a70edbf92f66f6c2f7f8c39c01981b1bf39a3fc",
+  "registered_at": "2026-11-19T09:50:34Z",
+  "note": "hash of the protocol before any benchmark run"
+ },
+ "protocol": "meta_bench.py (hash above): 40 fresh realistic tasks x 5 seeds, default vs evolved search config, engine only (enumeration/composition/formula off), solved = gate passed AND 6/6 holdout",
+ "result": {
+  "pairs": 200,
+  "solved": {
+   "default": 105,
+   "evolved": 103
+  },
+  "discordant": {
+   "default_only": 15,
+   "evolved_only": 13
+  },
+  "mcnemar_p_two_sided": 0.8506,
+  "evaluations_when_both_solved": {
+   "pairs": 90,
+   "evolved_cheaper": 34,
+   "evolved_costlier": 21,
+   "sign_test_p": 0.1048,
+   "median_default": 133,
+   "median_evolved": 145
+  },
+  "gate_passed_but_holdout_failed": {
+   "default": 0,
+   "evolved": 0
+  },
+  "tasks_solved_by_neither": [
+   "email_domain",
+   "email_upper_domain",
+   "name_first_lower",
+   "name_swap",
+   "name_initial_last",
+   "csv_sorted_desc",
+   "csv_reverse",
+   "tags_sorted",
+   "tags_first",
+   "tags_hashtags",
+   "sentence_first_word",
+   "sentence_sorted"
+  ],
+  "per_task": {
+   "email_domain": {
+    "default": 0,
+    "evolved": 0
+   },
+   "email_user": {
+    "default": 2,
+    "evolved": 0
+   },
+   "email_upper_domain": {
+    "default": 0,
+    "evolved": 0
+   },
+   "name_last": {
+    "default": 1,
+    "evolved": 0
+   },
+   "name_first_lower": {
+    "default": 0,
+    "evolved": 0
+   },
+   "name_upper": {
+    "default": 5,
+    "evolved": 5
+   },
+   "name_swap": {
+    "default": 0,
+    "evolved": 0
+   },
+   "name_initial_last": {
+    "default": 0,
+    "evolved": 0
+   },
+   "name_underscore": {
+    "default": 1,
+    "evolved": 2
+   },
+   "csv_count": {
+    "default": 2,
+    "evolved": 4
+   },
+   "csv_first": {
+    "default": 4,
+    "evolved": 5
+   },
+   "csv_last": {
+    "default": 3,
+    "evolved": 4
+   },
+   "csv_sorted_desc": {
+    "default": 0,
+    "evolved": 0
+   },
+   "csv_to_spaces": {
+    "default": 2,
+    "evolved": 1
+   },
+   "csv_reverse": {
+    "default": 0,
+    "evolved": 0
+   },
+   "list_sum": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_len": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_first": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_last": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_sorted": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_reversed": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_unique_sorted": {
+    "default": 5,
+    "evolved": 5
+   },
+   "list_top2": {
+    "default": 5,
+    "evolved": 5
+   },
+   "tags_count": {
+    "default": 5,
+    "evolved": 4
+   },
+   "tags_sorted": {
+    "default": 0,
+    "evolved": 0
+   },
+   "tags_upper_comma": {
+    "default": 0,
+    "evolved": 1
+   },
+   "tags_first": {
+    "default": 0,
+    "evolved": 0
+   },
+   "tags_hashtags": {
+    "default": 0,
+    "evolved": 0
+   },
+   "sentence_words": {
+    "default": 3,
+    "evolved": 5
+   },
+   "sentence_upper": {
+    "default": 5,
+    "evolved": 5
+   },
+   "sentence_first_word": {
+    "default": 0,
+    "evolved": 0
+   },
+   "sentence_last_word": {
+    "default": 3,
+    "evolved": 1
+   },
+   "sentence_kebab": {
+    "default": 3,
+    "evolved": 5
+   },
+   "sentence_title": {
+    "default": 5,
+    "evolved": 5
+   },
+   "sentence_sorted": {
+    "default": 0,
+    "evolved": 0
+   },
+   "product_clean": {
+    "default": 5,
+    "evolved": 5
+   },
+   "product_brand": {
+    "default": 3,
+    "evolved": 0
+   },
+   "product_lower_slug": {
+    "default": 3,
+    "evolved": 1
+   },
+   "product_model_num": {
+    "default": 5,
+    "evolved": 5
+   },
+   "padded_trim_lower": {
+    "default": 5,
+    "evolved": 5
+   }
+  }
+ },
+ "conclusion": "no detectable effect: evolved 103/200 vs default 105/200, exact McNemar p=0.85 (13 vs 15 discordant pairs); cost on pairs both solved: evolved cheaper in 34, costlier in 21, sign test p=0.10, medians 145 vs 133 evaluations. The earlier result (26/48 vs 19/48 on 6 tasks x 8 seeds) does not replicate at this sample size; the claim that meta-evolution improved the engine is withdrawn.",
+ "context_full_learn": {
+  "solved_holdout_correct": 38,
+  "of": 40,
+  "unsolved": [
+   "name_initial_last",
+   "tags_hashtags"
+  ],
+  "per_task": {
+   "email_domain": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 12251
+   },
+   "email_user": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 12250
+   },
+   "email_upper_domain": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 12855
+   },
+   "name_last": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 8095
+   },
+   "name_first_lower": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 8430
+   },
+   "name_upper": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 3
+   },
+   "name_swap": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 183203
+   },
+   "name_initial_last": {
+    "solved": false,
+    "phase": null,
+    "evaluations": 1312300
+   },
+   "name_underscore": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 200
+   },
+   "csv_count": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 6027
+   },
+   "csv_first": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 254
+   },
+   "csv_last": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 13997
+   },
+   "csv_sorted_desc": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 529279
+   },
+   "csv_to_spaces": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 35
+   },
+   "csv_reverse": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 231042
+   },
+   "list_sum": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 17
+   },
+   "list_len": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 9
+   },
+   "list_first": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 10
+   },
+   "list_last": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 11
+   },
+   "list_sorted": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 7
+   },
+   "list_reversed": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 6
+   },
+   "list_unique_sorted": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 150
+   },
+   "list_top2": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 2490
+   },
+   "tags_count": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 3315
+   },
+   "tags_sorted": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 201448
+   },
+   "tags_upper_comma": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 190
+   },
+   "tags_first": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 9360
+   },
+   "tags_hashtags": {
+    "solved": false,
+    "phase": null,
+    "evaluations": 687915
+   },
+   "sentence_words": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 1844
+   },
+   "sentence_upper": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 3
+   },
+   "sentence_first_word": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 8094
+   },
+   "sentence_last_word": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 8095
+   },
+   "sentence_kebab": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 27
+   },
+   "sentence_title": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 4
+   },
+   "sentence_sorted": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 184751
+   },
+   "product_clean": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 5
+   },
+   "product_brand": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 9706
+   },
+   "product_lower_slug": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 10973
+   },
+   "product_model_num": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 9707
+   },
+   "padded_trim_lower": {
+    "solved": true,
+    "phase": "enumeration",
+    "evaluations": 174
+   }
+  },
+  "reading": "with its other paths on (enumeration of short programs, composition, formula words) MOS solves 38 of the 40 tasks on seed 0; the evolutionary engine alone solves 105/200 runs, and its tuning does not change that"
+ },
+ "runs_jsonl_lines": 400
+}

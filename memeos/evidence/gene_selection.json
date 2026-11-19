@@ -1,0 +1,119 @@
+{
+ "override_instructions": {
+  "hits": 212,
+  "pos": 1649,
+  "false_alarms": 338,
+  "neg": 4199,
+  "fpr": 0.0805,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "role_hijack": {
+  "hits": 540,
+  "pos": 1649,
+  "false_alarms": 935,
+  "neg": 4199,
+  "fpr": 0.2227,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "system_spoof": {
+  "hits": 108,
+  "pos": 1649,
+  "false_alarms": 3,
+  "neg": 4199,
+  "fpr": 0.0007,
+  "decisive": true,
+  "status": "decisive"
+ },
+ "ai_addressed": {
+  "hits": 161,
+  "pos": 1649,
+  "false_alarms": 23,
+  "neg": 4199,
+  "fpr": 0.0055,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "instead_redirect": {
+  "hits": 51,
+  "pos": 1649,
+  "false_alarms": 35,
+  "neg": 4199,
+  "fpr": 0.0083,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "response_manipulation": {
+  "hits": 0,
+  "pos": 1649,
+  "false_alarms": 0,
+  "neg": 4199,
+  "fpr": 0.0,
+  "decisive": false,
+  "status": "unvalidated"
+ },
+ "exfiltration_link": {
+  "hits": 3,
+  "pos": 1649,
+  "false_alarms": 18,
+  "neg": 4199,
+  "fpr": 0.0043,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "prompt_leak": {
+  "hits": 0,
+  "pos": 1649,
+  "false_alarms": 1,
+  "neg": 4199,
+  "fpr": 0.0002,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "override_strict": {
+  "hits": 37,
+  "pos": 1649,
+  "false_alarms": 301,
+  "neg": 4199,
+  "fpr": 0.0717,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "jailbreak_strict": {
+  "hits": 174,
+  "pos": 1649,
+  "false_alarms": 62,
+  "neg": 4199,
+  "fpr": 0.0148,
+  "decisive": false,
+  "status": "advisory"
+ },
+ "ru_override": {
+  "hits": 0,
+  "pos": 1649,
+  "false_alarms": 0,
+  "neg": 4199,
+  "fpr": 0.0,
+  "decisive": false,
+  "status": "unvalidated"
+ },
+ "ru_ai_addressed": {
+  "hits": 0,
+  "pos": 1649,
+  "false_alarms": 0,
+  "neg": 4199,
+  "fpr": 0.0,
+  "decisive": false,
+  "status": "unvalidated"
+ },
+ "ru_role_hijack": {
+  "hits": 0,
+  "pos": 1649,
+  "false_alarms": 0,
+  "neg": 4199,
+  "fpr": 0.0,
+  "decisive": false,
+  "status": "unvalidated"
+ }
+}

@@ -1,0 +1,10 @@
+breast_cancer {'memetic': 0.9689, 'gradient_only': 0.9706, 'evolution_only': 0.954, 'memetic_no_inheritance': 0.9702, 'logistic_reference': 0.9711}
+wine {'memetic': 0.968, 'gradient_only': 0.9625, 'evolution_only': 0.9042, 'memetic_no_inheritance': 0.95, 'logistic_reference': 0.9791}
+digits {'memetic': 0.9622, 'gradient_only': 0.9593, 'evolution_only': 0.4839, 'memetic_no_inheritance': 0.9599, 'logistic_reference': 0.9657}
+  breast_cancer memetic vs gradient: {'wins': 5, 'losses': 9, 'wilcoxon_p': 0.3923}
+  wine memetic vs gradient: {'wins': 6, 'losses': 6, 'wilcoxon_p': 0.6929}
+  digits memetic vs gradient: {'wins': 12, 'losses': 8, 'wilcoxon_p': 0.322}
+memetic vs gradient-only: {'wins': 23, 'ties': 14, 'losses': 23, 'mean_difference': 0.0022, 'wilcoxon_p': 0.9608}
+inheritance effect: {'wins': 24, 'ties': 20, 'losses': 16, 'mean_difference': 0.0064, 'wilcoxon_p': 0.1462}
+memetic vs logistic reference: {'wins': 10, 'ties': 21, 'losses': 29, 'mean_difference': -0.0056, 'wilcoxon_p': 0.0315} 40.8 s
+exit 0

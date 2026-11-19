@@ -1,0 +1,12 @@
+Ran 107 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.17.2
+Ran 108 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.19.0
+Ran 108 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.19.1
+Ran 110 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.19.2
+Ran 111 tests ... OK (skipped=1 without local model; 5 with loopback down) — 2026-11-19, MemeOS 2.19.3
+Ran 116 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.20.0
+Ran 119 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.21.0
+Ran 121 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.22.0
+Ran 127 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.22.1
+Ran 128 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.22.2
+Ran 131 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.22.3
+Ran 133 tests ... OK (skipped=1 without local model) — 2026-11-19, MemeOS 2.23.0
