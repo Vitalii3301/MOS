@@ -347,6 +347,8 @@ def main(argv):
         os.chdir(APP); os.execv(sys.executable, [sys.executable, "-B", os.path.join(APP, "offline_check.py")])
     if cmd == "cell":
         return run_cell(argv[1:])
+    if cmd == "check":          # check an agent skill before installing it: plain answer, no JSON (see skillcheck.py)
+        os.chdir(APP); os.execv(sys.executable, [sys.executable, "-B", "-W", "ignore", os.path.join(APP, "skillcheck.py")] + argv[1:])
     if cmd == "hub":
         r = hub_cmd(argv[1:]); print(json.dumps(r, indent=1, ensure_ascii=False))
         if r.get("ok") is False: return 1
