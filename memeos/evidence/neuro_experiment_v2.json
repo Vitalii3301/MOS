@@ -1,0 +1,1084 @@
+{
+ "breast_cancer": {
+  "chose_linear_model": 7,
+  "of": 20,
+  "per_seed": [
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9561,
+    "evolution_only": 0.9561,
+    "memetic_no_inheritance": 0.9737,
+    "logistic_reference": 0.9737,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9386,
+    "evolution_only": 0.9737,
+    "memetic_no_inheritance": 0.9737,
+    "logistic_reference": 0.9737,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 64
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9737,
+    "gradient_only": 0.9561,
+    "evolution_only": 0.9474,
+    "memetic_no_inheritance": 0.9561,
+    "logistic_reference": 0.9561,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.1,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9386,
+    "gradient_only": 0.9474,
+    "evolution_only": 0.9386,
+    "memetic_no_inheritance": 0.9474,
+    "logistic_reference": 0.9474,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.5,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9737,
+    "gradient_only": 0.9825,
+    "evolution_only": 0.9825,
+    "memetic_no_inheritance": 0.9825,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      18
+     ],
+     "act": "tanh",
+     "lr": 0.025,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9737,
+    "evolution_only": 0.9474,
+    "memetic_no_inheritance": 0.9649,
+    "logistic_reference": 0.9737,
+    "memetic_genome": {
+     "hidden": [
+      8
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9561,
+    "gradient_only": 0.9912,
+    "evolution_only": 0.9474,
+    "memetic_no_inheritance": 0.9561,
+    "logistic_reference": 0.9825,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9825,
+    "gradient_only": 0.9912,
+    "evolution_only": 0.9737,
+    "memetic_no_inheritance": 0.9825,
+    "logistic_reference": 0.9474,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9386,
+    "evolution_only": 0.9474,
+    "memetic_no_inheritance": 0.9737,
+    "logistic_reference": 0.9561,
+    "memetic_genome": {
+     "hidden": [
+      8
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9474,
+    "gradient_only": 0.9561,
+    "evolution_only": 0.9649,
+    "memetic_no_inheritance": 0.9561,
+    "logistic_reference": 0.9649,
+    "memetic_genome": {
+     "hidden": [
+      8
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9649,
+    "evolution_only": 0.9298,
+    "memetic_no_inheritance": 0.9649,
+    "logistic_reference": 0.9649,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9561,
+    "gradient_only": 0.9649,
+    "evolution_only": 0.9561,
+    "memetic_no_inheritance": 0.9561,
+    "logistic_reference": 0.9561,
+    "memetic_genome": {
+     "hidden": [
+      9
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9737,
+    "gradient_only": 0.9737,
+    "evolution_only": 0.9737,
+    "memetic_no_inheritance": 0.9737,
+    "logistic_reference": 0.9737,
+    "memetic_genome": {
+     "hidden": [
+      8
+     ],
+     "act": "tanh",
+     "lr": 0.1,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9737,
+    "gradient_only": 0.9825,
+    "evolution_only": 0.9298,
+    "memetic_no_inheritance": 0.9561,
+    "logistic_reference": 0.9825,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.07500000000000001,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 1.0,
+    "gradient_only": 0.9912,
+    "evolution_only": 0.9825,
+    "memetic_no_inheritance": 1.0,
+    "logistic_reference": 0.9912,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.03,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9825,
+    "evolution_only": 0.9474,
+    "memetic_no_inheritance": 0.9649,
+    "logistic_reference": 0.9737,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9561,
+    "gradient_only": 0.9737,
+    "evolution_only": 0.9474,
+    "memetic_no_inheritance": 0.9737,
+    "logistic_reference": 0.9825,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9737,
+    "evolution_only": 0.9649,
+    "memetic_no_inheritance": 0.9561,
+    "logistic_reference": 0.9561,
+    "memetic_genome": {
+     "hidden": [
+      8
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9737,
+    "gradient_only": 0.9825,
+    "evolution_only": 0.9386,
+    "memetic_no_inheritance": 0.9649,
+    "logistic_reference": 0.9737,
+    "memetic_genome": {
+     "hidden": [
+      9
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9649,
+    "gradient_only": 0.9912,
+    "evolution_only": 0.9298,
+    "memetic_no_inheritance": 0.9825,
+    "logistic_reference": 0.9912,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.045,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   }
+  ],
+  "mean_test_accuracy": {
+   "memetic": 0.9662,
+   "gradient_only": 0.9706,
+   "evolution_only": 0.954,
+   "memetic_no_inheritance": 0.968,
+   "logistic_reference": 0.9711
+  },
+  "std": {
+   "memetic": 0.0125,
+   "gradient_only": 0.0167,
+   "evolution_only": 0.0166,
+   "memetic_no_inheritance": 0.0125,
+   "logistic_reference": 0.0144
+  },
+  "memetic_vs_gradient_only": {
+   "wins": 5,
+   "losses": 13,
+   "wilcoxon_p": 0.2411
+  }
+ },
+ "wine": {
+  "chose_linear_model": 7,
+  "of": 20,
+  "per_seed": [
+   {
+    "memetic": 0.9722,
+    "gradient_only": 0.9444,
+    "evolution_only": 0.8333,
+    "memetic_no_inheritance": 0.8611,
+    "logistic_reference": 0.9444,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 1.0,
+    "gradient_only": 1.0,
+    "evolution_only": 0.9722,
+    "memetic_no_inheritance": 1.0,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9444,
+    "gradient_only": 0.9444,
+    "evolution_only": 0.9722,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 0.9444,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.045000000000000005,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.8889,
+    "memetic_no_inheritance": 0.9444,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.8333,
+    "gradient_only": 0.7778,
+    "evolution_only": 0.8333,
+    "memetic_no_inheritance": 0.8056,
+    "logistic_reference": 0.9444,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 1.0000000000000003e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9444,
+    "gradient_only": 0.9167,
+    "evolution_only": 0.8889,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.22500000000000003,
+     "l2": 1.0000000000000003e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9167,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.8333,
+    "memetic_no_inheritance": 0.8889,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 1.0,
+    "gradient_only": 1.0,
+    "evolution_only": 0.9167,
+    "memetic_no_inheritance": 0.8611,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9444,
+    "gradient_only": 0.9167,
+    "evolution_only": 0.8333,
+    "memetic_no_inheritance": 0.9444,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.9444,
+    "memetic_no_inheritance": 1.0,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      12
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 1.0,
+    "evolution_only": 0.8889,
+    "memetic_no_inheritance": 0.9167,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 1.0,
+    "gradient_only": 1.0,
+    "evolution_only": 0.8889,
+    "memetic_no_inheritance": 0.9444,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "tanh",
+     "lr": 0.015,
+     "l2": 0.0001,
+     "batch": 64
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9444,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.9444,
+    "memetic_no_inheritance": 1.0,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9444,
+    "gradient_only": 1.0,
+    "evolution_only": 0.9167,
+    "memetic_no_inheritance": 0.9444,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "tanh",
+     "lr": 0.025,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.7778,
+    "memetic_no_inheritance": 1.0,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      16,
+      8
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 1.0,
+    "gradient_only": 1.0,
+    "evolution_only": 1.0,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.8889,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.45000000000000007,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 0.9722,
+    "evolution_only": 1.0,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      9
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9722,
+    "gradient_only": 1.0,
+    "evolution_only": 0.8889,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 1.0,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "relu",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9444,
+    "gradient_only": 0.9444,
+    "evolution_only": 0.9722,
+    "memetic_no_inheritance": 0.9444,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   }
+  ],
+  "mean_test_accuracy": {
+   "memetic": 0.9597,
+   "gradient_only": 0.9625,
+   "evolution_only": 0.9042,
+   "memetic_no_inheritance": 0.9444,
+   "logistic_reference": 0.9791
+  },
+  "std": {
+   "memetic": 0.0367,
+   "gradient_only": 0.0499,
+   "evolution_only": 0.0605,
+   "memetic_no_inheritance": 0.052,
+   "logistic_reference": 0.0194
+  },
+  "memetic_vs_gradient_only": {
+   "wins": 4,
+   "losses": 5,
+   "wilcoxon_p": 0.3438
+  }
+ },
+ "digits": {
+  "chose_linear_model": 4,
+  "of": 20,
+  "per_seed": [
+   {
+    "memetic": 0.9806,
+    "gradient_only": 0.9778,
+    "evolution_only": 0.4361,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 0.975,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "tanh",
+     "lr": 0.1,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9694,
+    "gradient_only": 0.9528,
+    "evolution_only": 0.4583,
+    "memetic_no_inheritance": 0.9528,
+    "logistic_reference": 0.9667,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.5,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9778,
+    "gradient_only": 0.9778,
+    "evolution_only": 0.4889,
+    "memetic_no_inheritance": 0.95,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "tanh",
+     "lr": 0.1,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9778,
+    "gradient_only": 0.9639,
+    "evolution_only": 0.4694,
+    "memetic_no_inheritance": 0.9694,
+    "logistic_reference": 0.9833,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.45000000000000007,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9611,
+    "gradient_only": 0.9528,
+    "evolution_only": 0.4472,
+    "memetic_no_inheritance": 0.9611,
+    "logistic_reference": 0.9639,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "relu",
+     "lr": 0.05,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9333,
+    "gradient_only": 0.9417,
+    "evolution_only": 0.5167,
+    "memetic_no_inheritance": 0.9444,
+    "logistic_reference": 0.9472,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.95,
+    "gradient_only": 0.95,
+    "evolution_only": 0.55,
+    "memetic_no_inheritance": 0.9417,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 16
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.95,
+    "gradient_only": 0.9472,
+    "evolution_only": 0.4778,
+    "memetic_no_inheritance": 0.9361,
+    "logistic_reference": 0.95,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "relu",
+     "lr": 0.30000000000000004,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9778,
+    "gradient_only": 0.9778,
+    "evolution_only": 0.4583,
+    "memetic_no_inheritance": 0.9806,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      48
+     ],
+     "act": "tanh",
+     "lr": 0.45000000000000007,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9389,
+    "gradient_only": 0.9417,
+    "evolution_only": 0.5056,
+    "memetic_no_inheritance": 0.9556,
+    "logistic_reference": 0.95,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "relu",
+     "lr": 0.15000000000000002,
+     "l2": 0.001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9611,
+    "gradient_only": 0.9722,
+    "evolution_only": 0.4861,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 0.975,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "relu",
+     "lr": 0.1,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9472,
+    "gradient_only": 0.9556,
+    "evolution_only": 0.4167,
+    "memetic_no_inheritance": 0.9194,
+    "logistic_reference": 0.95,
+    "memetic_genome": {
+     "hidden": [
+      18
+     ],
+     "act": "tanh",
+     "lr": 0.5,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9583,
+    "gradient_only": 0.9556,
+    "evolution_only": 0.4583,
+    "memetic_no_inheritance": 0.9639,
+    "logistic_reference": 0.9639,
+    "memetic_genome": {
+     "hidden": [
+      32
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9556,
+    "gradient_only": 0.9611,
+    "evolution_only": 0.4889,
+    "memetic_no_inheritance": 0.9639,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 1e-05,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.95,
+    "gradient_only": 0.9472,
+    "evolution_only": 0.5278,
+    "memetic_no_inheritance": 0.9528,
+    "logistic_reference": 0.9611,
+    "memetic_genome": {
+     "hidden": [
+      16
+     ],
+     "act": "tanh",
+     "lr": 0.15000000000000002,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9611,
+    "gradient_only": 0.95,
+    "evolution_only": 0.4306,
+    "memetic_no_inheritance": 0.9611,
+    "logistic_reference": 0.9583,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "tanh",
+     "lr": 0.1,
+     "l2": 0.001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9611,
+    "gradient_only": 0.9778,
+    "evolution_only": 0.525,
+    "memetic_no_inheritance": 0.9694,
+    "logistic_reference": 0.9722,
+    "memetic_genome": {
+     "hidden": [],
+     "act": "tanh",
+     "lr": 0.30000000000000004,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": true
+   },
+   {
+    "memetic": 0.9639,
+    "gradient_only": 0.9556,
+    "evolution_only": 0.4667,
+    "memetic_no_inheritance": 0.9583,
+    "logistic_reference": 0.9639,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "tanh",
+     "lr": 0.30000000000000004,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9583,
+    "gradient_only": 0.9583,
+    "evolution_only": 0.4778,
+    "memetic_no_inheritance": 0.9528,
+    "logistic_reference": 0.9639,
+    "memetic_genome": {
+     "hidden": [
+      64
+     ],
+     "act": "tanh",
+     "lr": 0.05,
+     "l2": 0.0001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   },
+   {
+    "memetic": 0.9778,
+    "gradient_only": 0.9694,
+    "evolution_only": 0.5917,
+    "memetic_no_inheritance": 0.9722,
+    "logistic_reference": 0.9806,
+    "memetic_genome": {
+     "hidden": [
+      24
+     ],
+     "act": "tanh",
+     "lr": 0.1,
+     "l2": 0.001,
+     "batch": 32
+    },
+    "memetic_is_linear": false
+   }
+  ],
+  "mean_test_accuracy": {
+   "memetic": 0.9606,
+   "gradient_only": 0.9593,
+   "evolution_only": 0.4839,
+   "memetic_no_inheritance": 0.9575,
+   "logistic_reference": 0.9657
+  },
+  "std": {
+   "memetic": 0.0131,
+   "gradient_only": 0.012,
+   "evolution_only": 0.0417,
+   "memetic_no_inheritance": 0.0142,
+   "logistic_reference": 0.0102
+  },
+  "memetic_vs_gradient_only": {
+   "wins": 10,
+   "losses": 6,
+   "wilcoxon_p": 0.6412
+  }
+ },
+ "memetic_vs_gradient_only": {
+  "wins": 19,
+  "ties": 17,
+  "losses": 24,
+  "mean_difference": -0.002,
+  "wilcoxon_p": 0.2929
+ },
+ "inheritance_effect": {
+  "wins": 22,
+  "ties": 17,
+  "losses": 21,
+  "mean_difference": 0.0055,
+  "wilcoxon_p": 0.4428
+ },
+ "memetic_vs_logistic_reference": {
+  "wins": 12,
+  "ties": 14,
+  "losses": 34,
+  "mean_difference": -0.0098,
+  "wilcoxon_p": 0.0006
+ },
+ "seconds": 38.0
+}

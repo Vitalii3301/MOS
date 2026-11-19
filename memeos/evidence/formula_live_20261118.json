@@ -1,0 +1,53 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "live_node": "memeos-node 2.10.0 (Railway)",
+ "source_of_idea": "owner-supplied fork MemeOS-2.9.0-self-extension-experiment.zip (sha256 e3d60563c8c5…); its report was reproduced bit-exactly here (derived-ops registry sha256 00ea0b2e5882…) before integration",
+ "steps": {
+  "cell_b_learn_divisible_by_3": {
+   "generator": "memeos-formula",
+   "formula": "(x % 3) == 0",
+   "evaluations": 2005,
+   "gate": {
+    "train": [
+     6,
+     6
+    ],
+    "validation": [
+     3,
+     3
+    ],
+    "holdout": [
+     4,
+     4
+    ]
+   },
+   "model_calls": 0,
+   "shared_to": [
+    "memeos-cell-c"
+   ]
+  },
+  "cell_a_vocabulary_after_propagation": [
+   {
+    "formula": "((x % 3) == 0)",
+    "goal": "divisible_by_3",
+    "meme": "a883005aa971",
+    "origin": "formula_synthesis"
+   }
+  ],
+  "cell_a_solve_word_count_divisible_by_3": {
+   "source": "composition",
+   "output": true,
+   "composed_of": [
+    "word_count",
+    "divisible_by_3"
+   ],
+   "evaluations": 133
+  },
+  "cell_a_second_request": {
+   "source": "own_active",
+   "output": false
+  }
+ },
+ "offline": "evidence/formula_words.json — 4 of 5 integer tasks solved by a formula word in 22–2,665 evaluations (≤0.03 s); native evolution solved none of them in 216k–300k evaluations; is_prime is outside the grammar for both"
+}

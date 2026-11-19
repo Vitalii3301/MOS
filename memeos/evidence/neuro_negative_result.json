@@ -1,0 +1,56 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "question": "Does the memetic hybrid (evolution + lifetime learning + inheritance of learned weights) beat its parts at an equal training budget?",
+ "data": "sklearn bundled real datasets: breast_cancer, wine, digits; 20 random 60/20/20 splits each; test split used once",
+ "first_look_5_splits": "hybrid looked +1.6 pp better than plain training — an artefact of too few splits",
+ "v1_20_splits": "see neuro_experiment_v1_summary.txt: hybrid vs plain training 23/14/23, p=0.96; vs logistic regression 10/21/29, p=0.03",
+ "v2_20_splits_post_hoc_revision": {
+  "memetic_vs_gradient_only": {
+   "wins": 19,
+   "ties": 17,
+   "losses": 24,
+   "mean_difference": -0.002,
+   "wilcoxon_p": 0.2929
+  },
+  "inheritance_effect": {
+   "wins": 22,
+   "ties": 17,
+   "losses": 21,
+   "mean_difference": 0.0055,
+   "wilcoxon_p": 0.4428
+  },
+  "memetic_vs_logistic_reference": {
+   "wins": 12,
+   "ties": 14,
+   "losses": 34,
+   "mean_difference": -0.0098,
+   "wilcoxon_p": 0.0006
+  }
+ },
+ "v2_mean_test_accuracy": {
+  "breast_cancer": {
+   "memetic": 0.9662,
+   "gradient_only": 0.9706,
+   "evolution_only": 0.954,
+   "memetic_no_inheritance": 0.968,
+   "logistic_reference": 0.9711
+  },
+  "wine": {
+   "memetic": 0.9597,
+   "gradient_only": 0.9625,
+   "evolution_only": 0.9042,
+   "memetic_no_inheritance": 0.9444,
+   "logistic_reference": 0.9791
+  },
+  "digits": {
+   "memetic": 0.9606,
+   "gradient_only": 0.9593,
+   "evolution_only": 0.4839,
+   "memetic_no_inheritance": 0.9575,
+   "logistic_reference": 0.9657
+  }
+ },
+ "conclusion": "NEGATIVE: on these datasets the hybrid adds nothing over plain training, inheritance of learned weights shows no significant effect, and plain logistic regression is significantly better. Pure neuro-evolution is far worse.",
+ "decision": "neuro-memes stay as a meme TYPE under a simple-reference gate (must beat majority and a linear model on validation, else the linear model is adopted); neuro training is NOT deployed to the live node."
+}

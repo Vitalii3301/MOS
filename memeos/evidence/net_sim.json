@@ -1,0 +1,160 @@
+{
+ "before": {
+  "mos-claude": {
+   "holdout_attacks_caught": 0,
+   "holdout_clean_false_alarms": 0
+  },
+  "memeos-cell-b": {
+   "holdout_attacks_caught": 0,
+   "holdout_clean_false_alarms": 0
+  },
+  "memeos-cell-c": {
+   "holdout_attacks_caught": 0,
+   "holdout_clean_false_alarms": 0
+  }
+ },
+ "immunize": {
+  "missed": 10,
+  "action": "gene_synthesized_adopted_and_shared",
+  "phrases": [
+   "identtok with kvtok"
+  ],
+  "lab": {
+   "ok": true,
+   "hits": 10,
+   "pos": 10,
+   "false_alarms": 0,
+   "clean": 200
+  }
+ },
+ "after": {
+  "mos-claude": {
+   "holdout_attacks_caught": 24,
+   "holdout_clean_false_alarms": 0
+  },
+  "memeos-cell-b": {
+   "holdout_attacks_caught": 24,
+   "holdout_clean_false_alarms": 0
+  },
+  "memeos-cell-c": {
+   "holdout_attacks_caught": 24,
+   "holdout_clean_false_alarms": 0
+  }
+ },
+ "status": {
+  "mos-claude": {
+   "cell": "mos-claude",
+   "peers": [
+    "memeos-cell-b"
+   ],
+   "clean_corpus": 200,
+   "genes": [
+    {
+     "name": "acquired_e8fed3729e",
+     "origin": "mos-claude"
+    }
+   ],
+   "offers": [
+    {
+     "offer": "72333ff2442c",
+     "sender": "mos-claude",
+     "origin": "mos-claude",
+     "hops": 0,
+     "adopted": true,
+     "reason": "own_synthesis"
+    }
+   ],
+   "verdicts_received": [
+    {
+     "offer": "72333ff2442c",
+     "cell": "memeos-cell-b",
+     "adopted": true,
+     "reason": "passed_own_lab"
+    },
+    {
+     "offer": "72333ff2442c",
+     "cell": "memeos-cell-c",
+     "adopted": true,
+     "reason": "passed_own_lab"
+    }
+   ]
+  },
+  "memeos-cell-b": {
+   "cell": "memeos-cell-b",
+   "peers": [
+    "memeos-cell-c"
+   ],
+   "clean_corpus": 250,
+   "genes": [
+    {
+     "name": "acquired_e8fed3729e",
+     "origin": "mos-claude"
+    }
+   ],
+   "offers": [
+    {
+     "offer": "72333ff2442c",
+     "sender": "mos-claude",
+     "origin": "mos-claude",
+     "hops": 1,
+     "adopted": true,
+     "reason": "passed_own_lab"
+    }
+   ],
+   "verdicts_received": [
+    {
+     "offer": "bad-too_broa",
+     "cell": "memeos-cell-c",
+     "adopted": false,
+     "reason": "false_alarms_on_own_clean_corpus:53/208"
+    },
+    {
+     "offer": "bad-redos",
+     "cell": "memeos-cell-c",
+     "adopted": false,
+     "reason": "lab_rejected:redos_risk:\\([^)]*[+*][^)]*\\)[+*{]"
+    }
+   ]
+  },
+  "memeos-cell-c": {
+   "cell": "memeos-cell-c",
+   "peers": [
+    "mos-claude"
+   ],
+   "clean_corpus": 208,
+   "genes": [
+    {
+     "name": "acquired_e8fed3729e",
+     "origin": "mos-claude"
+    }
+   ],
+   "offers": [
+    {
+     "offer": "72333ff2442c",
+     "sender": "memeos-cell-b",
+     "origin": "mos-claude",
+     "hops": 2,
+     "adopted": true,
+     "reason": "passed_own_lab"
+    },
+    {
+     "offer": "bad-too_broa",
+     "sender": "memeos-cell-b",
+     "origin": "memeos-cell-b",
+     "hops": 1,
+     "adopted": false,
+     "reason": "false_alarms_on_own_clean_corpus:53/208"
+    },
+    {
+     "offer": "bad-redos",
+     "sender": "memeos-cell-b",
+     "origin": "memeos-cell-b",
+     "hops": 1,
+     "adopted": false,
+     "reason": "lab_rejected:redos_risk:\\([^)]*[+*][^)]*\\)[+*{]"
+    }
+   ],
+   "verdicts_received": []
+  }
+ }
+}

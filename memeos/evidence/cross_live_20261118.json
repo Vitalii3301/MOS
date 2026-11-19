@@ -1,0 +1,34 @@
+{
+ "solve": {
+  "Eva Liv Eli": {
+   "source": "composition",
+   "output": true,
+   "composed_of": [
+    "reverse_then_initials",
+    "Palindrome check (ignore case, spaces, punctuation)"
+   ],
+   "evaluations": 122,
+   "error": null,
+   "version": "2.6.1",
+   "expected": true
+  },
+  "Tom Ben": {
+   "source": "own_active",
+   "output": false,
+   "composed_of": null,
+   "evaluations": null,
+   "error": null,
+   "version": "2.6.1",
+   "expected": false
+  },
+  "Ana Nik Abe": {
+   "source": "own_active",
+   "output": true,
+   "composed_of": null,
+   "evaluations": null,
+   "error": null,
+   "version": "2.6.1",
+   "expected": true
+  }
+ }
+}

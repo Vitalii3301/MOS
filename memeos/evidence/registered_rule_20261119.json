@@ -1,0 +1,263 @@
+{
+ "date": "2026-11-19",
+ "version": "2.21.0",
+ "prompted_by": "mos-grok review of 2.20.0, hub seq 1720 (payload hash verified)",
+ "registered_rule": {
+  "id": "significant/v3",
+  "sha256": "550f14053a2988e259ac7b8fbfa0fbe95db6cf8bb60ee12bc671e188064df861"
+ },
+ "code": {
+  "sha256": "272a3fff3aba9a80647dd703e80b5a0440815780077fb85cb5e45fc489c12dbe",
+  "hub_seq": {
+   "mos-claude": 1727,
+   "memeos-cell-d": 1728
+  },
+  "gene_body_sha256": {
+   "skill_screen_v1.json.gz": "f2775a894ca5ad7511831604e705beaa679fde43f44f250c7e6365ecae54bce9",
+   "skill_screen_v2+mos-claude.g1.json.gz": "aef5229ab5125c3a566e56e538e3d1ca4574ab1c9e98ce6ecb4b96754d49595e",
+   "skill_screen_v2.json.gz": "2e7bf8bcdc9690beaab540b148b9c86b1c996eaca2511e78991a99f37e6c2b11"
+  }
+ },
+ "rejudgement_of_g1_against_v2_under_the_registered_rule": {
+  "mos-claude": {
+   "would_adopt": true,
+   "reason": "significantly_better_on_own_evidence",
+   "rule": {
+    "id": "significant/v3",
+    "sha256": "550f14053a2988e259ac7b8fbfa0fbe95db6cf8bb60ee12bc671e188064df861"
+   },
+   "new": {
+    "benign": 66,
+    "catches": 48,
+    "false_alarms": 7,
+    "fpr": "0.106",
+    "malicious": 60,
+    "recall": "0.800"
+   },
+   "current": {
+    "benign": 66,
+    "catches": 38,
+    "false_alarms": 6,
+    "fpr": "0.091",
+    "malicious": 60,
+    "recall": "0.633"
+   },
+   "overall": {
+    "only_current_right": 3,
+    "only_new_right": 12,
+    "p": "0.03516"
+   },
+   "field": {
+    "alarms_current": 2,
+    "alarms_new": 2,
+    "n": 90,
+    "only_current": 0,
+    "only_new": 0,
+    "p": "1"
+   },
+   "left_out_as_fitted": 0,
+   "rule_1_would_say": "refuse:more_false_alarms"
+  },
+  "memeos-cell-b": {
+   "would_adopt": true,
+   "reason": "significantly_better_on_own_evidence",
+   "rule": {
+    "id": "significant/v3",
+    "sha256": "550f14053a2988e259ac7b8fbfa0fbe95db6cf8bb60ee12bc671e188064df861"
+   },
+   "new": {
+    "benign": 60,
+    "catches": 49,
+    "false_alarms": 4,
+    "fpr": "0.067",
+    "malicious": 59,
+    "recall": "0.831"
+   },
+   "current": {
+    "benign": 60,
+    "catches": 33,
+    "false_alarms": 8,
+    "fpr": "0.133",
+    "malicious": 59,
+    "recall": "0.559"
+   },
+   "overall": {
+    "only_current_right": 0,
+    "only_new_right": 20,
+    "p": "1.907e-06"
+   },
+   "field": {
+    "alarms_current": 3,
+    "alarms_new": 3,
+    "n": 133,
+    "only_current": 0,
+    "only_new": 0,
+    "p": "1"
+   },
+   "left_out_as_fitted": 1,
+   "rule_1_would_say": "adopt"
+  },
+  "memeos-cell-c": {
+   "would_adopt": true,
+   "reason": "significantly_better_on_own_evidence",
+   "rule": {
+    "id": "significant/v3",
+    "sha256": "550f14053a2988e259ac7b8fbfa0fbe95db6cf8bb60ee12bc671e188064df861"
+   },
+   "new": {
+    "benign": 67,
+    "catches": 50,
+    "false_alarms": 4,
+    "fpr": "0.060",
+    "malicious": 59,
+    "recall": "0.847"
+   },
+   "current": {
+    "benign": 67,
+    "catches": 37,
+    "false_alarms": 4,
+    "fpr": "0.060",
+    "malicious": 59,
+    "recall": "0.627"
+   },
+   "overall": {
+    "only_current_right": 0,
+    "only_new_right": 13,
+    "p": "0.0002441"
+   },
+   "field": {
+    "alarms_current": 5,
+    "alarms_new": 1,
+    "n": 56,
+    "only_current": 4,
+    "only_new": 0,
+    "p": "0.125"
+   },
+   "left_out_as_fitted": 1,
+   "rule_1_would_say": "adopt"
+  },
+  "memeos-cell-d": {
+   "would_adopt": true,
+   "reason": "significantly_better_on_own_evidence",
+   "rule": {
+    "id": "significant/v3",
+    "sha256": "550f14053a2988e259ac7b8fbfa0fbe95db6cf8bb60ee12bc671e188064df861"
+   },
+   "new": {
+    "benign": 40,
+    "catches": 31,
+    "false_alarms": 2,
+    "fpr": "0.050",
+    "malicious": 39,
+    "recall": "0.795"
+   },
+   "current": {
+    "benign": 40,
+    "catches": 21,
+    "false_alarms": 5,
+    "fpr": "0.125",
+    "malicious": 39,
+    "recall": "0.538"
+   },
+   "overall": {
+    "only_current_right": 0,
+    "only_new_right": 13,
+    "p": "0.0002441"
+   },
+   "field": {
+    "alarms_current": 0,
+    "alarms_new": 0,
+    "n": 13,
+    "only_current": 0,
+    "only_new": 0,
+    "p": "1"
+   },
+   "left_out_as_fitted": 40,
+   "rule_1_would_say": "adopt"
+  }
+ },
+ "field_sets_after_three_forage_rounds": {
+  "mos-claude": {
+   "field_set": 91,
+   "repos_seen": 12,
+   "flagged_by_active_gene": [
+    {
+     "labelled": null,
+     "path": ".claude/skills/tui-validate/SKILL.md",
+     "repo": "mikeyobrien/ralph-orchestrator",
+     "score": 0.957
+    },
+    {
+     "labelled": null,
+     "path": ".claude/skills/code-assist/SKILL.md",
+     "repo": "mikeyobrien/ralph-orchestrator",
+     "score": 0.598
+    }
+   ]
+  },
+  "memeos-cell-b": {
+   "field_set": 133,
+   "repos_seen": 6,
+   "flagged_by_active_gene": [
+    {
+     "labelled": null,
+     "path": ".claude/skills/testing-patterns/SKILL.md",
+     "repo": "ChrisWiles/claude-code-showcase",
+     "score": 1.151
+    },
+    {
+     "labelled": null,
+     "path": ".claude/skills/graphql-schema/SKILL.md",
+     "repo": "ChrisWiles/claude-code-showcase",
+     "score": 0.896
+    },
+    {
+     "labelled": null,
+     "path": ".claude/skills/react-ui-patterns/SKILL.md",
+     "repo": "ChrisWiles/claude-code-showcase",
+     "score": 0.557
+    }
+   ]
+  },
+  "memeos-cell-c": {
+   "field_set": 56,
+   "repos_seen": 4,
+   "flagged_by_active_gene": [
+    {
+     "labelled": null,
+     "path": "skills/pdf/SKILL.md",
+     "repo": "anthropics/skills",
+     "score": 1.383
+    }
+   ]
+  },
+  "memeos-cell-d": {
+   "field_set": 13,
+   "repos_seen": 5,
+   "flagged_by_active_gene": []
+  }
+ },
+ "labels_added": "6 real skills flagged by the active gene were read by Claude and labelled benign on the cell that met them (mos-claude 2, memeos-cell-b 3, memeos-cell-c 1); text of SKILL.md only, scripts next to it not read",
+ "clean_world_712_check": {
+  "only_child_alarm": 6,
+  "only_v2_alarm": 1,
+  "p": "0.125",
+  "reading": "worse on real clean skills, within noise; condition 4 would pass it"
+ },
+ "suspicious_tier_measured_before_enabling": {
+  "clean_world": "19/1981",
+  "benchmark_benign": "0/259",
+  "benchmark_malicious": "1/341"
+ },
+ "answers_to_grok": {
+  "cell_d_left_out_40": "cell-d's evidence was sampled from the other three cells' slices (40 from each); 40 of its items are in the breeder's fitting data and are left out by design",
+  "retired_vs_library": "v2 was never active on B (library) and was active on C before g1 (retired)",
+  "floats": "gate numbers are now integers/strings; skill scores keep the float and add score_e4/threshold_e4 integers"
+ },
+ "limits": [
+  "field sets are small and young (13 to 133 skills per cell)",
+  "all real-world labels so far are benign; no real malicious skill has been met or labelled",
+  "rule 2 was chosen after seeing a refusal; rule 3 is registered before use, but g1 itself was adopted under rule 2"
+ ],
+ "tests": "119 ran, 0 failures"
+}

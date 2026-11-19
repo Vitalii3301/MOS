@@ -1,0 +1,350 @@
+{
+  "baseline": {
+    "crossover": 0.45,
+    "elite": 4,
+    "max_mutations": 2,
+    "pop": 80,
+    "random_init": 0.7,
+    "schema": "mos-search-config/v1",
+    "tournament": 3,
+    "w": {
+      "delete": 0.15,
+      "inner_map": 0.07,
+      "insert": 0.25,
+      "lift_map": 0.08,
+      "motif": 0.25,
+      "param": 0.12,
+      "point": 0.05,
+      "transpose": 0.03
+    }
+  },
+  "evolved": {
+    "crossover": 0.45,
+    "elite": 8,
+    "max_mutations": 1,
+    "pop": 80,
+    "random_init": 0.7,
+    "schema": "mos-search-config/v1",
+    "tournament": 7,
+    "w": {
+      "delete": 0.15,
+      "inner_map": 0.055,
+      "insert": 0.25,
+      "lift_map": 0.132,
+      "motif": 0.25,
+      "param": 0.12,
+      "point": 0.05,
+      "transpose": 0.03
+    }
+  },
+  "meta_train": {
+    "baseline": [
+      3,
+      75871
+    ],
+    "evolved": [
+      9,
+      45461
+    ]
+  },
+  "meta_holdout": {
+    "baseline": [
+      19,
+      165354
+    ],
+    "evolved": [
+      26,
+      95968
+    ],
+    "of": 48
+  },
+  "adopt": true,
+  "history": [
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 4,
+        "max_mutations": 2,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 3,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.07,
+          "insert": 0.25,
+          "lift_map": 0.08,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        3,
+        75871
+      ]
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 1,
+        "max_mutations": 2,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 3,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.056,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        4,
+        77356
+      ],
+      "accepted": true
+    },
+    {
+      "config": {
+        "crossover": 0.7,
+        "elite": 1,
+        "max_mutations": 2,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 3,
+        "w": {
+          "delete": 0.075,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.056,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        2,
+        96807
+      ],
+      "accepted": false
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 1,
+        "max_mutations": 2,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 3,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.028,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        4,
+        80273
+      ],
+      "accepted": false
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 1,
+        "max_mutations": 1,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        6,
+        61507
+      ],
+      "accepted": true
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 8,
+        "max_mutations": 1,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        9,
+        45461
+      ],
+      "accepted": true
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 8,
+        "max_mutations": 3,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.175,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        1,
+        77131
+      ],
+      "accepted": false
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 8,
+        "max_mutations": 1,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.11,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        7,
+        46953
+      ],
+      "accepted": false
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 8,
+        "max_mutations": 1,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        9,
+        45461
+      ],
+      "accepted": false
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 8,
+        "max_mutations": 1,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.055,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        9,
+        45461
+      ],
+      "accepted": false
+    },
+    {
+      "config": {
+        "crossover": 0.45,
+        "elite": 8,
+        "max_mutations": 1,
+        "pop": 80,
+        "random_init": 0.7,
+        "schema": "mos-search-config/v1",
+        "tournament": 7,
+        "w": {
+          "delete": 0.15,
+          "inner_map": 0.11,
+          "insert": 0.25,
+          "lift_map": 0.132,
+          "motif": 0.25,
+          "param": 0.12,
+          "point": 0.05,
+          "transpose": 0.03
+        }
+      },
+      "meta_train": [
+        7,
+        46953
+      ],
+      "accepted": false
+    }
+  ],
+  "seconds": 163
+}

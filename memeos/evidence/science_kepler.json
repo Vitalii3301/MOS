@@ -1,0 +1,66 @@
+{
+ "planets": {
+  "accepted": true,
+  "law": "T = 0.001076 + 0.9993·(a * sqrt(a))",
+  "holdout_planets": [
+   "Earth",
+   "Neptune",
+   "Saturn"
+  ],
+  "holdout_max_rel_err": 0.00085,
+  "uses_distractor_mass": false,
+  "runners_up": [
+   "(a * sqrt((a + a))) (holdout err 0.000851)",
+   "((a + a) * sqrt(a)) (holdout err 0.000851)",
+   "sqrt(exp(exp(sqrt(sqrt(a))))) (holdout err 0.661)"
+  ]
+ },
+ "transfer_Jupiter": {
+  "survives": true,
+  "fit_on": [
+   "Io",
+   "Europa"
+  ],
+  "predicted": [
+   "Ganymede",
+   "Callisto"
+  ],
+  "holdout_max_rel_err": 0.0
+ },
+ "transfer_Saturn": {
+  "survives": true,
+  "fit_on": [
+   "Mimas",
+   "Enceladus"
+  ],
+  "predicted": [
+   "Tethys",
+   "Dione",
+   "Rhea",
+   "Titan",
+   "Iapetus"
+  ],
+  "holdout_max_rel_err": 0.00237
+ },
+ "derived_masses_kg": {
+  "Sun": 1.990885398947978e+30,
+  "Jupiter": 1.8986025124412154e+27,
+  "Saturn": 5.686061684113155e+26
+ },
+ "mass_error_vs_reference": {
+  "Sun": 0.0009,
+  "Jupiter": 0.0003,
+  "Saturn": 0.0005
+ },
+ "control_shuffled": {
+  "accepted": false,
+  "best_overfit": "sq(exp((log(a) / a)))",
+  "holdout_max_rel_err": 223.184
+ },
+ "control_random": {
+  "accepted": false,
+  "best_overfit": "sq(((a - mass) / mass))",
+  "holdout_max_rel_err": 239.499
+ },
+ "seconds": 0.3
+}

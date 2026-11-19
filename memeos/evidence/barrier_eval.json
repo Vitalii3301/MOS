@@ -1,0 +1,176 @@
+{
+ "sizes": {
+  "train": 4598,
+  "val": 1250,
+  "test": 1817,
+  "external": 24
+ },
+ "threshold": 0.9156619436030295,
+ "train_seconds": 14.1,
+ "val": {
+  "tp": 106,
+  "fp": 10,
+  "fn": 133,
+  "tn": 1001,
+  "recall": 0.4435,
+  "fpr": 0.0099,
+  "precision": 0.9138,
+  "auc": 0.907
+ },
+ "val_by_source": {
+  "bipia-email": {
+   "tp": 18,
+   "fp": 0,
+   "fn": 6,
+   "tn": 12,
+   "recall": 0.75,
+   "fpr": 0.0,
+   "precision": 1.0,
+   "auc": 0.9792
+  },
+  "bipia-code": {
+   "tp": 13,
+   "fp": 0,
+   "fn": 7,
+   "tn": 10,
+   "recall": 0.65,
+   "fpr": 0.0,
+   "precision": 1.0,
+   "auc": 0.93
+  },
+  "bipia-table": {
+   "tp": 24,
+   "fp": 0,
+   "fn": 12,
+   "tn": 18,
+   "recall": 0.6667,
+   "fpr": 0.0,
+   "precision": 1.0,
+   "auc": 0.9568
+  },
+  "jailbreak_llms": {
+   "tp": 51,
+   "fp": 10,
+   "fn": 108,
+   "tn": 961,
+   "recall": 0.3208,
+   "fpr": 0.0103,
+   "precision": 0.8361,
+   "auc": 0.8775
+  }
+ },
+ "test": {
+  "tp": 202,
+  "fp": 35,
+  "fn": 486,
+  "tn": 1094,
+  "recall": 0.2936,
+  "fpr": 0.031,
+  "precision": 0.8523,
+  "auc": 0.7747
+ },
+ "test_by_source": {
+  "bipia-email": {
+   "tp": 37,
+   "fp": 0,
+   "fn": 63,
+   "tn": 50,
+   "recall": 0.37,
+   "fpr": 0.0,
+   "precision": 1.0,
+   "auc": 0.816
+  },
+  "bipia-table": {
+   "tp": 77,
+   "fp": 0,
+   "fn": 123,
+   "tn": 100,
+   "recall": 0.385,
+   "fpr": 0.0,
+   "precision": 1.0,
+   "auc": 0.783
+  },
+  "bipia-code": {
+   "tp": 36,
+   "fp": 0,
+   "fn": 64,
+   "tn": 50,
+   "recall": 0.36,
+   "fpr": 0.0,
+   "precision": 1.0,
+   "auc": 0.7794
+  },
+  "jailbreak_llms": {
+   "tp": 52,
+   "fp": 35,
+   "fn": 236,
+   "tn": 894,
+   "recall": 0.1806,
+   "fpr": 0.0377,
+   "precision": 0.5977,
+   "auc": 0.7007
+  }
+ },
+ "external": {
+  "tp": 0,
+  "fp": 0,
+  "fn": 14,
+  "tn": 10,
+  "recall": 0.0,
+  "fpr": 0.0,
+  "precision": null,
+  "auc": 0.8071
+ },
+ "external_by_source": {
+  "pint-example": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 2,
+   "tn": 6,
+   "recall": 0.0,
+   "fpr": 0.0,
+   "precision": null,
+   "auc": 1.0
+  },
+  "taksec": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 8,
+   "tn": 0,
+   "recall": 0.0,
+   "fpr": null,
+   "precision": null,
+   "auc": null
+  },
+  "ru-handwritten": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 4,
+   "tn": 4,
+   "recall": 0.0,
+   "fpr": 0.0,
+   "precision": null,
+   "auc": 0.5625
+  }
+ },
+ "test_genes_only_baseline": {
+  "tp": 426,
+  "fp": 292,
+  "fn": 262,
+  "tn": 837,
+  "recall": 0.6192,
+  "fpr": 0.2586,
+  "precision": 0.5933,
+  "auc": 0.5148
+ },
+ "concealed_attacks_test": {
+  "n": 132,
+  "caught_with_immune_vision": 0,
+  "caught_without_immune_vision": 0
+ },
+ "localization_top1_on_flagged_bipia_test": {
+  "flagged": 150,
+  "top1_contains_injection": 72
+ },
+ "total_seconds": 23.3
+}

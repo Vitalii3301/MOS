@@ -1,0 +1,137 @@
+{
+ "library_of_A": [
+  "initials",
+  "reverse_words",
+  "slug",
+  "snake_case",
+  "title_words"
+ ],
+ "results": {
+  "reverse_then_slug": {
+   "source": "composition",
+   "output": "z-y-x",
+   "composed_of": [
+    "reverse_words",
+    "slug"
+   ],
+   "evaluations": 16,
+   "expected": "z-y-x",
+   "isolated_scratch_evaluations": 202962,
+   "isolated_ok": true
+  },
+  "title_then_reverse": {
+   "source": "composition",
+   "output": "One",
+   "composed_of": [
+    "reverse_words",
+    "title_words"
+   ],
+   "evaluations": 26,
+   "expected": "One",
+   "isolated_scratch_evaluations": 478611,
+   "isolated_ok": true
+  },
+  "reverse_then_initials": {
+   "source": "composition",
+   "output": "BA",
+   "composed_of": [
+    "title_then_reverse",
+    "initials"
+   ],
+   "evaluations": 15,
+   "expected": "BA",
+   "isolated_scratch_evaluations": 580779,
+   "isolated_ok": false
+  },
+  "reverse_then_snake": {
+   "source": "composition",
+   "output": "two_one",
+   "composed_of": [
+    "title_then_reverse",
+    "snake_case"
+   ],
+   "evaluations": 19,
+   "expected": "two_one",
+   "isolated_scratch_evaluations": 380642,
+   "isolated_ok": true
+  },
+  "slug_from_library": {
+   "source": "network_library",
+   "output": "memetic-network-node",
+   "from": "memeos-cell-b"
+  }
+ },
+ "A_status": {
+  "cell": "mos-claude",
+  "peers": [
+   "memeos-cell-b"
+  ],
+  "clean_corpus": 0,
+  "library": [
+   {
+    "goal": "initials",
+    "from": "memeos-cell-c"
+   },
+   {
+    "goal": "reverse_words",
+    "from": "memeos-cell-b"
+   },
+   {
+    "goal": "slug",
+    "from": "memeos-cell-b"
+   },
+   {
+    "goal": "snake_case",
+    "from": "memeos-cell-c"
+   },
+   {
+    "goal": "title_words",
+    "from": "memeos-cell-b"
+   }
+  ],
+  "genes": [],
+  "offers": [
+   {
+    "offer": "3dd9cd8e3a59",
+    "sender": "memeos-cell-c",
+    "origin": "memeos-cell-c",
+    "hops": 1,
+    "adopted": true,
+    "reason": "added_to_library_after_local_reexecution"
+   },
+   {
+    "offer": "933dd8394875",
+    "sender": "memeos-cell-c",
+    "origin": "memeos-cell-c",
+    "hops": 1,
+    "adopted": true,
+    "reason": "added_to_library_after_local_reexecution"
+   },
+   {
+    "offer": "664d388e4646",
+    "sender": "memeos-cell-c",
+    "origin": "memeos-cell-b",
+    "hops": 2,
+    "adopted": true,
+    "reason": "added_to_library_after_local_reexecution"
+   },
+   {
+    "offer": "9700e26955b8",
+    "sender": "memeos-cell-c",
+    "origin": "memeos-cell-b",
+    "hops": 2,
+    "adopted": true,
+    "reason": "added_to_library_after_local_reexecution"
+   },
+   {
+    "offer": "d7624ca7446d",
+    "sender": "memeos-cell-c",
+    "origin": "memeos-cell-b",
+    "hops": 2,
+    "adopted": true,
+    "reason": "added_to_library_after_local_reexecution"
+   }
+  ],
+  "verdicts_received": []
+ }
+}

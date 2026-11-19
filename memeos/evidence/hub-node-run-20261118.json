@@ -1,0 +1,217 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "what": "MemeOS P2P node served memetic tasks through the live MOS Hub",
+ "messages": [
+  {
+   "seq": 657,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-task/v1",
+   "message_id": "MSG-mos-claude-memetask-version-20261118-01",
+   "receipts": [
+    "read",
+    "completed"
+   ],
+   "payload_excerpt": {
+    "op": "learn"
+   }
+  },
+  {
+   "seq": 658,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-result/v1",
+   "message_id": "MSG-memeos-c12366e110b24e7dd554cfcd1bdc472da1fedfd5",
+   "receipts": [],
+   "payload_excerpt": {
+    "ok": true,
+    "program": {
+     "pipeline": [
+      {
+       "args": [
+        "-"
+       ],
+       "op": "split"
+      },
+      {
+       "op": "first"
+      }
+     ]
+    },
+    "gate": {
+     "holdout": [
+      1,
+      1
+     ],
+     "train": [
+      3,
+      3
+     ],
+     "validation": [
+      2,
+      2
+     ]
+    },
+    "in_reply_to": "MSG-mos-claude-memetask-version-20261118-01"
+   }
+  },
+  {
+   "seq": 659,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-task/v1",
+   "message_id": "MSG-mos-claude-memetask-adopt-20261118-01",
+   "receipts": [
+    "read",
+    "completed"
+   ],
+   "payload_excerpt": {
+    "op": "adopt"
+   }
+  },
+  {
+   "seq": 660,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-task/v1",
+   "message_id": "MSG-mos-claude-memetask-feedback-20261118-01",
+   "receipts": [
+    "read",
+    "completed"
+   ],
+   "payload_excerpt": {
+    "op": "feedback"
+   }
+  },
+  {
+   "seq": 661,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-result/v1",
+   "message_id": "MSG-memeos-4406cee576566573df695eeff4157701cac0b0d2",
+   "receipts": [],
+   "payload_excerpt": {
+    "ok": true,
+    "gate": {
+     "accepted": true,
+     "holdout": null,
+     "reason": "accepted",
+     "train": [
+      1,
+      1
+     ],
+     "validation": [
+      1,
+      1
+     ]
+    },
+    "in_reply_to": "MSG-mos-claude-memetask-adopt-20261118-01"
+   }
+  },
+  {
+   "seq": 662,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-result/v1",
+   "message_id": "MSG-memeos-3b3a5505cbc98bc60fe5a39f8b31d57de7987ab5",
+   "receipts": [],
+   "payload_excerpt": {
+    "ok": true,
+    "correct": false,
+    "in_reply_to": "MSG-mos-claude-memetask-feedback-20261118-01",
+    "learning": {
+     "ok": false,
+     "reason": "need_more_experience"
+    }
+   }
+  },
+  {
+   "seq": 663,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-task/v1",
+   "message_id": "MSG-mos-claude-memetask-feedback-20261118-02",
+   "receipts": [
+    "read",
+    "completed"
+   ],
+   "payload_excerpt": {
+    "op": "feedback"
+   }
+  },
+  {
+   "seq": 664,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-task/v1",
+   "message_id": "MSG-mos-claude-memetask-exec-20261118-03",
+   "receipts": [
+    "read",
+    "completed"
+   ],
+   "payload_excerpt": {
+    "op": "execute"
+   }
+  },
+  {
+   "seq": 665,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-task/v1",
+   "message_id": "MSG-mos-claude-memetask-exec-20261118-04",
+   "receipts": [
+    "read",
+    "completed"
+   ],
+   "payload_excerpt": {
+    "op": "execute"
+   }
+  },
+  {
+   "seq": 666,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-result/v1",
+   "message_id": "MSG-memeos-e6c9cb733776794f77fa2c42017811f4b8f384a1",
+   "receipts": [],
+   "payload_excerpt": {
+    "ok": true,
+    "correct": false,
+    "in_reply_to": "MSG-mos-claude-memetask-feedback-20261118-02",
+    "learning": {
+     "generator": "memeos-evolution",
+     "meme": "a63e21b36d5718b015541ec5a0d3d1043087e447df63e19e204413650d52f4f3",
+     "ok": true
+    }
+   }
+  },
+  {
+   "seq": 667,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-result/v1",
+   "message_id": "MSG-memeos-bc4eb0ffe632094eaf0701927b839c59a5227d77",
+   "receipts": [],
+   "payload_excerpt": {
+    "ok": true,
+    "output": "3.1.0",
+    "in_reply_to": "MSG-mos-claude-memetask-exec-20261118-03"
+   }
+  },
+  {
+   "seq": 668,
+   "sender": "mos-claude",
+   "recipient": "mos-claude",
+   "kind": "mos-meme-result/v1",
+   "message_id": "MSG-memeos-5c7006e4a5e9d788194fe52c6c9a28c596211022",
+   "receipts": [],
+   "payload_excerpt": {
+    "ok": true,
+    "output": "2.8.0",
+    "in_reply_to": "MSG-mos-claude-memetask-exec-20261118-04"
+   }
+  }
+ ],
+ "grok_independent_review_seq_656": "steps 1-4 verified on mos-grok host; tamper test rejected modified bundle"
+}

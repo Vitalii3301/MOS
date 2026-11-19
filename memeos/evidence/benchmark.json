@@ -1,0 +1,396 @@
+{
+ "slug": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 8327,
+  "rejected_overfits": 0,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "op": "collapse_ws"
+    },
+    {
+     "op": "lower"
+    },
+    {
+     "args": [
+      " ",
+      "-"
+     ],
+     "op": "replace"
+    }
+   ]
+  },
+  "seconds": 0.09
+ },
+ "csv_sum": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 204102,
+  "rejected_overfits": 0,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "args": [
+      ","
+     ],
+     "op": "split"
+    },
+    {
+     "args": [
+      {
+       "pipeline": [
+        {
+         "op": "number"
+        }
+       ]
+      }
+     ],
+     "op": "map"
+    },
+    {
+     "op": "sum"
+    }
+   ]
+  },
+  "seconds": 1.17
+ },
+ "initials": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 165961,
+  "rejected_overfits": 0,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "args": [
+      ""
+     ],
+     "op": "split"
+    },
+    {
+     "args": [
+      {
+       "pipeline": [
+        {
+         "op": "first"
+        }
+       ]
+      }
+     ],
+     "op": "map"
+    },
+    {
+     "args": [
+      ""
+     ],
+     "op": "join"
+    },
+    {
+     "op": "upper"
+    }
+   ]
+  },
+  "seconds": 1.33
+ },
+ "dedupe_sort": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 689723,
+  "rejected_overfits": 7,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "args": [
+      ","
+     ],
+     "op": "split"
+    },
+    {
+     "op": "sort"
+    },
+    {
+     "op": "unique"
+    },
+    {
+     "args": [
+      ","
+     ],
+     "op": "join"
+    }
+   ]
+  },
+  "seconds": 5.92
+ },
+ "word_count": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 9959,
+  "rejected_overfits": 6,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "args": [
+      ""
+     ],
+     "op": "split"
+    },
+    {
+     "args": [
+      {
+       "pipeline": [
+        {
+         "op": "first"
+        }
+       ]
+      }
+     ],
+     "op": "map"
+    },
+    {
+     "op": "length"
+    }
+   ]
+  },
+  "seconds": 0.06
+ },
+ "snake_case": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 212,
+  "rejected_overfits": 0,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "op": "collapse_ws"
+    },
+    {
+     "op": "lower"
+    },
+    {
+     "args": [
+      " ",
+      "_"
+     ],
+     "op": "replace"
+    }
+   ]
+  },
+  "seconds": 0.01
+ },
+ "title_words": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 191,
+  "rejected_overfits": 0,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "op": "title"
+    },
+    {
+     "op": "collapse_ws"
+    }
+   ]
+  },
+  "seconds": 0.01
+ },
+ "csv_max_word": {
+  "ok": false,
+  "phase": null,
+  "evaluations": 28416,
+  "rejected_overfits": 12,
+  "holdout": null,
+  "program": null,
+  "seconds": 0.25
+ },
+ "reverse_words": {
+  "ok": true,
+  "phase": "enumeration",
+  "evaluations": 216059,
+  "rejected_overfits": 0,
+  "holdout": [
+   1,
+   1
+  ],
+  "program": {
+   "pipeline": [
+    {
+     "args": [
+      ""
+     ],
+     "op": "split"
+    },
+    {
+     "op": "reverse"
+    },
+    {
+     "args": [
+      " "
+     ],
+     "op": "join"
+    }
+   ]
+  },
+  "seconds": 1.17
+ },
+ "kebab_sorted": {
+  "ok": false,
+  "phase": null,
+  "evaluations": 435789,
+  "rejected_overfits": 12,
+  "holdout": null,
+  "program": null,
+  "seconds": 4.23
+ },
+ "_state": {
+  "version": "1.0.0",
+  "memes": 45,
+  "active": 8,
+  "quarantined": 0,
+  "antimemes": 0,
+  "motifs": 24,
+  "contracts": 10,
+  "integrity": {
+   "ok": true,
+   "events": 110,
+   "problems": [],
+   "head": "e9987b327074f7e3be485c686f9f5b29cbba7590f1fef121c0d38eade554fb2e"
+  }
+ },
+ "_emergent_motifs": [
+  {
+   "genes": [
+    {
+     "op": "collapse_ws"
+    },
+    {
+     "op": "lower"
+    }
+   ],
+   "support": 2,
+   "shared_by_goals": [
+    "slug",
+    "snake_case"
+   ]
+  },
+  {
+   "genes": [
+    {
+     "args": [
+      ""
+     ],
+     "op": "split"
+    },
+    {
+     "args": [
+      {
+       "pipeline": [
+        {
+         "op": "first"
+        }
+       ]
+      }
+     ],
+     "op": "map"
+    }
+   ],
+   "support": 2,
+   "shared_by_goals": [
+    "initials",
+    "word_count"
+   ]
+  },
+  {
+   "genes": [
+    {
+     "args": [
+      {
+       "pipeline": [
+        {
+         "op": "first"
+        }
+       ]
+      }
+     ],
+     "op": "map"
+    },
+    {
+     "args": [
+      ""
+     ],
+     "op": "join"
+    }
+   ],
+   "support": 1,
+   "shared_by_goals": [
+    "initials"
+   ]
+  },
+  {
+   "genes": [
+    {
+     "op": "unique"
+    },
+    {
+     "args": [
+      ","
+     ],
+     "op": "join"
+    }
+   ],
+   "support": 1,
+   "shared_by_goals": [
+    "dedupe_sort"
+   ]
+  },
+  {
+   "genes": [
+    {
+     "op": "sort"
+    },
+    {
+     "op": "unique"
+    },
+    {
+     "args": [
+      ","
+     ],
+     "op": "join"
+    }
+   ],
+   "support": 1,
+   "shared_by_goals": [
+    "dedupe_sort"
+   ]
+  }
+ ]
+}

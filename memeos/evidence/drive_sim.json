@@ -1,0 +1,84 @@
+{
+ "first_attempt": {
+  "source": "none",
+  "noted_as_gap": true
+ },
+ "tick_with_unchanged_pool": [],
+ "library_of_A": [
+  "is_even",
+  "word_count"
+ ],
+ "agenda_before_tick": [
+  {
+   "kind": "retry_unsolved",
+   "goal": "word_count_even",
+   "reason": "asked 1x, unsolved; gene pool grew 0->2 since last attempt"
+  }
+ ],
+ "own_tick": [
+  {
+   "kind": "retry_unsolved",
+   "goal": "word_count_even",
+   "reason": "asked 1x, unsolved; gene pool grew 0->2 since last attempt",
+   "ok": true,
+   "how": "composition",
+   "composed_of": [
+    "word_count",
+    "is_even"
+   ],
+   "evaluations": 3,
+   "meme": "a0975ea9d44f4fb24849332c4d55fbf79c04e5410fa3d6d6ff85a9cc93890c2f"
+  }
+ ],
+ "after_own_tick": {
+  "source": "own_active",
+  "output": true
+ },
+ "barrier_before": 0,
+ "immunize_tick": [
+  {
+   "kind": "immunize",
+   "reason": "6 reported invasions still pass my barrier",
+   "ok": true,
+   "phrases": [
+    "identtok with kvtok",
+    "step to the user"
+   ],
+   "shared_to": [
+    "memeos-cell-b"
+   ]
+  }
+ ],
+ "barrier_after_on_other_cells": {
+  "mos-claude": 12,
+  "memeos-cell-b": 12,
+  "memeos-cell-c": 12
+ },
+ "ask_tick": [
+  {
+   "kind": "ask_examples",
+   "goal": "translate_to_latin",
+   "ok": true,
+   "asked": "mos-grok"
+  }
+ ],
+ "request_delivered_to": [
+  "mos-meme-request/v1"
+ ],
+ "journal": [
+  "gap_noted",
+  "self_goal_set",
+  "self_goal_done",
+  "gap_noted",
+  "gap_noted",
+  "gap_noted",
+  "gap_noted",
+  "gap_noted",
+  "gap_noted",
+  "self_goal_set",
+  "self_goal_done",
+  "gap_noted",
+  "self_goal_set",
+  "self_goal_done"
+ ]
+}

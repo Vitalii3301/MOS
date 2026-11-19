@@ -1,0 +1,47 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "live_node": "memeos-node 2.7.0 (Railway), cell mos-claude",
+ "timeline_utc": {
+  "16:45:38": "solve word_count_even requested (hub seq 1040)",
+  "16:46:54": "not solved after 1,490,187 evaluations; gap noted (seq 1041)",
+  "16:48": "cell C learned word_count, cell B learned is_even (hub model wrote `x % 2 == 0`); both shared (seq 1042-1049)",
+  "16:51:10": "Railway log: 'mos-claude self-goals: retry_unsolved(word_count_even)=ok' — no request addressed to the cell in between"
+ },
+ "agenda_read_back": {
+  "enabled": true,
+  "now": [],
+  "open_gaps": [],
+  "history": [
+   {
+    "kind": "retry_unsolved",
+    "reason": "asked 1x, unsolved; gene pool grew 14->16 since last attempt",
+    "result": {
+     "composed_of": [
+      "word_count",
+      "is_even"
+     ],
+     "evaluations": 136,
+     "how": "composition",
+     "meme": "e8ef7dcda3b1ecc736aa42e135fb23647f435d4935b607de700fa1d0940e3397",
+     "ok": true
+    },
+    "status": "done"
+   }
+  ]
+ },
+ "verification_by_new_requests": {
+  "alpha beta gamma delta": {
+   "source": "own_active",
+   "output": true
+  },
+  "one two three": {
+   "source": "own_active",
+   "output": false
+  }
+ },
+ "verified_only_offline": [
+  "self-immunization from reported misses",
+  "asking the requester for examples"
+ ]
+}

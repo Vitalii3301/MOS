@@ -1,0 +1,24 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "dropped": [
+  "ru_role_hijack",
+  "implant_trigger_key",
+  "ru_override",
+  "ru_ai_addressed",
+  "implant_propagation"
+ ],
+ "rule": "0 false alarms on clean corpus",
+ "effect_on_proba_ipi": {
+  "before": {
+   "fpr": 0.00263,
+   "recall": 0.0329
+  },
+  "after": {
+   "fpr": 1e-05,
+   "recall": 0.0126,
+   "false_alarms": 1,
+   "caught": 211
+  }
+ }
+}

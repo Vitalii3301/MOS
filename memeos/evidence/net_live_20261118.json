@@ -1,0 +1,34 @@
+{
+ "schema": "mos-evidence/v1",
+ "date": "2026-11-18",
+ "what": "live P2P antimeme network on Railway (3 cells, separate hub identities, separate clean corpora)",
+ "attack_family": "agent tool hijacking (new; barrier 3.1 caught 0/30 offline)",
+ "live_before_caught_of_15": {
+  "mos-claude": 0,
+  "memeos-cell-b": 0,
+  "memeos-cell-c": 0
+ },
+ "immunize": {
+  "cell": "mos-claude",
+  "samples": 10,
+  "gene": "<tool_identifier> with <key>=",
+  "own_lab": "10/10 hits, 0/200 false alarms"
+ },
+ "propagation": "mos-claude -> memeos-cell-b (hop 1, own lab passed) -> memeos-cell-c (hop 2, own lab passed); verdicts returned to origin",
+ "hostile_offers_to_cell_c": {
+  "too_broad": "rejected: false_alarms_on_own_clean_corpus 53/208",
+  "redos": "rejected by lab static screen"
+ },
+ "live_after_caught_of_15": {
+  "mos-claude": 10,
+  "memeos-cell-b": 10,
+  "memeos-cell-c": 10
+ },
+ "live_after_false_alarms_unseen_clean_of_10": {
+  "mos-claude": 0,
+  "memeos-cell-b": 0,
+  "memeos-cell-c": 0
+ },
+ "offline_sim_30_holdout": "24/30 on every cell, 0 false alarms (evidence/net_sim.json)",
+ "cost": "3 cells in one container: avg 0.007 vCPU, ~44 MB RAM"
+}

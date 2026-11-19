@@ -1,0 +1,22 @@
+{
+ "schema": "mos-external-gene/v1",
+ "name": "horizon_small_pi",
+ "source": {"repo": "Horizon-Labs/prompt-injection-guard-small", "revision": "2efc2ed5abecd21eb45c2506d231a65d6e392b85", "license": "apache-2.0"},
+ "files": [
+  {"path": "onnx/model_quantized.onnx", "sha256": "61cd0741cdbfcc229e32e1de1392f352736d87d1e8b3c2b67ad9836bb7910d5d"},
+  {"path": "tokenizer.json", "sha256": "47834a7dbbb0c4324fe9569fe47955241594a9ee539c9e478755d6fbc51e5f46"}
+ ],
+ "model_file": "onnx/model_quantized.onnx",
+ "tokenizer_file": "tokenizer.json",
+ "positive_index": 1,
+ "window": 512,
+ "max_windows": 4,
+ "threshold": 0.8775,
+ "evidence": {
+  "corpus": "privettoha/proba-ipi (2000 injected + 6000 clean, random_state=1)",
+  "threshold_rule": "6000-clean FPR 0.1% (6 false alarms)",
+  "recall_at_fpr_0.001": 0.442, "recall_at_fpr_0.01": 0.655,
+  "rejected_alternative": "HikmaAI mdeberta int8: 5.1% / 7.4% on the same docs",
+  "measured": "2026-11-18"
+ }
+}

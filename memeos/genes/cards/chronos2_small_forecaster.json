@@ -1,0 +1,37 @@
+{
+ "schema": "mos-external-gene/v1",
+ "name": "chronos2_small",
+ "role": "forecaster",
+ "source": {
+  "repo": "OpenSTEF/chronos-2-small-onnx",
+  "revision": "d7743f169215d59270490bfc096bc9454821e8ef",
+  "license": "apache-2.0",
+  "upstream": "autogluon/chronos-2-small (Amazon Chronos-2, released Oct 2025)"
+ },
+ "files": [
+  {
+   "path": "chronos-2-small.onnx",
+   "sha256": "8aad469fc899da6163442bf8e3a7a46e832f551e1595b93a1206dbc39c1ffa0b"
+  }
+ ],
+ "model_file": "chronos-2-small.onnx",
+ "context_max": 2048,
+ "future_length": 672,
+ "quantiles": [
+  0.01,
+  0.05,
+  0.1,
+  0.2,
+  0.3,
+  0.4,
+  0.5,
+  0.6,
+  0.7,
+  0.8,
+  0.9,
+  0.95,
+  0.99
+ ],
+ "evidence": "evidence/forecast_benchmark_20261118.json",
+ "store": "ephemeral"
+}

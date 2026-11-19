@@ -1,0 +1,195 @@
+{
+  "enumeration_plus_evolution": {
+    "motifs_available": 19,
+    "naive": {
+      "dot_case": {
+        "ok": true,
+        "evaluations": 9621,
+        "seconds": 0.14,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "count_items": {
+        "ok": true,
+        "evaluations": 1209,
+        "seconds": 0.01,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "initials_dot": {
+        "ok": true,
+        "evaluations": 304899,
+        "seconds": 3.1,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "reverse_csv": {
+        "ok": true,
+        "evaluations": 6,
+        "seconds": 0.0,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "upper_snake": {
+        "ok": true,
+        "evaluations": 9303,
+        "seconds": 0.11,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "sorted_words": {
+        "ok": false,
+        "evaluations": 781390,
+        "seconds": 9.81,
+        "holdout": null,
+        "phase": null
+      }
+    },
+    "experienced": {
+      "dot_case": {
+        "ok": true,
+        "evaluations": 228,
+        "seconds": 0.01,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "count_items": {
+        "ok": true,
+        "evaluations": 1299,
+        "seconds": 0.01,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "initials_dot": {
+        "ok": true,
+        "evaluations": 15895,
+        "seconds": 0.15,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "reverse_csv": {
+        "ok": true,
+        "evaluations": 6,
+        "seconds": 0.0,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "upper_snake": {
+        "ok": true,
+        "evaluations": 11164,
+        "seconds": 0.11,
+        "holdout": [
+          1,
+          1
+        ],
+        "phase": "enumeration"
+      },
+      "sorted_words": {
+        "ok": false,
+        "evaluations": 408024,
+        "seconds": 4.0,
+        "holdout": null,
+        "phase": null
+      }
+    }
+  },
+  "evolution_only": {
+    "naive": {
+      "dot_case": {
+        "solved": 6,
+        "of": 10,
+        "median_evaluations_when_solved": 2470.0
+      },
+      "count_items": {
+        "solved": 9,
+        "of": 10,
+        "median_evaluations_when_solved": 1486
+      },
+      "initials_dot": {
+        "solved": 0,
+        "of": 10,
+        "median_evaluations_when_solved": null
+      },
+      "reverse_csv": {
+        "solved": 10,
+        "of": 10,
+        "median_evaluations_when_solved": 104.5
+      },
+      "upper_snake": {
+        "solved": 8,
+        "of": 10,
+        "median_evaluations_when_solved": 1859.5
+      },
+      "sorted_words": {
+        "solved": 0,
+        "of": 10,
+        "median_evaluations_when_solved": null
+      }
+    },
+    "experienced": {
+      "dot_case": {
+        "solved": 10,
+        "of": 10,
+        "median_evaluations_when_solved": 3214.0
+      },
+      "count_items": {
+        "solved": 10,
+        "of": 10,
+        "median_evaluations_when_solved": 512.5
+      },
+      "initials_dot": {
+        "solved": 9,
+        "of": 10,
+        "median_evaluations_when_solved": 2563
+      },
+      "reverse_csv": {
+        "solved": 10,
+        "of": 10,
+        "median_evaluations_when_solved": 70.0
+      },
+      "upper_snake": {
+        "solved": 7,
+        "of": 10,
+        "median_evaluations_when_solved": 2158
+      },
+      "sorted_words": {
+        "solved": 8,
+        "of": 10,
+        "median_evaluations_when_solved": 980.0
+      }
+    }
+  },
+  "statistics": {
+    "test": "Fisher exact, one-sided, solved counts evolution-only",
+    "experienced": "54/60",
+    "naive": "33/60",
+    "p_value": 1.3768512457052974e-05
+  }
+}
