@@ -1,0 +1,130 @@
+{
+ "date": "2026-11-19",
+ "version": "2.24.1",
+ "rule": {
+  "id": "significant/v4",
+  "sha256": "8975b34f15ae93cb7393d5b6bebfffc06c7e2139b4eee760eabfed5ba6b15fc4"
+ },
+ "code_root": "3ab177e46ecf4546490c3642cf1b1625e8a418cecdc47252c1cb1596915237ca",
+ "real_malicious_skills": {
+  "n": 20,
+  "source": "huggingface.co/datasets/yoonholee/agent-skill-malware (ClawHub campaign, Feb 2026); found, read and labelled by mos-grok; dropper block of each read independently by mos-claude (second label)",
+  "what_makes_them_malicious": "the skill text tells the user/agent to download a password-protected archive from a personal GitHub release and run it, or to paste an obfuscated `... | base64 -D | bash` command or a pastebin script into Terminal",
+  "active_gene_on_them": "g1 flags 20 of 20",
+  "not_labelled": "40 further dataset positives show no harm in the text itself; left unlabelled"
+ },
+ "review_by_mos_grok_hub_seq_2148": {
+  "H1": "folds and votes by template cluster",
+  "H2": "item identity + near-copy signatures in the card",
+  "M1": "alpha spending 0.05*6/(pi^2 n^2)",
+  "M2": "false-alarm non-inferiority margin floor(benign clusters/50)",
+  "M3": "note in the card",
+  "M4": "answered: v1/v2 never saw the test split the cells' seeds come from; home-bred parents are judged through stored out-of-fold decisions",
+  "L1": "minimum detectable difference reported",
+  "L2": "table whitelist in restore"
+ },
+ "first_v4_breeding_withdrawn": {
+  "run": {
+   "name": "skill_screen_v2+mos-claude.g2",
+   "gene": "047bb5429e5dd2a11a18f7d17b8b5f0ced5697f6e5b8431e36cd1ce84ef0e8b8",
+   "grown_from": null,
+   "adopted": true,
+   "reason": "significantly_better_on_own_evidence",
+   "out_of_fold": {
+    "benign": 69,
+    "catches": 80,
+    "false_alarms": 3,
+    "fpr": "0.043",
+    "malicious": 80,
+    "recall": "1.000"
+   },
+   "parent_on_same_items": {
+    "benign": 69,
+    "catches": 68,
+    "false_alarms": 9,
+    "fpr": "0.130",
+    "malicious": 80,
+    "recall": "0.850"
+   },
+   "shared_to": [
+    "memeos-cell-b",
+    "mos-grok",
+    "mos-claude-code"
+   ],
+   "share_failed": null
+  },
+  "why_withdrawn": [
+   "the child (g2) was a correction to g1, and g1 had itself been fitted on 126 of the same 149 items in this cell: every fold model started from in-sample parent scores, so 80/80 out-of-fold was optimistic",
+   "its card carried 61-bit MinHash values, not exact in JavaScript: the hub dropped the offer, no peer ever received it"
+  ],
+  "how_found": "no verdicts arrived from any peer; investigation of the missing offers, then of the suspiciously perfect numbers",
+  "fixes": [
+   "children grow from the nearest ancestor that never saw the cell's evidence",
+   "31-bit signatures; hub transport preserves big integers and float types",
+   "op withdraw_gene; the withdrawal is on record in gene_verdicts"
+  ],
+  "g2_on_report_set_for_the_record": {
+   "report_set_items": 892,
+   "v2": {
+    "catches": "345/587",
+    "false_alarms": "44/305",
+    "clean_world_712_false_alarms": "15/712"
+   },
+   "g1": {
+    "catches": "488/587",
+    "false_alarms": "23/305",
+    "clean_world_712_false_alarms": "20/712"
+   },
+   "g2": {
+    "catches": "497/587",
+    "false_alarms": "19/305",
+    "clean_world_712_false_alarms": "17/712"
+   },
+   "g2_vs_g1_discordant_items": {
+    "only_g2_right": 19,
+    "only_g1_right": 6,
+    "p": "0.0146"
+   },
+   "short_dropper_probe": {
+    "v2": 0.227,
+    "g1": 0.248,
+    "g2": 0.439
+   },
+   "threshold": 0.532
+  }
+ },
+ "second_v4_breeding_correct": {
+  "run": {
+   "name": "skill_screen_v2+mos-claude.g6",
+   "gene": "505aa25108cf402f291e744871cc47f885f99446fc80748a5579fcbf7a0a52e5",
+   "grown_from": "skill_screen_v2",
+   "adopted": false,
+   "reason": "not_significantly_better_on_own_evidence:1_vs_3",
+   "out_of_fold": {
+    "benign": 69,
+    "catches": 65,
+    "false_alarms": 8,
+    "fpr": "0.116",
+    "malicious": 80,
+    "recall": "0.812"
+   },
+   "parent_on_same_items": {
+    "benign": 69,
+    "catches": 68,
+    "false_alarms": 9,
+    "fpr": "0.130",
+    "malicious": 80,
+    "recall": "0.850"
+   },
+   "shared_to": [],
+   "share_failed": []
+  },
+  "reading": "grown from v2 on all 149 items with cluster folds, the honest out-of-fold estimate is 65/80 catches and 8/69 false alarms against the active g1's 68/80 and 9/69: refused (1 cluster vs 3, alpha for attempt 5 = 0.0012). mos-claude keeps g1."
+ },
+ "also_found": "integral floats silently became integers on the way through the hub (2.0 arrived as 2), so an honest skill returning floats failed type-faithful probe re-execution at the receiver; fixed with tagged transport",
+ "open": [
+  "a short dropper in the campaign's own wording is not flagged (score 0.25-0.44 vs threshold 0.53): the gene keys on long texts",
+  "D4 not reached: no home-bred gene passes rule v4 on current evidence in mos-claude, mos-grok or memeos-cell-d"
+ ],
+ "tests": "139 ran, 0 failures"
+}

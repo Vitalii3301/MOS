@@ -10,6 +10,8 @@ class Router:
 class RHub:
     def __init__(self, r, node): self.r, self.node = r, node
     def send(self, to, kind, payload, mid):
+        from node import js_compat
+        payload = js_compat(payload)          # same refusal as the real hub client: integers that JavaScript cannot hold exactly
         m = {"stream_seq": next(self.r.seq), "message_id": mid, "sender": self.node, "kind": kind, "payload": json.loads(canon(payload)),
              "payload_sha256": hashlib.sha256(canon(payload).encode()).hexdigest()}
         self.r.box.setdefault(to, []).append(m); return 201, {}

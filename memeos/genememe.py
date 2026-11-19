@@ -23,21 +23,46 @@ CREATE TABLE IF NOT EXISTS gene_verdicts(gene TEXT, cell TEXT, adopted INTEGER, 
 PART = 150000
 # The adoption rule is a registered text: its sha256 travels with every verdict and with the code message, so a peer can
 # see which rule judged a gene. It changes only with a new id in a new version and applies only to decisions made after.
-RULE_TEXT = """significant/v3 (in force from MemeOS 2.21)
+RULE_TEXT = """significant/v4 (in force from MemeOS 2.24)
 A cell adopts a new gene over its current one iff ALL hold, on this cell's own data:
-1. Labelled evidence, items on which both genes can honestly be judged here (an item a gene was fitted on counts only
-   through an out-of-fold decision made at breeding; otherwise it is left out): the new gene is right where the current
-   is wrong more often than the reverse, exact two-sided sign test over all discordant items, p <= 0.05.
-2. On neither axis (false alarms on benign, catches on malicious) is the new gene worse with p <= 0.05.
+0. Units. Labelled items are grouped into template clusters (near-copies of one text: same words, other names/URLs;
+   MinHash similarity >= 0.5 on normalised word 4-grams). A cluster votes once: for the new gene if it is right where the
+   current is wrong on more of the cluster's items than the reverse, for the current gene in the opposite case.
+   An item a gene was fitted on (same item identity, or a near-copy of a fitted item by the signatures in its card)
+   counts only through an out-of-fold decision made when it was bred here; otherwise it is left out for both genes.
+1. Significance: more clusters vote for the new gene than for the current one, exact two-sided sign test over the voting
+   clusters, p <= alpha_n, where n is the number of candidate genes this cell has judged so far including this one and
+   alpha_n = 0.05 * 6 / (pi^2 * n^2)   (the alphas of all attempts ever add up to at most 0.05).
+2. False alarms, non-inferiority: benign clusters where only the new gene alarms, minus benign clusters where only the
+   current one alarms, is at most floor(benign clusters / 50).
 3. Its false-alarm rate on labelled benign items is <= 0.15, or not above the current gene's.
 4. Field set (real skills this cell met in the world, unlabelled, at most the 400 most recent, labelled ones excluded):
    the new gene does not alarm where the current is silent more often than the reverse with p <= 0.05.
 With fewer than 10 labelled items of either class the answer is no. A first gene needs only condition 3.
-History: rule 1 (2.17-2.19) compared raw counts and decided on single-item differences. Rule 2 (2.20) = conditions 1-3;
-it was introduced after the first bred child had been refused under rule 1, which is a forking-paths risk and is
-recorded as such. Rule 3 adds condition 4 (proposed by mos-grok) before any gene was bred under it."""
-RULE = {"id": "significant/v3", "sha256": hashlib.sha256(RULE_TEXT.encode()).hexdigest()}
-ALPHA, FA_BUDGET, FIELD_MAX = 0.05, 0.15, 400
+History: rule 1 (2.17-2.19) compared raw counts. Rule 2 (2.20) = sign test over items at 0.05 + "not significantly
+worse"; introduced after the first bred child had been refused under rule 1 (forking-paths risk, recorded). Rule 3 (2.21)
+added the field set. Rule 4 follows mos-grok's review of rule 3 (hub seq 2148): campaign clones made item-level tests
+and out-of-fold estimates optimistic (H1), fitted items were matched by exact hash only (H2), repeated attempts at a fixed
+alpha (M1), and "+4 false alarms, p=0.125" could pass (M2). Registered before any gene was bred or judged under it."""
+RULE = {"id": "significant/v4", "sha256": hashlib.sha256(RULE_TEXT.encode()).hexdigest()}
+ALPHA, FA_BUDGET, FIELD_MAX, SIG_K, SAME_TEMPLATE = 0.05, 0.15, 400, 24, 0.5
+
+# ---- item identity and template signatures (mos-grok's review: clones of one campaign template are not independent items)
+import re as _re
+_URL = _re.compile(r"https?://\S+|\b\d{1,3}(?:\.\d{1,3}){3}\b"); _BLOB = _re.compile(r"[A-Za-z0-9+/=_-]{24,}"); _DIG = _re.compile(r"\d")
+def norm_text(t):
+    return " ".join(_DIG.sub("0", _BLOB.sub(" blob ", _URL.sub(" url ", t.lower()))).split())
+def item_id(text):
+    """The same skill has the same identity whether a cell keeps its first 5,000 characters or the whole text."""
+    return hashlib.sha256(norm_text(text[:6000])[:3000].encode("utf-8", "surrogatepass")).hexdigest()
+_P = (1 << 31) - 1          # signatures travel through the hub: every integer must be exact in JavaScript (< 2^53)
+_AB = [(int.from_bytes(hashlib.blake2b(b"a%d" % i, digest_size=3).digest(), "big") | 1, int.from_bytes(hashlib.blake2b(b"b%d" % i, digest_size=3).digest(), "big")) for i in range(SIG_K)]
+def signature(text):
+    """MinHash over normalised word 4-grams of the first 8,000 characters."""
+    w = norm_text(text[:8000]).split(); sh = {" ".join(w[i:i + 4]) for i in range(max(1, len(w) - 3))}
+    xs = [int.from_bytes(hashlib.blake2b(x.encode("utf-8", "surrogatepass"), digest_size=7).digest(), "big") for x in sh] or [0]
+    return [min((a * x + b) % _P for x in xs) for a, b in _AB]
+def similar(s1, s2): return sum(a == b for a, b in zip(s1, s2)) / SIG_K >= SAME_TEMPLATE
 
 def gene_card(body_raw, kind, name, parents=(), origin=None, evidence=None, threshold=None):
     return {"schema": "mos-gene-meme/v1", "kind": kind, "name": name, "parents": list(parents), "origin": origin or {},
@@ -54,6 +79,9 @@ class GeneMemes:
         k.db.execute("UPDATE skill_evidence SET by='label:before-2.20' WHERE (by IS NULL OR by='seed') AND source LIKE 'forage:%'")
         k.db.execute("UPDATE skill_evidence SET by='import:'||substr(source,1,instr(source,'/')-1) WHERE by IS NULL AND source LIKE 'mos-%/%'")
         k.db.execute("UPDATE skill_evidence SET by='seed' WHERE by IS NULL")
+        for col in ("item", "sig2"):
+            if col not in [r[1] for r in k.db.execute("PRAGMA table_info(skill_evidence)")]: k.db.execute(f"ALTER TABLE skill_evidence ADD COLUMN {col} TEXT")
+        self.cell = None                                   # set by the node: whose decisions count towards alpha spending
 
     # ---- storage
     def put_blob(self, raw):
@@ -118,13 +146,46 @@ class GeneMemes:
         return n
     def evidence_rows(self):
         return self.k.db.execute("SELECT sha256, label, text FROM skill_evidence ORDER BY sha256").fetchall()
+    def idents(self):
+        """{evidence sha: (item identity, template signature)}; computed once per item and kept."""
+        db = self.k.db
+        for h, t in db.execute("SELECT sha256, text FROM skill_evidence WHERE item IS NULL OR sig2 IS NULL").fetchall():
+            db.execute("UPDATE skill_evidence SET item=?, sig2=? WHERE sha256=?", (item_id(t), json.dumps(signature(t)), h))
+        return {h: (i, json.loads(sg)) for h, i, sg in db.execute("SELECT sha256, item, sig2 FROM skill_evidence")}
+    def clusters(self):
+        """{evidence sha: cluster id}: near-copies of one template (and exact same items) form one cluster."""
+        ID = self.idents(); hs = sorted(ID); parent = {h: h for h in hs}
+        def find(x):
+            while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
+            return x
+        for a in range(len(hs)):
+            ia, sa = ID[hs[a]]
+            for b in range(a + 1, len(hs)):
+                ib, sb = ID[hs[b]]
+                if ia == ib or similar(sa, sb): parent[find(hs[b])] = find(hs[a])
+        return {h: find(h) for h in hs}
     def fit_items(self, gid):
-        c = self.card(gid) or {}; return set((c.get("origin") or {}).get("fit_items") or [])
+        o = (self.card(gid) or {}).get("origin") or {}
+        return set(o.get("fit_items") or []), list(o.get("fit_sigs") or [])
+    def fitted(self, gid):
+        """Evidence items of this cell that this gene was fitted on: same sha, same item identity, or a near-copy."""
+        fit, fsigs = self.fit_items(gid)
+        if not (fit or fsigs): return set()
+        ID = self.idents()
+        return {h for h, (it, sg) in ID.items() if h in fit or it in fit or any(similar(sg, f) for f in fsigs)}
+    def clean_base(self, gid):
+        """The nearest ancestor (the gene itself included) that never saw any of this cell's evidence. A child must be
+        grown from it: correcting a gene on the very items it was already fitted on would make every estimate optimistic."""
+        seen = set()
+        while gid and gid not in seen:
+            seen.add(gid)
+            if not self.fitted(gid): return gid
+            gid = ((self.card(gid) or {}).get("parents") or [None])[0]
+        return None
     def judgements(self, gid):
-        """{evidence sha: flagged?} for every item this gene may honestly be judged on in this cell:
-        an item it was fitted on counts only through its out-of-fold decision (stored when the gene was bred here);
-        without one, the item is left out."""
-        gene = self.load(gid); fit = self.fit_items(gid); out = {}
+        """{evidence sha: flagged?} for every item this gene may honestly be judged on in this cell: an item it was fitted
+        on counts only through its out-of-fold decision (stored when the gene was bred here); without one it is left out."""
+        gene = self.load(gid); fit = self.fitted(gid); out = {}
         oof = dict(self.k.db.execute("SELECT sha256, flagged FROM gene_oof WHERE gene=?", (gid,)))
         for h, _, t in self.evidence_rows():
             if h in oof: out[h] = bool(oof[h])
@@ -191,15 +252,27 @@ class GeneMemes:
         if not cur_id:
             ok = rate(new) <= FA_BUDGET
             return ok, "first_gene" if ok else "too_many_false_alarms_on_own_evidence", m
-        cur = self._metrics(Jc, labels, items); pr = self._paired(Jn, Jc, labels, items); fa, ca = pr["false_alarms"], pr["catches"]
-        right_new, right_cur = ca["only_new"] + fa["only_current"], ca["only_current"] + fa["only_new"]; p = self._p2(right_new, right_cur)
+        cur = self._metrics(Jc, labels, items); pr = self._paired(Jn, Jc, labels, items)
+        # cluster votes (rule 4, condition 0)
+        C = self.clusters(); votes = {}
+        for h in items:
+            good_new, good_cur = Jn[h] == bool(labels[h]), Jc[h] == bool(labels[h]); v = votes.setdefault(C[h], {"new": 0, "cur": 0, "fa_new": 0, "fa_cur": 0, "benign": 0})
+            v["new"] += good_new and not good_cur; v["cur"] += good_cur and not good_new
+            if labels[h] == 0: v["benign"] = 1; v["fa_new"] += Jn[h] and not Jc[h]; v["fa_cur"] += Jc[h] and not Jn[h]
+        right_new = sum(1 for v in votes.values() if v["new"] > v["cur"]); right_cur = sum(1 for v in votes.values() if v["cur"] > v["new"]); p = self._p2(right_new, right_cur)
+        n = 1 + self.k.db.execute("SELECT COUNT(DISTINCT gene) FROM gene_verdicts WHERE cell IS ? AND gene != ?", (self.cell, gid)).fetchone()[0]
+        alpha_n = ALPHA * 6 / (math.pi ** 2 * n * n); need = next(k for k in range(1, 200) if 2 / 2 ** k <= alpha_n)
+        benign_clusters = sum(v["benign"] for v in votes.values()); margin = benign_clusters // 50
+        extra_fa = sum(1 for v in votes.values() if v["fa_new"] > v["fa_cur"]) - sum(1 for v in votes.values() if v["fa_cur"] > v["fa_new"])
         r1 = ("refuse:more_false_alarms" if new["false_alarms"] > cur["false_alarms"] else "refuse:fewer_catches" if new["catches"] < cur["catches"] else
               "refuse:no_improvement" if (new["false_alarms"], new["catches"]) == (cur["false_alarms"], cur["catches"]) else "adopt")
-        m.update(current=cur, current_id=cur_id, paired=pr, overall={"only_new_right": right_new, "only_current_right": right_cur, "p": "%.4g" % p}, rule_1_would_say=r1)
+        m.update(current=cur, current_id=cur_id, paired=pr, rule_1_would_say=r1, clusters={"items": len(items), "clusters": len(votes), "benign_clusters": benign_clusters},
+                 overall={"unit": "template_cluster", "only_new_right": right_new, "only_current_right": right_cur, "p": "%.4g" % p, "attempt": n, "alpha": "%.4g" % alpha_n,
+                          "needs_at_least_discordant_all_one_way": need},
+                 false_alarm_margin={"extra_benign_clusters_alarmed": extra_fa, "allowed": margin})
         if rate(new) > max(FA_BUDGET, rate(cur)): return False, "false_alarm_budget_exceeded:%d/%d" % (new["false_alarms"], new["benign"]), m
-        if fa["only_new"] > fa["only_current"] and self._p2(fa["only_new"], fa["only_current"]) <= ALPHA: return False, "significantly_more_false_alarms_on_own_evidence:%d>%d" % (new["false_alarms"], cur["false_alarms"]), m
-        if ca["only_current"] > ca["only_new"] and self._p2(ca["only_new"], ca["only_current"]) <= ALPHA: return False, "significantly_fewer_catches_on_own_evidence:%d<%d" % (new["catches"], cur["catches"]), m
-        if not (right_new > right_cur and p <= ALPHA): return False, "not_significantly_better_on_own_evidence:%d_vs_%d" % (right_new, right_cur), m
+        if extra_fa > margin: return False, "more_false_alarms_than_margin_on_own_evidence:%d>%d" % (extra_fa, margin), m
+        if not (right_new > right_cur and p <= alpha_n): return False, "not_significantly_better_on_own_evidence:%d_vs_%d" % (right_new, right_cur), m
         f = self.field_pair(gid, cur_id); m["field"] = f
         if f and f["only_new"] > f["only_current"] and self._p2(f["only_new"], f["only_current"]) <= ALPHA:
             return False, "significantly_more_alarms_on_real_world_skills:%d_vs_%d" % (f["only_new"], f["only_current"]), m

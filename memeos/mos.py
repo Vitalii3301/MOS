@@ -7,6 +7,7 @@
     python3 MOS-portable.zip hub plan   where can a hub live from here: join / local / server / docker / ssh / tunnel / railway / kit
     python3 MOS-portable.zip hub deploy server | hub kit <dir> | hub adopt <url> <admin token> | hub invite <node> | hub leave
     python3 MOS-portable.zip genes      optional: fetch pinned external models (needs network, ~0.6 GB)
+    python3 MOS-portable.zip check <file | URL | ->      is this agent skill safe to install? plain answer (check serve: a local page)
     python3 MOS-portable.zip verify     full offline test suite (97+ tests, a few minutes)
 
 What "complete" means here: the kernel, the hub, three cells restored from the snapshots of the live cells

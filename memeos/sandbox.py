@@ -8,7 +8,8 @@ Three independent walls, each sufficient against a class of escapes:
 2. Clean runner: the meme runs in a module namespace that holds nothing but itself; the import hook, the builtins
    module and the runner's own modules are not reachable from any frame the meme can see.
 3. Empty filesystem: before the meme is loaded the child process locks itself into an empty directory (chroot) and
-   drops to an unprivileged user (or, without root, does the same inside a private user namespace). Even code that
+   drops to an unprivileged user (or, without root, does the same inside a private user namespace), then gives up every
+   capability and forbids regaining any. Even code that
    gets past walls 1 and 2 finds no files, no /proc, nothing to read. If this wall cannot be built on a host, the
    run reports it and is refused (by default for all code; always for foreign code).
 
@@ -57,6 +58,10 @@ import json, os, resource, sys
 ALLOWED = @@ALLOWED@@
 for _m in sorted(ALLOWED): __import__(_m)                 # load everything the meme may import BEFORE the filesystem goes away
 data = json.loads(sys.stdin.read()); jail = os.getcwd(); iso = "none"
+try:                                                        # loaded while the filesystem is still there; used after the jail is built
+    import ctypes
+    _libc = ctypes.CDLL(None, use_errno=True)
+except Exception: ctypes = _libc = None
 try:
     if os.geteuid() == 0:
         os.chroot(jail); os.chdir("/"); os.setgroups([]); os.setgid(65534); os.setuid(65534); iso = "chroot+nobody"
@@ -69,6 +74,19 @@ try:
         os.chroot(jail); os.chdir("/"); iso = "userns+chroot"
 except Exception as e:
     iso = "none:" + type(e).__name__
+if not iso.startswith("none"):
+    # Inside a fresh user namespace the process holds every capability of that namespace (mos-claude-code, 2.22.3 review):
+    # give them all up and forbid regaining any, so the jail cannot be rearranged from inside (chroot/mount/setuid again).
+    try:
+        _libc.prctl(38, 1, 0, 0, 0)                                    # PR_SET_NO_NEW_PRIVS
+        for _c in range(64): _libc.prctl(24, _c, 0, 0, 0)              # PR_CAPBSET_DROP (fails harmlessly where not permitted)
+        class _H(ctypes.Structure): _fields_ = [("version", ctypes.c_uint32), ("pid", ctypes.c_int)]
+        class _D(ctypes.Structure): _fields_ = [("e", ctypes.c_uint32), ("p", ctypes.c_uint32), ("i", ctypes.c_uint32)]
+        if _libc.capset(ctypes.byref(_H(0x20080522, 0)), (_D * 2)()) == 0:
+            try: os.chroot("/"); iso += "+caps_NOT_dropped"
+            except PermissionError: iso += "+nocaps"
+    except Exception as e:
+        iso += "+caps_unknown:" + type(e).__name__
 if data.get("require_isolation") and iso.startswith("none"):
     sys.stdout.write(json.dumps({"isolation": iso, "refused": True})); sys.exit(0)
 resource.setrlimit(resource.RLIMIT_CPU, (@@CPU@@, @@CPU@@))
