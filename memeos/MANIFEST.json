@@ -5,8 +5,8 @@
  "files": {
   "COLLABORATION-RU.md": "ea9ab513e666ea3edf4efe931719756c2fd443f3308dafb9253147ea64f29660",
   "Dockerfile": "9022c06aedbc7063ff62e05d43c97aefda9392fa0b10b6eb672309961d542bcd",
-  "OFFLINE_MANIFEST.json": "84e5cbfcb799da42c594c835505e5e0459e4b345db7b156a3277f95352d6b8ca",
-  "README-RU.md": "81af7247b60883acb6c3bd357e1550010b7fa8bf9afe5813cabfbc668fd44898",
+  "OFFLINE_MANIFEST.json": "86b2fbfb612f88dbb40663fa2bf32331befd09aa49b7c1fd91036e5e1ab4144b",
+  "README-RU.md": "febdfe755c86b3b3597c2699dc74dc65bd0d6e08f8aabc98d2b41690d527dd04",
   "agent.py": "4627a0ffc09aa57abc82ecacba2e175b81843f16b8187dd288d0d9ceaab84220",
   "agent_demo.py": "6694597e9340eca36a712dfea9761c8e0d769923fab8c18b335edcf1168e410b",
   "barrier.py": "e7530b40836eaffe85137293e9c480761b56b72c78a19bd1e9350502fd67c1eb",
@@ -132,10 +132,10 @@
   "skillgene.py": "f78bc9c16dfb61ba01006277533e80aaf221fbc3c992fc30a170c67620cf1a7d",
   "skillimmune.py": "806de93a10c40b6c8c682fb503b7f1584415e783a0be616142e55c31d9643d8f",
   "snapshots/cells.json.gz": "b2f9a5b9351b15929cdaeca1ab7d30658b72f5048c6fa50f84e091722f83d914",
-  "studio.py": "eec95a8e14218f2f4dfff91b03b1101213ca7dcb1a371cfe553d6b171b1e7c5f",
+  "studio.py": "05aa8898a2cf677573e34af2ecc0247348dc976e314c5ce71ec79c223bdca9cb",
   "tasks.py": "e0cea68f19e4d4c0d571c9b7293c4a913ea60e480554947e7fddd9463d951b92",
   "test_memeos.py": "ff0d746efa64dbcf0839ef582701cf51445c29715cc66e2028befd58f97d7706",
-  "test_studio.py": "369f373ad01262fae9228e404b07a8336d385f352e39f427d74954a04056aacc",
+  "test_studio.py": "6576e494b2db55f9278c7b28df028fe12cbad93f6d2b5962e130f89a3deadf73",
   "tolerance_sim.py": "3cbef3f36c4f3a09b77af83ebeae050eb2cce00d7e4e8743544829e5b30d5e35",
   "trojan_suite.py": "7fe121eac3e85d1f1aa6284e9a4fe4f1f558691b03ff451c7920cab51a067178",
   "verify_release.py": "53053fef10192cf66355fba294e6a76bda992fbdc59b40f11484a6d57c31060b"

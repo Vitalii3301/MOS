@@ -58,6 +58,24 @@ class StudioTest(unittest.TestCase):
         tr, va, ho = studio.split(studio.parse_examples(WORDS))
         self.assertFalse({json.dumps(e["input"]) for e in tr} & {json.dumps(e["input"]) for e in va + ho})
 
+    def test_7_people_mode(self):
+        """Plain words, text in and text out: examples -> a tool -> a whole list, no model needed for this one."""
+        import re
+        P = json.loads("{" + re.search(r'const P=\{(.*?)\};\nfunction rows', studio.PEOPLE, re.S).group(1) + "}")
+        pairs, sample = P["Почта из текста"]
+        r = self.S.tool_make("Почта из текста", pairs)
+        self.assertTrue(r["ok"], r); self.assertEqual(r["how"], "self"); self.assertEqual(r["mistakes_on_check"], 0)
+        out = self.S.tool_apply("Почта из текста", sample.split("\n"))
+        self.assertEqual([x["out"] for x in out["rows"]], ["help@service.ru", "director@zavod.com", "my.mail@inbox.ru"])
+        self.assertEqual(out["failed"], 0)
+        tools = {t["name"]: t for t in self.S.tools()["tools"]}
+        self.assertEqual(tools["Почта из текста"]["uses"], 1); self.assertEqual(tools["Почта из текста"]["rows"], 3)
+        with self.assertRaises(MemeError): self.S.tool_make("", pairs)                  # a friendly message, not a crash
+        with self.assertRaises(MemeError): self.S.tool_make("Мало", pairs[:3])
+        with self.assertRaises(MemeError): self.S.tool_apply("Нет такого", ["x"])
+        for word in ("мем", "геном", "holdout", "эмерджент"):                         # no jargon on the people page
+            self.assertNotIn(word, studio.PEOPLE.lower())
+
     def test_6_http(self):
         box = {}; ready = threading.Event()
         def run():                                   # the studio and its sqlite live in the server's own thread, as in serve()
@@ -74,6 +92,7 @@ class StudioTest(unittest.TestCase):
                     with request.urlopen(req) as r: return r.status, json.loads(r.read())
                 except error.HTTPError as e: return e.code, None
             self.assertEqual(post("/api/status", "{}")[0], 200)
+            with request.urlopen(f"http://127.0.0.1:{port}/lab") as r: self.assertIn("лаборатория", r.read().decode())
             self.assertEqual(post("/api/status", "a=b", "application/x-www-form-urlencoded")[0], 415)   # no cross-site form posts
             self.assertEqual(post("/api/nope", "{}")[0], 404)
             self.assertEqual(post("/api/learn", json.dumps({"goal": "x", "examples": "bad"}))[0], 400)
