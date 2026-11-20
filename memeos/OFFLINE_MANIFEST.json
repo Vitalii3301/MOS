@@ -74,7 +74,7 @@
   "genes/skill/skill_screen_v2+mos-claude.g1.json.gz": "aef5229ab5125c3a566e56e538e3d1ca4574ab1c9e98ce6ecb4b96754d49595e",
   "genes/skill/skill_screen_v2.json.gz": "2e7bf8bcdc9690beaab540b148b9c86b1c996eaca2511e78991a99f37e6c2b11",
   "snapshots/cells.json.gz": "b2f9a5b9351b15929cdaeca1ab7d30658b72f5048c6fa50f84e091722f83d914",
-  "studio.py": "47db2232e682641b5eb4788c0c1c984b7593870d13b661a5cc21c142e029ad17",
-  "test_studio.py": "2b658df76781ec6976b08cf1bf7a29a873a52b6b1582ec2e3a19348f81f399fb"
+  "studio.py": "eec95a8e14218f2f4dfff91b03b1101213ca7dcb1a371cfe553d6b171b1e7c5f",
+  "test_studio.py": "369f373ad01262fae9228e404b07a8336d385f352e39f427d74954a04056aacc"
  }
 }

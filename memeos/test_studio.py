@@ -17,6 +17,7 @@ class StudioTest(unittest.TestCase):
     def setUpClass(cls): cls.S = studio.Studio(":memory:")
 
     def test_1_task_to_meme_without_model(self):
+        self.assertTrue(self.S.status()["sandbox"], "Python memes need the sandbox's isolation: run as root, like the live cells")
         r = self.S.learn("Обратный порядок слов", WORDS)
         self.assertTrue(r["ok"], r); self.assertFalse(self.S.node.model.available)
         self.assertEqual(r["gate"]["holdout"][0], r["gate"]["holdout"][1])
@@ -28,7 +29,8 @@ class StudioTest(unittest.TestCase):
         self.assertEqual(again["solved_by"], "memeos-reuse", again)          # the same task again: free, no search
 
     def test_2_library_lineage_hybrid(self):
-        a = self.S.learn("Обратный порядок слов", WORDS)["meme"]; b = self.S.learn("В верхний регистр", UPPER)["meme"]
+        ra, rb = self.S.learn("Обратный порядок слов", WORDS), self.S.learn("В верхний регистр", UPPER)
+        self.assertTrue(ra["ok"] and rb["ok"], (ra, rb)); a, b = ra["meme"], rb["meme"]
         lib = self.S.library(); self.assertGreaterEqual(len(lib["memes"]), 2)
         self.assertEqual(self.S.meme(a[:10])["lineage"][0]["meme"], a)
         hx = "\n".join(f'"{s}" => "{" ".join(s.split()[::-1]).upper()}"' for s in ["alpha beta", "one two", "a b c", "x y", "mos cell gene", "red green", "p q r s"])

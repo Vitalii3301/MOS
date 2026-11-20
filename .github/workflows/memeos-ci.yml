@@ -32,7 +32,7 @@ jobs:
       - name: Unit tests (as root)
         run: sudo -E env PATH="$PATH" "$(which python)" -W ignore -m unittest test_memeos
       - name: MOS Studio tests (offline, no model)
-        run: python -W ignore -m unittest test_studio
+        run: sudo -E env PATH="$PATH" "$(which python)" -W ignore -m unittest test_studio   # as root: Python memes need the sandbox's isolation
       - name: Docker build and import check
         run: |
           docker build -t memeos-node .
