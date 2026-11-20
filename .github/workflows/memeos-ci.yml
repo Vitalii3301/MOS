@@ -31,6 +31,8 @@ jobs:
       # As the unprivileged runner user it would need user namespaces, which Ubuntu runners restrict.
       - name: Unit tests (as root)
         run: sudo -E env PATH="$PATH" "$(which python)" -W ignore -m unittest test_memeos
+      - name: MOS Studio tests (offline, no model)
+        run: python -W ignore -m unittest test_studio
       - name: Docker build and import check
         run: |
           docker build -t memeos-node .
