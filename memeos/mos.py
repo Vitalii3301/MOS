@@ -349,6 +349,8 @@ def main(argv):
         os.chdir(APP); os.execv(sys.executable, [sys.executable, "-B", os.path.join(APP, "offline_check.py")])
     if cmd == "cell":
         return run_cell(argv[1:])
+    if cmd == "studio":         # one local workbench for every aspect of MOS (see studio.py): python3 mos.py studio [--port 8780]
+        os.chdir(APP); os.execv(sys.executable, [sys.executable, "-B", "-W", "ignore", os.path.join(APP, "studio.py")] + argv[1:])
     if cmd == "check":          # check an agent skill before installing it: plain answer, no JSON (see skillcheck.py)
         os.chdir(APP); os.execv(sys.executable, [sys.executable, "-B", "-W", "ignore", os.path.join(APP, "skillcheck.py")] + argv[1:])
     if cmd == "hub":

@@ -5,8 +5,8 @@
  "files": {
   "COLLABORATION-RU.md": "ea9ab513e666ea3edf4efe931719756c2fd443f3308dafb9253147ea64f29660",
   "Dockerfile": "9022c06aedbc7063ff62e05d43c97aefda9392fa0b10b6eb672309961d542bcd",
-  "OFFLINE_MANIFEST.json": "d59ab06dd92ed6ace85457b8327bbd4c1e0d7e30fd64997ce13b69d9aa580c3a",
-  "README-RU.md": "9bc3914b9b22931e8df0ad9b910ade95e2cecdaadca61cf25e0a4c196689745f",
+  "OFFLINE_MANIFEST.json": "84e5cbfcb799da42c594c835505e5e0459e4b345db7b156a3277f95352d6b8ca",
+  "README-RU.md": "81af7247b60883acb6c3bd357e1550010b7fa8bf9afe5813cabfbc668fd44898",
   "agent.py": "4627a0ffc09aa57abc82ecacba2e175b81843f16b8187dd288d0d9ceaab84220",
   "agent_demo.py": "6694597e9340eca36a712dfea9761c8e0d769923fab8c18b335edcf1168e410b",
   "barrier.py": "e7530b40836eaffe85137293e9c480761b56b72c78a19bd1e9350502fd67c1eb",
@@ -111,7 +111,7 @@
   "meta_bench.py": "0b4b3fc0b0a30fdbcac0dde04a70edbf92f66f6c2f7f8c39c01981b1bf39a3fc",
   "metaevolve.py": "3efd533de85479543fe5dee7eff17d8ad4d4a0aa2ac6fab2f5d5cc8078384ac5",
   "modelgen.py": "04182dd6dcb5572e3fd70f6c4651394369d0dfb47343a37d3e67d64f0ce9b5ee",
-  "mos.py": "c99ebcdcbf9f95015bc0556fa5e4c654f39a85f90682d74b48113022e83c3271",
+  "mos.py": "5d00c9bc03cdeaadae7dd1044c8e2fa2bea5940dca884717e58e88a252357f35",
   "net.py": "f45604b24535d2c05e15da2cbbc87116857fd9eca5a58b7a78916d6f820f7ca5",
   "net_data.py": "7d1a9f387fdc1fe71d233a800bc66b95fea1e9f4a4736af2242dd0853f97593b",
   "net_sim.py": "7104434d8014b1a7fc3f3448e7a7f492edd2be0ee1915836dcbc1deb31a8569c",
@@ -132,8 +132,10 @@
   "skillgene.py": "f78bc9c16dfb61ba01006277533e80aaf221fbc3c992fc30a170c67620cf1a7d",
   "skillimmune.py": "806de93a10c40b6c8c682fb503b7f1584415e783a0be616142e55c31d9643d8f",
   "snapshots/cells.json.gz": "b2f9a5b9351b15929cdaeca1ab7d30658b72f5048c6fa50f84e091722f83d914",
+  "studio.py": "eec95a8e14218f2f4dfff91b03b1101213ca7dcb1a371cfe553d6b171b1e7c5f",
   "tasks.py": "e0cea68f19e4d4c0d571c9b7293c4a913ea60e480554947e7fddd9463d951b92",
   "test_memeos.py": "ff0d746efa64dbcf0839ef582701cf51445c29715cc66e2028befd58f97d7706",
+  "test_studio.py": "369f373ad01262fae9228e404b07a8336d385f352e39f427d74954a04056aacc",
   "tolerance_sim.py": "3cbef3f36c4f3a09b77af83ebeae050eb2cce00d7e4e8743544829e5b30d5e35",
   "trojan_suite.py": "7fe121eac3e85d1f1aa6284e9a4fe4f1f558691b03ff451c7920cab51a067178",
   "verify_release.py": "53053fef10192cf66355fba294e6a76bda992fbdc59b40f11484a6d57c31060b"
@@ -141,6 +143,6 @@
  "live": {
   "code": "2.27.1 hub seq 2670/2698-2724 (MOS-portable-2.27.1.zip sha256 9fd65b11), code_root 7f9d3a97",
   "note": "all four live cells run 2.27.1 (code_root 7f9d3a97f8676965); identity to compare: code_root (code_bundle.py, or op \"rule\" on any cell)",
-  "repo_note": "source tree from the portable bundle's app/; evidence/ and verify_release.py kept from earlier releases"
+  "repo_note": "source tree from the portable bundle's app/; evidence/ and verify_release.py kept from earlier releases; studio.py (MOS Studio, not part of the cell code bundle) added by mos-claude-code"
  }
 }
