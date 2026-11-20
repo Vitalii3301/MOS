@@ -104,6 +104,10 @@ def _python_of(k, mid, idx):
     from compile import compile_genome
     return compile_genome(card["genome"], k.resolve, name=f"_gene{idx}", prefix=f"_c{idx}_")
 
+def tainted_single(k, m):
+    from restrict import tainted
+    return tainted(k, m)                             # foreign genes keep their restricted path (pairs below)
+
 def compose_cross(k, cid, evals=0, max_pairs=160):
     """Cross-substrate composition: chains of MPL and Python memes as one Python code meme, gated in the sandbox."""
     from sandbox import evaluate_source
@@ -115,6 +119,16 @@ def compose_cross(k, cid, evals=0, max_pairs=160):
     code = {m for m in pool if k.card(m).get("schema") == "mos-code-meme/v1"}
     if not code: return {"ok": False, "evaluations": evals}
     c = k._contract(cid); cm = CodeMemes(k); tried = 0
+    for a in pool:                                   # a single existing code meme first: the same skill asked again, in other words
+        if a not in code or tainted_single(k, a): continue
+        tried += 1; evals += 1
+        sa = _python_of(k, a, 1)
+        if not sa: continue
+        src = sa + "\n\ndef meme(x):\n    return _gene1(x)\n"
+        if evaluate_source(src, c["train"])[0] != len(c["train"]): continue
+        r = cm.propose(src, cid, "reuse", parents=[a])
+        if r.get("accepted"):
+            return {"ok": True, "meme": r["meme"], "composed_of": [k.card(a)["goal"]], "substrates": ["python"], "evaluations": evals, "gate": r}
     for a, b in itertools.permutations(pool, 2):
         if not ({a, b} & code) or tried >= max_pairs: continue
         tried += 1; evals += 1

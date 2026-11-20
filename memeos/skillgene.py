@@ -57,14 +57,22 @@ def skill_report(gene, text):
     return {"ok": True, "verdict": "malicious" if reasons else "no_signal", "reasons": reasons, "skill_gene": sg,
             "evidence": ev, "note": "no_signal is not a guarantee of safety"}
 
-def screen(gene, text, barrier=None):
-    """The whole screen_skill verdict, for cells (node.py) and for people (skillcheck.py): the gene decides
-    malicious / no_signal; when it is silent and the barrier sees an open "drop your instructions" override, the answer is
-    `suspicious` (measured before switching on: 19 of 1,981 clean-world skills, 0 of 259 benign and 1 of 341 malicious
-    benchmark skills). Returns (report, barrier decision)."""
+def screen(gene, text, barrier=None, signatures=None):
+    """The whole screen_skill verdict, for cells (node.py) and for people (skillcheck.py).
+
+        malicious   a skill signature fires: a precise pattern of a known real attack (skillimmune.py)
+        suspicious  only the learned gene fires (broad, many false alarms on long technical skills: 45 of 111 real benign
+                    skills, against 0 of 111 for a signature), or the text openly tells the reader to drop its instructions
+        no_signal   nothing found; not a guarantee of safety
+
+    `signatures` is {name: compiled regex}. Returns (report, barrier decision)."""
     out = skill_report(gene, text)
     d = barrier.decide(text[:200000], "content", use_external=False) if barrier else {"invasive": False, "reasons": []}
+    sig = sorted(n for n, r in (signatures or {}).items() if r.search(text[:200000]))
     ov = [r for r in d.get("reasons") or [] if r.startswith("antimeme:") and "override_" in r]
-    if out["verdict"] == "no_signal" and ov:
-        out["verdict"] = "suspicious"; out["reasons"] = ["barrier:" + r.split(":", 1)[1] for r in ov]
+    gene_says = out["verdict"] == "malicious"
+    if sig: out["verdict"] = "malicious"; out["reasons"] = ["skill_antimeme:" + n for n in sig] + (out["reasons"] if gene_says else [])
+    elif gene_says: out["verdict"] = "suspicious"
+    elif ov: out["verdict"] = "suspicious"; out["reasons"] = ["barrier:" + r.split(":", 1)[1] for r in ov]
+    out["note"] = "malicious = a signature of a known real attack fired; suspicious = only the broad gene or an override phrase; no_signal is not a guarantee of safety"
     return out, d

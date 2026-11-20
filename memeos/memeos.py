@@ -22,7 +22,7 @@ from __future__ import annotations
 import difflib, hashlib, json, random, sqlite3, time, re
 from dataclasses import dataclass
 
-VERSION = "2.24.1"
+VERSION = "2.27.1"
 
 def canon(v) -> str:
     return json.dumps(v, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
@@ -544,7 +544,7 @@ class MemeOS:
         c = self._contract(cid); train = c["train"]; pool = constant_pool(train)
         motifs = self.motifs() if use_motifs else []
         act = self.active(c["goal"], c["context"])
-        seed_progs = [s for s in seeds] + ([self.resolve(act)] if act else [])
+        seed_progs = [s for s in seeds] + ([self.resolve(act)] if act and "genome" in self.card(act) else [])   # a Python code meme cannot seed MPL search
         evaluations = 0
         cache = {}
         def fit(p):
@@ -599,7 +599,19 @@ class MemeOS:
         Holdout is never used for selection, only reported."""
         c = self._contract(cid)
         act = self.active(c["goal"], c["context"])
-        if compose_first and not act:
+        if act:                                  # the same task again with new evidence: if the active meme already passes it, reuse it
+            from emergence import _python_of
+            from sandbox import evaluate_source
+            src = _python_of(self, act, 1)
+            if src:
+                src += "\n\ndef meme(x):\n    return _gene1(x)\n"
+                score = {k: [evaluate_source(src, c[k])[0], len(c[k])] for k in ("train", "validation", "holdout")}
+                if all(s == n for s, n in (score["train"], score["validation"])):
+                    self.event("reused_active", {"contract": cid, "meme": act, "score": score})
+                    return {"ok": True, "meme": act, "gate": {"accepted": True, "reason": "reused_active", **score},
+                            "program": self.card(act).get("genome") or {"python": True}, "phase": "reuse",
+                            "evaluations": 0, "generation": 0, "rejected": []}
+        if compose_first:                       # reuse first, also when this goal already has an active meme (same task, new evidence)
             from emergence import compose
             cr = compose(self, cid, max_len=2, budget=400)
             if cr["ok"]:

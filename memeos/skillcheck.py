@@ -39,6 +39,16 @@ def active_gene():
             return SG.SkillGene(json.loads(gzip.decompress(raw))), act[0][0]
     raise RuntimeError("gene body %s not found in genes/skill" % card["body_sha256"][:12])
 
+def bundled_signatures():
+    """Skill signatures the live main cell held when this bundle was built (precise patterns of known real attacks)."""
+    try: rows = json.loads(gzip.decompress(open(os.path.join(HERE, "snapshots", "cells.json.gz"), "rb").read()))["mos-claude"]["tables"].get("skill_antimemes", [])
+    except Exception: rows = []
+    out = {}
+    for r in rows:
+        try: out[r[0]] = re.compile(r[1], re.I | re.M)
+        except re.error: pass
+    return out
+
 def _barrier():
     bp = os.path.join(HERE, "barrier_deploy.json")
     if not os.path.exists(bp): return None
@@ -72,11 +82,11 @@ def _lines_with(text, phrases, limit=5):
         if len(out) >= limit: break
     return out
 
-def check(text, gene=None, gene_id=None, barrier=None):
+def check(text, gene=None, gene_id=None, barrier=None, signatures=None):
     if not isinstance(text, str) or not text.strip(): raise ValueError("empty text")
     if len(text) > MAX_TEXT: raise ValueError("text larger than %d characters" % MAX_TEXT)
     if gene is None: gene, gene_id = active_gene()
-    rep = SG.screen(gene, text, barrier if barrier is not None else _barrier())[0]     # the one verdict function the live cells use
+    rep = SG.screen(gene, text, barrier if barrier is not None else _barrier(), signatures if signatures is not None else bundled_signatures())[0]   # the one verdict function the live cells use
     up, down = explain(gene, text)
     sg = rep["skill_gene"]
     return {"verdict": rep["verdict"], "level": LEVELS[rep["verdict"]], "level_ru": LEVELS_RU[rep["verdict"]],

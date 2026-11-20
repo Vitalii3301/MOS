@@ -84,7 +84,23 @@ class ModelGenerator:
             text = re.sub(r"<think>.*?</think>", "", content, flags=re.S).strip()
             text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text)
             m = re.search(r"\{.*\}", text, flags=re.S)
-            cands = json.loads(m.group(0) if m else text)["candidates"]
+            def _find(o):                                  # models sometimes nest the list (e.g. under "answer_format")
+                if isinstance(o, dict):
+                    if isinstance(o.get("candidates"), list): return o["candidates"]
+                    for v in o.values():
+                        r = _find(v)
+                        if r is not None: return r
+                return None
+            obj = json.loads(m.group(0) if m else text)
+            cands = _find(obj)
+            if cands is None:                              # or a bare source under another key (e.g. "answer"): still gated like any meme
+                def _src(o):
+                    if isinstance(o, str): return [o] if "def meme(" in o else []
+                    if isinstance(o, dict): return [s for v in o.values() for s in _src(v)]
+                    if isinstance(o, list): return [s for v in o for s in _src(v)]
+                    return []
+                cands = [{"source": s} for s in _src(obj)]
+                if not cands: raise KeyError("candidates")
         except Exception:
             raise MemeError("model_output_not_json:" + content[:240].replace("\n", " "))
         out = []

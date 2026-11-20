@@ -79,6 +79,10 @@ class Node:
         self.genes = GeneMemes(self.k); self.genes.cell = hub.node
         from breed import Breeder
         self.breeder = Breeder(self)
+        from skillimmune import SkillImmunity
+        self.skill_immunity = SkillImmunity(self)
+        from reader import Reader
+        self.reader = Reader(self)
         act = self.genes.active("skill_gene")
         if act:
             try: self.skill_gene = self.genes.load(act)          # the gene this cell itself adopted survives restarts
@@ -138,7 +142,7 @@ class Node:
              "net_gene_samples": "SELECT * FROM net_gene_samples", "net_competence": "SELECT * FROM net_competence", "net_recalls": "SELECT * FROM net_recalls",
              "net_clean_extra": "SELECT * FROM net_clean_extra", "forecast_memory": "SELECT * FROM forecast_memory", "gaps": "SELECT * FROM gaps",
              "gene_memes": "SELECT * FROM gene_memes", "gene_verdicts": "SELECT * FROM gene_verdicts", "gene_oof": "SELECT * FROM gene_oof", "lifecycle": "SELECT * FROM lifecycle",
-             "forage": "SELECT * FROM forage"}
+             "forage": "SELECT * FROM forage", "skill_antimemes": "SELECT * FROM skill_antimemes"}
         if full: T.update(skill_evidence="SELECT sha256,label,source,text,at,by FROM skill_evidence", field_seen="SELECT * FROM field_seen",
                           node_meta_cursor="SELECT key,value FROM node_meta WHERE key='cursor'")
         tables = {}
@@ -187,10 +191,17 @@ class Node:
     def screen_skill(self, text, barrier_info=False, journal=True):
         """The one path a skill-screening request takes; the life cycle runs it once before a new gene may stay active."""
         import skillgene
-        out, d = skillgene.screen(self.skill_gene, text, self.barrier)
+        out, d = skillgene.screen(self.skill_gene, text, self.barrier, self.skill_immunity.rx)
         if journal:
             self.k.event("skill_screened", {"sha256": hashlib.sha256(text.encode("utf-8", "surrogatepass")).hexdigest(), "verdict": out["verdict"],
                                             "reasons": out["reasons"], "skill_gene_score": out["skill_gene"]["score"]})
+        if journal and self.reader.available and out["verdict"] != "malicious":
+            # the reader (a language model steered by the cell's active prompt meme) reads the skill; it may only ADD a
+            # "malicious" backed by a literal quote from the text, never clear another detector's alarm
+            r = self.reader.read(text); out["reader"] = {k: r.get(k) for k in ("verdict", "quote", "why", "prompt", "model") if r.get(k)}
+            if r["verdict"] == "malicious": self.skill_immunity.find(text, r.get("quote"), r.get("prompt"))   # raw material for a signature (distillation)
+            if r["verdict"] == "malicious" and os.environ.get("MEMEOS_READER_VOTES") == "1":
+                out["verdict"] = "malicious"; out["reasons"] = ["reader:" + str(r.get("prompt"))] + out["reasons"]
         if barrier_info:    # on request only (feedback from mos-grok: shown by default it breeds alarm fatigue)
             out["barrier_info"] = {"invasive": d["invasive"], "reasons": d.get("reasons"), "voting": False,
                                    "meaning": "document-injection barrier; a skill is itself instructions, so it fires on ~29% of benign skills; not part of the verdict"}
@@ -198,7 +209,7 @@ class Node:
 
     def budget_take(self, op):
         """Daily cap on compute-heavy operations (learn, feedback that may trigger learning, adopt)."""
-        if op not in ("learn", "feedback", "adopt", "discover", "immunize", "breed_gene"): return True
+        if op not in ("learn", "feedback", "adopt", "discover", "immunize", "breed_gene", "immunize_skills"): return True
         day = time.strftime("%Y-%m-%d", time.gmtime()); key = "budget:" + day
         used = int((self.k.db.execute("SELECT value FROM node_meta WHERE key=?", (key,)).fetchone() or ["0"])[0])
         if used >= int(os.environ.get("MEMEOS_DAILY_HEAVY_OPS", "40")): return False
@@ -293,13 +304,13 @@ class Node:
             ensure(self.forager is not None, "forager_off"); return self.forager.run_once()
         if op == "label_skill":
             ensure(self.forager is not None, "forager_off"); ensure(p.get("label") in (0, 1), "label_must_be_0_or_1")
-            return self.forager.label(str(p["repo"]), str(p["path"]), p["label"], self._sender)
+            r = self.forager.label(str(p["repo"]), str(p["path"]), p["label"], self._sender); r["signatures_dropped"] = self.skill_immunity.tolerate(); return r
         if op == "import_evidence":
             # labelled skills sent as memeos-blob/v1 parts (from an allowed sender) become this cell's own evidence
             raw = self.genes.blob(str(p.get("blob_sha256", ""))); ensure(raw is not None, "evidence_blob_missing")
             body = json.loads(gzip.decompress(raw)); items = body.get("cells", {}).get(self.hub.node) or body.get("items") or []
             ensure(isinstance(items, list) and all(isinstance(e, dict) and e.get("label") in (0, 1) and isinstance(e.get("text"), str) for e in items), "bad_evidence")
-            n = self.genes.add_evidence(items, source="import:" + str(self._sender)); return {"ok": True, "added": n,
+            n = self.genes.add_evidence(items, source="import:" + str(self._sender)); dropped = self.skill_immunity.tolerate(); return {"ok": True, "added": n, "signatures_dropped": dropped,
                     "evidence": dict(self.k.db.execute("SELECT label, COUNT(*) FROM skill_evidence GROUP BY label"))}
         if op == "invite_node":
             # The owner side asks for a new hub identity. The new token never travels in clear: it is sealed with a keystream
@@ -333,6 +344,23 @@ class Node:
                     "rule": RULE, "active_gene": (lambda c_: c_ and {"id": g.active("skill_gene"), "name": c_["name"], "body_sha256": c_["body_sha256"],
                                                                      "threshold_e4": int(round((c_.get("threshold") or 0) * 10000))})(g.card(g.active("skill_gene")) if g.active("skill_gene") else None),
                     "own_evaluation": g.evaluate_id(g.active("skill_gene")) if g.active("skill_gene") and p.get("evaluate") else None}
+        if op == "immunize_skills":
+            # the cell makes a precise signature from the malicious skills in its evidence that nothing catches yet, and shares it
+            ensure(self.net is not None, "no_network"); return self.skill_immunity.synthesize(int(p.get("max_hops", 3)))
+        if op == "reader_eval":
+            # the reader against this cell's labelled real-world skills, next to the gene and the signatures (uses the daily reader budget)
+            ensure(self.reader.available, "no_reader_key"); return {"ok": True, **self.reader.evaluate(limit=int(p.get("limit", 40)), offset=int(p.get("offset", 0)))}
+        if op == "reader_status":
+            pid, card = self.reader.active(); day = time.strftime("%Y-%m-%d", time.gmtime())
+            return {"ok": True, "available": self.reader.available, "votes": os.environ.get("MEMEOS_READER_VOTES") == "1", "model": self.reader.model,
+                    "prompt_meme": pid and {"id": pid, "name": card["name"], "parents": card["parents"]},
+                    "calls_today": self.k.db.execute("SELECT COUNT(*) FROM reader_calls WHERE day=?", (day,)).fetchone()[0],
+                    "cached_verdicts": self.k.db.execute("SELECT COUNT(*) FROM reader_cache").fetchone()[0]}
+        if op == "drop_skill_signature":
+            ensure(self._sender in OWNER_SIDE, "owner_only"); return {"ok": True, "dropped": self.skill_immunity.drop(str(p.get("name", "")), "owner:" + str(p.get("reason", ""))[:200])}
+        if op == "distill_preview": return self.skill_immunity.distill_preview()
+        if op == "skill_immunity_status":
+            return {"ok": True, **self.skill_immunity.status()}
         if op == "withdraw_gene":
             # the owner side takes back a gene bred in THIS cell that turned out to be flawed: the previous gene is active again,
             # and the reason stays on record
@@ -470,7 +498,7 @@ class Node:
                     self._sender = m["sender"]
                     try: reply = self.handle(m["payload"]); status = "done" if reply.get("ok") else "failed"
                     except (MemeError, KeyError, TypeError, ValueError) as e: reply = {"ok": False, "error": type(e).__name__ + ":" + str(e)[:200]}; status = "failed"
-                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.24.1", **reply}
+                reply = {"schema": "mos-meme-result/v1", "in_reply_to": mid, "executor": "memeos-node", "version": "2.27.1", **reply}
                 rid = "MSG-memeos-" + sha({"r": mid})[:40]
                 s, err = self.hub.send(m["sender"], "mos-meme-result/v1", reply, rid)
                 if s == 409: status = "reply_already_exists"          # another instance answered earlier; never stall
@@ -547,7 +575,7 @@ def restore_from_hub(nd):
         for h, b64 in body.get("gene_bodies", {}).items():
             data = base64.b64decode(b64); ensure(hashlib.sha256(data).hexdigest() == h, "backup_gene_body_mismatch"); nd.genes.put_blob(data)
         allowed = {"memes", "contracts", "active", "antimemes", "motifs", "foreign_memes", "usage", "net_genes", "net_gene_samples", "net_competence", "net_recalls",
-                   "net_clean_extra", "forecast_memory", "gaps", "gene_memes", "gene_verdicts", "gene_oof", "lifecycle", "forage", "field_seen", "node_meta_cursor"}
+                   "net_clean_extra", "forecast_memory", "gaps", "gene_memes", "gene_verdicts", "gene_oof", "lifecycle", "forage", "field_seen", "node_meta_cursor", "skill_antimemes"}
         for name, rows in t.items():
             if name == "skill_evidence":                                     # explicit columns: the table may have grown since the backup
                 for r in rows: db.execute("INSERT OR IGNORE INTO skill_evidence(sha256,label,source,text,at,by) VALUES(?,?,?,?,?,?)", r[:6])
@@ -702,7 +730,7 @@ if __name__ == "__main__":
     if os.environ.get("MEMEOS_SEARCH_CONFIG") and not node.k.db.execute(
             "SELECT 1 FROM active WHERE goal_key=?", (__import__("memeos").goal_key("mos.search_config", {}),)).fetchone():
         node.k.adopt_config(json.loads(os.environ["MEMEOS_SEARCH_CONFIG"]), {"source": "metaevolution.json (2026-11-18)"})
-    print(json.dumps({"message": "memeos-node 2.24.1 started", "memeos_node": "2.24.1", "cells": [n.hub.node for n in nodes],
+    print(json.dumps({"message": "memeos-node 2.27.1 started", "memeos_node": "2.27.1", "cells": [n.hub.node for n in nodes],
                       "network": {n.hub.node: (n.net.peers if n.net else None) for n in nodes}, "model_available": node.model.available,
                       "genes": [{"gene": g.name, "status": g.status} for g in genes] if genes is not None else "off"}), flush=True)
     if os.environ.get("MEMEOS_FORAGE"):
@@ -720,6 +748,12 @@ if __name__ == "__main__":
                     if time.time() - float((nd.k.db.execute("SELECT value FROM node_meta WHERE key='backup_at'").fetchone() or ["0"])[0]) > float(os.environ.get("MEMEOS_BACKUP_SECONDS", "86400")):
                         bk = nd.backup(); nd.k.db.execute("INSERT OR REPLACE INTO node_meta VALUES('backup_at', ?)", (str(time.time()),))
                         print(json.dumps({"message": f"{nd.hub.node} backup", **bk}), flush=True)
+                except Exception: traceback.print_exc()
+                try:
+                    if nd.net is not None and len([1 for t in nd.skill_immunity.malicious(world_only=True) if not nd.skill_immunity.fires(t)]) >= 5 and \
+                            time.time() - float((nd.k.db.execute("SELECT value FROM node_meta WHERE key='immunize_at'").fetchone() or ["0"])[0]) > 6 * 3600 and nd.budget_take("immunize_skills"):
+                        nd.k.db.execute("INSERT OR REPLACE INTO node_meta VALUES('immunize_at', ?)", (str(time.time()),))
+                        im = nd.skill_immunity.synthesize(); print(json.dumps({"message": f"{nd.hub.node} skill immunity: {im.get('action')}", **{k: im.get(k) for k in ("name", "phrases", "lab", "shared_to")}}), flush=True)
                 except Exception: traceback.print_exc()
                 try:
                     if nd.net is not None and nd.skill_gene is not None and nd.breeder.due() and nd.budget_take("breed_gene"):

@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 WORKDIR /app
 # exactly the files of the live code bundle (code_bundle.FILES); `code_root` of /app equals the live cells' (op "rule")
-COPY memeos.py sandbox.py codememes.py agent.py node.py tasks.py modelgen.py barrier.py barrier_deploy.json science.py net.py immune.py emergence.py compile.py drive.py neuro.py external_gene.py formula.py restrict.py forecast.py skillgene.py genememe.py forage.py lifecycle.py breed.py code_bundle.py skillcheck.py requirements-genes.txt ./
+COPY memeos.py sandbox.py codememes.py agent.py node.py tasks.py modelgen.py barrier.py barrier_deploy.json science.py net.py immune.py emergence.py compile.py drive.py neuro.py external_gene.py formula.py restrict.py forecast.py skillgene.py genememe.py forage.py lifecycle.py breed.py code_bundle.py skillcheck.py skillimmune.py reader.py requirements-genes.txt ./
 COPY genes/cards/ ./genes/cards/
 RUN mkdir -p /data
 ENV MEMEOS_DB=/data/memeos-node.sqlite PYTHONUNBUFFERED=1
