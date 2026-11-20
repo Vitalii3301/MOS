@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS gene_verdicts(gene TEXT, cell TEXT, adopted INTEGER, 
 PART = 150000
 # The adoption rule is a registered text: its sha256 travels with every verdict and with the code message, so a peer can
 # see which rule judged a gene. It changes only with a new id in a new version and applies only to decisions made after.
-RULE_TEXT = """significant/v4 (in force from MemeOS 2.24)
+RULE_TEXT = """significant/v5 (in force from MemeOS 2.27)
 A cell adopts a new gene over its current one iff ALL hold, on this cell's own data:
 0. Units. Labelled items are grouped into template clusters (near-copies of one text: same words, other names/URLs;
    MinHash similarity >= 0.5 on normalised word 4-grams). A cluster votes once: for the new gene if it is right where the
@@ -35,6 +35,9 @@ A cell adopts a new gene over its current one iff ALL hold, on this cell's own d
    alpha_n = 0.05 * 6 / (pi^2 * n^2)   (the alphas of all attempts ever add up to at most 0.05).
 2. False alarms, non-inferiority: benign clusters where only the new gene alarms, minus benign clusters where only the
    current one alarms, is at most floor(benign clusters / 50).
+2b. Catches, non-inferiority: among template clusters that contain labelled malicious items, the clusters where only the
+   current gene catches more, minus those where only the new gene catches more: if the current gene wins them more often
+   and the exact two-sided sign test gives p <= 0.05, the answer is no (v3 had this refusal; v4 dropped it).
 3. Its false-alarm rate on labelled benign items is <= 0.15, or not above the current gene's.
 4. Field set (real skills this cell met in the world, unlabelled, at most the 400 most recent, labelled ones excluded):
    the new gene does not alarm where the current is silent more often than the reverse with p <= 0.05.
@@ -43,8 +46,10 @@ History: rule 1 (2.17-2.19) compared raw counts. Rule 2 (2.20) = sign test over 
 worse"; introduced after the first bred child had been refused under rule 1 (forking-paths risk, recorded). Rule 3 (2.21)
 added the field set. Rule 4 follows mos-grok's review of rule 3 (hub seq 2148): campaign clones made item-level tests
 and out-of-fold estimates optimistic (H1), fitted items were matched by exact hash only (H2), repeated attempts at a fixed
-alpha (M1), and "+4 false alarms, p=0.125" could pass (M2). Registered before any gene was bred or judged under it."""
-RULE = {"id": "significant/v4", "sha256": hashlib.sha256(RULE_TEXT.encode()).hexdigest()}
+alpha (M1), and "+4 false alarms, p=0.125" could pass (M2). Rule 5 adds 2b after mos-grok's review of rule 4 (hub seq 2307, H3): pooled over
+both classes, many removed false alarms could outvote lost catches, so a gene could lose half its recall and be adopted.
+No gene was adopted under rule 4 (every attempt was refused). Registered before any gene was judged under rule 5."""
+RULE = {"id": "significant/v5", "sha256": hashlib.sha256(RULE_TEXT.encode()).hexdigest()}
 ALPHA, FA_BUDGET, FIELD_MAX, SIG_K, SAME_TEMPLATE = 0.05, 0.15, 400, 24, 0.5
 
 # ---- item identity and template signatures (mos-grok's review: clones of one campaign template are not independent items)
@@ -272,6 +277,12 @@ class GeneMemes:
                  false_alarm_margin={"extra_benign_clusters_alarmed": extra_fa, "allowed": margin})
         if rate(new) > max(FA_BUDGET, rate(cur)): return False, "false_alarm_budget_exceeded:%d/%d" % (new["false_alarms"], new["benign"]), m
         if extra_fa > margin: return False, "more_false_alarms_than_margin_on_own_evidence:%d>%d" % (extra_fa, margin), m
+        mal = {}
+        for h in items:
+            if labels[h] == 1:
+                gn, gc = Jn[h], Jc[h]; v = mal.setdefault(C[h], [0, 0]); v[0] += gn and not gc; v[1] += gc and not gn
+        mal_new = sum(1 for a, b in mal.values() if a > b); mal_cur = sum(1 for a, b in mal.values() if b > a); m["catches_clusters"] = {"only_new": mal_new, "only_current": mal_cur, "p": "%.4g" % self._p2(mal_new, mal_cur)}
+        if mal_cur > mal_new and self._p2(mal_new, mal_cur) <= ALPHA: return False, "significantly_fewer_catches_on_own_evidence:%d<%d" % (mal_new, mal_cur), m
         if not (right_new > right_cur and p <= alpha_n): return False, "not_significantly_better_on_own_evidence:%d_vs_%d" % (right_new, right_cur), m
         f = self.field_pair(gid, cur_id); m["field"] = f
         if f and f["only_new"] > f["only_current"] and self._p2(f["only_new"], f["only_current"]) <= ALPHA:

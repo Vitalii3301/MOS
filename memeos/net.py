@@ -181,6 +181,18 @@ class Network:
 
     def on_verdict(self, sender, p):
         self.node.k.db.execute("INSERT OR REPLACE INTO net_verdicts VALUES(?,?,?,?,?,?)", (p.get("offer_id"), sender, int(bool(p.get("adopted"))), p.get("reason"), canon(p.get("lab")), time.time()))
+        if p.get("kind") == "skill_antimeme" and sender in self.members:
+            # a cell of this network saw some phrases of the signature fire on ITS clean skills: they are wrong here too
+            bad = [a for a in ((p.get("lab") or {}).get("pruned_alternatives") or []) if isinstance(a, str)][:12]
+            if not p.get("adopted") and str(p.get("reason", "")).startswith("false_alarms_on_own_clean_skills"):
+                # two cells of the network refusing MY signature for false alarms outweigh my own clean skills: withdraw it
+                db = self.node.k.db; oid = p.get("offer_id")
+                mine = db.execute("SELECT name FROM skill_antimemes WHERE offer_id=? AND origin=?", (oid, self.node.hub.node)).fetchone()
+                refusers = db.execute("SELECT COUNT(DISTINCT cell) FROM net_verdicts WHERE offer_id=? AND adopted=0 AND reason LIKE 'false_alarms_on_own_clean_skills%'", (oid,)).fetchone()[0]
+                if mine and refusers >= 2: self.node.skill_immunity.drop(mine[0], "two_peers_saw_false_alarms")
+            if bad:
+                ch = self.node.skill_immunity.prune(bad, "peer_saw_false_alarms:" + str(sender))
+                if ch: self.node.k.event("skill_antimeme_pruned_on_peer_report", {"peer": sender, "changes": ch})
         if p.get("kind") == "gene" and p.get("gene"):
             self.node.genes.k.db.execute("INSERT OR REPLACE INTO gene_verdicts VALUES(?,?,?,?,?,?)", (p["gene"], p.get("cell") or sender, int(bool(p.get("adopted"))), p.get("reason"), canon(p.get("lab")), time.time()))
             self.node.k.event("gene_verdict_received", {"gene": p["gene"], "cell": p.get("cell") or sender, "adopted": bool(p.get("adopted")), "reason": p.get("reason")})

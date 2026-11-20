@@ -58,7 +58,7 @@ class GeneKind(Kind):
     def serve(self, net, gid, offer):
         row = net.node.k.db.execute("SELECT text FROM skill_evidence LIMIT 1").fetchone()
         r = net.node.screen_skill(row[0] if row else "---\nname: probe\n---\nSummarise the notes.", barrier_info=True, journal=False)
-        if not (r.get("ok") and r.get("verdict") in ("malicious", "no_signal")): raise ValueError("bad_answer")
+        if not (r.get("ok") and r.get("verdict") in ("malicious", "suspicious", "no_signal")): raise ValueError("bad_answer")
     def ref(self, gid): return gid
     def forward(self, net, gid, offer, exclude): return net.share_gene(gid, exclude=exclude)
     def record(self, net, gid, adopted, reason, lab):
@@ -143,7 +143,70 @@ class AntimemeKind(Kind):
     def ref(self, c): return c["name"]
     def forward(self, net, c, p, exclude): return net.broadcast({**p, "hops": int(p.get("hops", 1)) + 1}, exclude=exclude)
 
-KINDS = {k.name: k for k in (GeneKind(), SkillKind(), AntimemeKind())}
+# ------------------------------------------------------------------ skill signatures (precise regexes for known attacks on skills)
+class SkillAntimemeKind(Kind):
+    name = "skill_antimeme"
+    def screen(self, net, sender, p):
+        from immune import static_screen
+        g = p.get("gene") or {}; bad = static_screen(g.get("pattern"))
+        if bad: return "lab_rejected:" + bad
+    def materialize(self, net, p):
+        g = p["gene"]; ex = [e[:5000] for e in (g.get("examples") or []) if isinstance(e, str)][:8]
+        name = g.get("name") if isinstance(g.get("name"), str) and 0 < len(g["name"]) <= 60 else "skill_sig_" + sha(g["pattern"])[:10]
+        return {"name": name, "pattern": g["pattern"], "examples": ex}
+    def evidence(self, net, c, p):
+        import re
+        from immune import lab_evaluate
+        im = net.node.skill_immunity; ex = c["examples"]; clean = im.clean(); need = max(1, math.ceil(0.5 * len(ex)))
+        if len(ex) < 2: return False, "too_few_examples", {}
+        if len(clean) < 30: return False, "too_few_own_clean_skills_to_prove_precision", {"clean": len(clean)}
+        # a foreign signature is never taken raw: every phrase is tried alone on THIS cell's clean skills, and only the phrases
+        # that raise no alarm here are kept (the same idea as restricting a foreign skill to what the cell has verified)
+        alts = im.alternatives(c["pattern"]); keep, bad = [], []
+        for a in alts[:12]:
+            one = lab_evaluate(im.join([a]), ex, clean, timeout=30)
+            (keep if one.get("ok") and one["false_alarms"] == 0 else bad).append(a)
+        if not keep: return False, "false_alarms_on_own_clean_skills:all_%d_phrases" % len(alts), {"clean": len(clean), "pruned_alternatives": bad}
+        if bad: c["pattern"] = im.join(keep); c["name"] = "skill_sig_" + sha(c["pattern"])[:10]
+        lab = lab_evaluate(c["pattern"], ex + im.malicious(), clean, timeout=30)
+        if not lab.get("ok"): return False, "lab_rejected:" + lab["reason"], lab
+        lab = {**lab, "phrases_kept": len(keep), "pruned_alternatives": bad}
+        if lab["false_alarms"] > 0: return False, "false_alarms_on_own_clean_skills:%d/%d" % (lab["false_alarms"], lab["clean"]), lab
+        rx = re.compile(c["pattern"], re.I | re.M); hit = [e for e in ex if rx.search(e)]
+        if len(hit) < need: return False, "does_not_catch_offered_examples:%d/%d" % (len(hit), len(ex)), lab
+        # the examples must be attacks by THIS cell's own judgement: its gene flags them, or it already holds them as malicious
+        own = {t for t in im.malicious()}; g = net.node.skill_gene
+        todo = [e for e in hit if not (e in own or (g is not None and g.judge(e)["malicious"]))]; confirmed = len(hit) - len(todo); by_reader = 0
+        rd = getattr(net.node, "reader", None)
+        while todo and confirmed < need and rd is not None and rd.available:
+            # an attack of a kind the gene cannot see (that is why a reader found it somewhere): this cell's own reader
+            # reads the examples itself, just enough of them; after adoption the signature needs no model at all
+            if rd.read(todo.pop(0))["verdict"] == "malicious": confirmed += 1; by_reader += 1
+        lab = {**lab, "examples": len(ex), "examples_caught": len(hit), "examples_confirmed_as_attacks": confirmed, "confirmed_by_own_reader": by_reader}
+        if confirmed < need: return False, "examples_not_confirmed_as_attacks:%d/%d" % (confirmed, len(ex)), lab
+        return True, "passed_own_lab_restricted_to_%d_of_%d_phrases" % (len(keep), len(alts)) if bad else "passed_own_lab", lab
+    def activate(self, net, c, p, lab):
+        im = net.node.skill_immunity; db = net.node.k.db; prev = db.execute("SELECT * FROM skill_antimemes WHERE name=?", (c["name"],)).fetchone()
+        im.adopt(c["name"], c["pattern"], p.get("origin"), p.get("offer_id"), lab)
+        def undo():
+            db.execute("DELETE FROM skill_antimemes WHERE name=?", (c["name"],)); im.rx.pop(c["name"], None)
+            if prev: im.adopt(prev[0], prev[1], prev[2], prev[3], json.loads(prev[4] or "{}"))
+            net.node.k.event("skill_antimeme_removed", {"name": c["name"], "why": "failed_service"})
+        return undo
+    def serve(self, net, c, p):
+        import re
+        hit = [e for e in c["examples"] if re.search(c["pattern"], e, re.I | re.M)]
+        r = net.node.screen_skill(hit[0], journal=False)
+        if not (r.get("verdict") == "malicious" and "skill_antimeme:" + c["name"] in r.get("reasons", [])): raise ValueError("signature_does_not_decide_the_verdict")
+        if net.node.screen_skill("---\nname: notes\n---\nSummarise the meeting notes into action items.", journal=False).get("verdict") == "malicious": raise ValueError("fires_on_a_plain_skill")
+    def ref(self, c): return c["name"]
+    def forward(self, net, c, p, exclude):
+        # what travels on is what THIS cell verified and installed (possibly fewer phrases than it received)
+        g = {"name": c["name"], "pattern": c["pattern"], "examples": c["examples"]}
+        oid = p["offer_id"] if c["pattern"] == (p.get("gene") or {}).get("pattern") else sha({"skill_antimeme": c["pattern"], "origin": p.get("origin")})
+        return net.broadcast({**p, "offer_id": oid, "gene": g, "hops": int(p.get("hops", 1)) + 1}, exclude=exclude)
+
+KINDS = {k.name: k for k in (GeneKind(), SkillKind(), AntimemeKind(), SkillAntimemeKind())}
 
 # ------------------------------------------------------------------ the engine
 class Lifecycle:
