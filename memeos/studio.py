@@ -66,6 +66,102 @@ class Studio:
     def __init__(self, db):
         self.node = Node(Router().hub("mos-studio"), db)
         self.k, self.agent, self.cm = self.node.k, self.node.agent, CodeMemes(self.node.k)
+        from modelgen import ModelGenerator           # several keys (comma-separated): the next one takes over on a rate limit
+        keys = [x.strip() for x in os.environ.get("MOS_MODEL_CREDENTIAL", "").split(",") if x.strip()]
+        base = {k: v for k, v in os.environ.items() if k != "MOS_MODEL_CREDENTIAL"}
+        base.setdefault("MEMEOS_DAILY_MODEL_CALLS", "60")
+        self.teachers = [ModelGenerator(self.k.db, env={**base, "MOS_MODEL_CREDENTIAL": x}, barrier=self.node.barrier) for x in keys]
+        if self.teachers:
+            self.node.model = self.teachers[0]; self.agent.generators = [self.teachers[0]]
+        self.k.db.execute("CREATE TABLE IF NOT EXISTS studio_tools(goal TEXT PRIMARY KEY, uses INTEGER NOT NULL, rows INTEGER NOT NULL, how TEXT, checked TEXT, at REAL)")
+
+    # ---------------------------------------------------------------- for people: examples -> a tool -> my whole list
+    def _ask_teacher(self, contract):
+        last = None
+        for t in self.teachers:
+            try: return t(contract)
+            except MemeError as e:
+                last = e
+                if "429" in str(e) or "budget" in str(e): continue
+                raise
+        if last: raise last
+        return []
+
+    def _last_code(self, goal):
+        for (card,) in self.k.db.execute("SELECT card FROM memes ORDER BY created DESC LIMIT 200"):
+            c = json.loads(card)
+            if c.get("schema") == "mos-code-meme/v1" and c.get("goal") == goal: return c["source"]
+        return None
+
+    def tool_make(self, name, pairs):
+        """Plain words for people. Inputs and outputs are text, as typed."""
+        name = (name or "").strip()
+        if not name: raise MemeError("Напишите название инструмента — например, «Телефоны в формат +7».")
+        ensure_goal(name)
+        if not isinstance(pairs, list): raise MemeError("bad_pairs")
+        ex = [{"input": str(a).strip(), "output": str(b).strip()} for a, b in pairs if str(a).strip() and str(b).strip()]
+        if len(ex) < 6: raise MemeError("Нужно хотя бы 6 заполненных примеров «было → стало».")
+        tr, va, ho = split(ex)
+        r = self.node.handle({"op": "learn", "share": False, "contract": {"goal": name, "train": tr, "validation": va, "holdout": ho,
+                              "context": {}}})
+        ok, how, gate, teacher_rounds = bool(r.get("ok")), r.get("generator"), r.get("gate"), 1 if r.get("model_attempts") else 0
+        if not ok and self.teachers:                   # the teacher sees its failed program and tries again (twice at most)
+            cid = self.k.contract(name, tr, va, ho, {}); prev = self._last_code(name)
+            from sandbox import evaluate_source
+            for _ in range(2):
+                ctx = {"output_type": "always a Python str, character for character as in the examples' output (e.g. '1299', never the number 1299)"}
+                if prev:                               # show the teacher exactly where its last program went wrong
+                    n, tot, det = evaluate_source(prev, tr)
+                    res_ = det.get("results") or []
+                    ctx["previous_program_failed_on"] = [{"input": c["input"], "expected": c["output"],
+                                                          "got": (x.get("value") if x.get("ok") else "error: " + str(x.get("error")))}
+                                                         for c, x in zip(tr, res_) if not (x.get("ok") and x.get("value") == c["output"])][:6]
+                try: props = self._ask_teacher({"goal": name, "context": ctx, "train": tr, "previous_source": prev})
+                except MemeError: break
+                teacher_rounds += 1
+                for pr in props:
+                    res = self.cm.propose(pr["source"], cid, pr["generator"])
+                    if res.get("accepted"):
+                        ok, how, gate = True, pr["generator"], {k: res.get(k) for k in ("train", "validation", "holdout")}; break
+                    prev = pr["source"]
+                if ok: break
+        out = {"ok": ok, "name": name, "teacher_available": bool(self.teachers), "teacher_rounds": teacher_rounds}
+        if ok:
+            seen = [int(gate["validation"][0]) + int(gate["holdout"][0]), int(gate["validation"][1]) + int(gate["holdout"][1])]
+            out.update(how="ai" if str(how).startswith(("hub-model", "host-command")) else "self", checked=seen,
+                       learned_from=len(tr), mistakes_on_check=seen[1] - seen[0])
+            self.k.db.execute("INSERT INTO studio_tools VALUES(?,0,0,?,?,?) ON CONFLICT(goal) DO UPDATE SET how=excluded.how, checked=excluded.checked, at=excluded.at",
+                              (name, out["how"], canon(seen), time.time()))
+        return out
+
+    def tool_apply(self, name, lines):
+        from sandbox import run_source
+        name = (name or "").strip(); mid = self.k.active(name, {})
+        if not mid: raise MemeError("Такого инструмента нет — сначала создайте его по примерам.")
+        if not isinstance(lines, list): raise MemeError("bad_lines")
+        lines = [str(x) for x in lines][:5000]
+        card = self.k.card(mid)
+        if card.get("schema") == "mos-code-meme/v1" or not hasattr(self.k, "execute"):
+            r = run_source(self.python(mid), lines, cpu_seconds=10, wall_seconds=40)
+            if not r.get("ok"): raise MemeError("Не удалось запустить инструмент: " + str(r.get("error")))
+            res = [(x["value"] if x["ok"] else None) for x in r["results"]]
+        else:
+            res = []
+            for x in lines:
+                try: res.append(self.k.execute(name, x, {})[0])
+                except Exception: res.append(None)
+        self.k.db.execute("INSERT INTO studio_tools VALUES(?,1,?,NULL,NULL,?) ON CONFLICT(goal) DO UPDATE SET uses=uses+1, rows=rows+excluded.rows",
+                          (name, len(lines), time.time()))
+        return {"name": name, "rows": [{"in": a, "out": (b if b is None or isinstance(b, str) else json.dumps(b, ensure_ascii=False))} for a, b in zip(lines, res)],
+                "failed": sum(b is None for b in res)}
+
+    def tools(self):
+        meta = {g: (u, n, h, c) for g, u, n, h, c in self.k.db.execute("SELECT goal, uses, rows, how, checked FROM studio_tools")}
+        out = []
+        for g, in self.k.db.execute("SELECT DISTINCT json_extract(card,'$.goal') FROM memes m JOIN active a ON a.meme_id=m.id"):
+            u, n, h, c = meta.get(g, (0, 0, None, None))
+            out.append({"name": g, "uses": u, "rows": n, "how": h, "checked": json.loads(c) if c else None})
+        return {"tools": sorted(out, key=lambda t: -t["uses"])}
 
     # ---------------------------------------------------------------- task -> meme
     def learn(self, goal, examples):
@@ -202,7 +298,10 @@ ROUTES = {"learn": lambda S, p: S.learn(p.get("goal"), p.get("examples")),
           "life": lambda S, p: S.life(),
           "journal": lambda S, p: S.journal(),
           "network": lambda S, p: S.network(),
-          "status": lambda S, p: S.status()}
+          "status": lambda S, p: S.status(),
+          "tool_make": lambda S, p: S.tool_make(p.get("name"), p.get("pairs")),
+          "tool_apply": lambda S, p: S.tool_apply(p.get("name"), p.get("lines")),
+          "tools": lambda S, p: S.tools()}
 
 def make_handler(S):
     class H(BaseHTTPRequestHandler):
@@ -216,8 +315,9 @@ def make_handler(S):
             self.send_header("Content-Security-Policy", csp); self.send_header("X-Content-Type-Options", "nosniff")
             self.send_header("Referrer-Policy", "no-referrer"); self.end_headers(); self.wfile.write(b)
         def do_GET(self):
-            if self.path in ("/", "/index.html"):
-                n = secrets.token_urlsafe(16); return self._send(200, PAGE.replace("{{NONCE}}", n), "text/html; charset=utf-8", n)
+            if self.path in ("/", "/index.html", "/lab"):
+                n = secrets.token_urlsafe(16); page = PAGE if self.path == "/lab" else PEOPLE
+                return self._send(200, page.replace("{{NONCE}}", n), "text/html; charset=utf-8", n)
             if self.path == "/health": return self._send(200, '{"ok":true}', "application/json")
             self._send(404, '{"error":"not_found"}', "application/json")
         def do_POST(self):
@@ -243,6 +343,113 @@ def serve(port=8780, host="127.0.0.1", db=None):
     print(json.dumps({"mos_studio": f"http://{host}:{srv.server_port}/", "db": db, "model_teacher": S.node.model.available}), flush=True)
     srv.serve_forever()
 
+PEOPLE = r"""<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOS — помощник для рутины</title><style nonce="{{NONCE}}">
+:root{--bg:#f6f5f1;--fg:#1c1c1a;--mut:#67665f;--card:#fff;--line:#e2e0d8;--acc:#2f5bd3;--accbg:#eaf0ff;--ok:#1d7a3d;--okbg:#e8f5ec;--bad:#a8261c;--badbg:#fbeceb;--warn:#86570a;--warnbg:#fdf3e0}
+@media (prefers-color-scheme:dark){:root{--bg:#151514;--fg:#ecebe6;--mut:#a09f98;--card:#1f1f1d;--line:#34332f;--acc:#86a8ff;--accbg:#1e2740;--ok:#6ccb8f;--okbg:#17291e;--bad:#ff8f86;--badbg:#341a18;--warn:#e7b65a;--warnbg:#33280f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:880px;margin:auto;padding:0 16px}header{padding:28px 0 8px}h1{margin:0;font-size:26px;letter-spacing:-.01em}
+.lead{margin:8px 0 0;color:var(--mut);font-size:17px}.note{margin:10px 0 0;font-size:14px;padding:8px 12px;border-radius:8px;background:var(--warnbg);color:var(--warn)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+.step{display:flex;gap:12px;align-items:baseline}.num{flex:none;width:28px;height:28px;border-radius:50%;background:var(--accbg);color:var(--acc);font-weight:700;display:grid;place-items:center;font-size:14px}
+h2{margin:0;font-size:19px}.hint{color:var(--mut);margin:4px 0 14px;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:7px 14px;font:inherit;font-size:15px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+label{display:block;font-size:14px;color:var(--mut);margin:14px 0 6px}
+input,textarea{width:100%;font:inherit;font-size:15px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+textarea{min-height:150px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px}
+.pairs{display:grid;grid-template-columns:1fr 24px 1fr;gap:6px 8px;align-items:center}.pairs .h{font-size:13px;color:var(--mut)}.arrow{color:var(--mut);text-align:center}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+button.main{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer}
+button.sec{background:transparent;color:var(--acc);border:1px solid var(--acc);border-radius:10px;padding:10px 16px;font:inherit;cursor:pointer}
+button.link{background:none;border:0;color:var(--acc);font:inherit;cursor:pointer;padding:0}button:disabled{opacity:.55;cursor:wait}
+.res{margin-top:16px;border-radius:10px;padding:14px 16px}.res.ok{background:var(--okbg)}.res.bad{background:var(--badbg)}.res.wait{background:var(--accbg)}
+.res b{display:block;margin-bottom:4px}.res.ok b{color:var(--ok)}.res.bad b{color:var(--bad)}.res ul{margin:6px 0 0;padding-left:20px}
+table{width:100%;border-collapse:collapse;font-size:15px;margin-top:12px}th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top;word-break:break-word}
+th{font-weight:500;color:var(--mut);font-size:13px}td.fail{color:var(--bad)}.tbl{max-height:420px;overflow:auto}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}.tool{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.tool h3{margin:0 0 4px;font-size:16px}.tool p{margin:0 0 8px;color:var(--mut);font-size:14px}.empty{color:var(--mut)}
+details{margin-top:4px}summary{cursor:pointer;font-weight:600}footer{color:var(--mut);font-size:14px;padding:8px 0 40px}footer a,header a{color:var(--acc)}
+@media (max-width:560px){.pairs{grid-template-columns:1fr 16px 1fr}h1{font-size:22px}}
+</style></head><body><div class="wrap">
+<header><h1>MOS — помощник для рутины с текстом</h1>
+<p class="lead">Покажите на нескольких примерах, как надо, — MOS сама найдёт правило, проверит его и обработает весь ваш список. Готовый инструмент сохраняется: дальше он работает мгновенно, бесплатно и без интернета.</p>
+<p class="note" id="note" hidden></p></header>
+
+<div class="card"><div class="step"><span class="num">1</span><div><h2>Что нужно сделать?</h2><p class="hint">Выберите готовый пример или придумайте свою задачу.</p></div></div>
+<div class="chips" id="chips"></div>
+<label for="name">Название инструмента</label><input id="name" maxlength="120" placeholder="Например: Телефоны в формат +7"></div>
+
+<div class="card"><div class="step"><span class="num">2</span><div><h2>Покажите на примерах</h2><p class="hint">Слева — как было, справа — как должно стать. Нужно хотя бы 6 примеров, лучше 8–10 разных. Часть из них MOS отложит и проверит на них готовое правило.</p></div></div>
+<div class="pairs" id="pairs"><span class="h">Было</span><span></span><span class="h">Стало</span></div>
+<div class="btns"><button class="main" id="make">Создать инструмент</button><button class="link" id="more">+ ещё строка</button></div>
+<div id="made"></div></div>
+
+<div class="card"><div class="step"><span class="num">3</span><div><h2>Обработайте свой список</h2><p class="hint">Вставьте данные — по одному значению на строку. Можно скопировать столбец из Excel.</p></div></div>
+<label for="tool">Инструмент</label><input id="tool" list="toolnames" placeholder="Название созданного инструмента"><datalist id="toolnames"></datalist>
+<label for="lines">Ваш список</label><textarea id="lines"></textarea>
+<div class="btns"><button class="main" id="apply">Обработать</button></div><div id="applied"></div></div>
+
+<div class="card"><h2>Мои инструменты</h2><p class="hint">Всё, что вы уже научили MOS делать. Работает сразу, без повторного обучения.</p><div id="toollist" class="tools"><p class="empty">Пока пусто.</p></div></div>
+
+<div class="card"><details><summary>Проверить инструкцию для ИИ-агента перед установкой</summary>
+<p class="hint">Если вы ставите ассистенту чужой «навык» (файл SKILL.md или похожую инструкцию), MOS подскажет, нет ли в нём признаков атаки: скачивания и запуска программ, кражи ключей, попыток отменить ваши указания.</p>
+<textarea id="skill" placeholder="Вставьте текст инструкции"></textarea><div class="btns"><button class="main" id="check">Проверить</button></div><div id="checked"></div></details></div>
+
+<footer><details><summary>Как это работает</summary><p>MOS не запоминает ваши примеры как таблицу — она ищет правило: сначала среди уже готовых инструментов, затем перебирает и «выращивает» маленькие программы. Если сама не справляется и подключён ИИ-помощник, он предлагает программу, но принимает её только проверка: правило должно дать верный ответ на ваших примерах, которые MOS отложила и не показывала при поиске. Готовая программа хранится у вас и запускается в изолированной «песочнице». Ваши списки никуда не отправляются; ИИ-помощнику уходят только примеры из шага 2.</p></details>
+<p><a href="/lab">Для разработчиков: лаборатория MOS</a> — эволюция, гибриды, законы, жизнь программ.</p></footer>
+</div>
+<script nonce="{{NONCE}}">
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function api(n,b){const r=await fetch("/api/"+n,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b||{})});return r.json()}
+const P={
+ "Телефоны в формат +7":[[["8 (912) 345-67-89","+7 912 345-67-89"],["89123456789","+7 912 345-67-89"],["+7 903 111 22 33","+7 903 111-22-33"],["8-916-555-44-33","+7 916 555-44-33"],["7(925)1234567","+7 925 123-45-67"],["8 999 000 11 22","+7 999 000-11-22"],["+79261112233","+7 926 111-22-33"],["8(800)2000600","+7 800 200-06-00"]],"8 (495) 123 45 67\n+7(916)7654321\n89031234567\n8-800-555-35-35"],
+ "Даты в ДД.ММ.ГГГГ":[[["5 марта 2024","05.03.2024"],["12 января 2023","12.01.2023"],["1 декабря 2020","01.12.2020"],["30 июня 2019","30.06.2019"],["15 августа 2022","15.08.2022"],["9 мая 2025","09.05.2025"],["21 октября 2018","21.10.2018"],["3 февраля 2021","03.02.2021"]],"7 ноября 2024\n28 апреля 2017\n2 сентября 2023\n31 июля 2020"],
+ "Почта из текста":[[["Пишите на ivan@mail.ru до пятницы","ivan@mail.ru"],["контакт: anna.k@yandex.ru","anna.k@yandex.ru"],["Мой адрес — petrov2000@gmail.com, звоните","petrov2000@gmail.com"],["info@shop.org — отдел продаж","info@shop.org"],["Связь: oleg_s@company.com","oleg_s@company.com"],["почта maria@bk.ru, телефон ниже","maria@bk.ru"],["Ответ на zakaz@market.ru","zakaz@market.ru"],["sales@firm.net круглосуточно","sales@firm.net"]],"Вопросы — на help@service.ru\nПишите: director@zavod.com, спасибо\nmy.mail@inbox.ru — личная почта"],
+ "ФИО → Фамилия И.О.":[[["Иванов Иван Петрович","Иванов И.П."],["Петрова Анна Сергеевна","Петрова А.С."],["Сидоров Олег Иванович","Сидоров О.И."],["Кузнецова Мария Андреевна","Кузнецова М.А."],["Смирнов Дмитрий Алексеевич","Смирнов Д.А."],["Попова Елена Викторовна","Попова Е.В."],["Волков Сергей Николаевич","Волков С.Н."],["Морозова Ольга Петровна","Морозова О.П."]],"Лебедев Андрей Васильевич\nСоколова Ирина Павловна\nНовиков Пётр Ильич"],
+ "Цена → число":[[["1 299,00 руб.","1299"],["Цена: 450 ₽","450"],["12 500 руб","12500"],["от 99,90 р.","99.9"],["2 000 ₽","2000"],["Стоимость 15 750,50 руб.","15750.5"],["300р","300"],["1 000 000 руб.","1000000"]],"3 490 ₽\nЦена 1 250,00 руб.\nот 59,99 р."],
+ "Своя задача":[[],""]};
+function rows(pairs){const g=$("pairs");g.querySelectorAll(".r").forEach(e=>e.remove());const n=Math.max(8,pairs.length);for(let i=0;i<n;i++)addRow(pairs[i]||["",""])}
+function addRow(v){const g=$("pairs");const a=document.createElement("input"),s=document.createElement("span"),b=document.createElement("input");
+ a.className="r";b.className="r";s.className="r arrow";s.textContent="→";a.value=v[0];b.value=v[1];a.setAttribute("aria-label","Было");b.setAttribute("aria-label","Стало");g.append(a,s,b)}
+function pick(name){document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c.textContent===name));const [pairs,sample]=P[name];
+ $("name").value=name==="Своя задача"?"":name;rows(pairs);$("lines").value=sample;$("tool").value=name==="Своя задача"?"":name;$("made").innerHTML="";$("applied").innerHTML=""}
+for(const k of Object.keys(P)){const c=document.createElement("button");c.className="chip";c.textContent=k;c.onclick=()=>pick(k);$("chips").appendChild(c)}
+pick("Телефоны в формат +7");
+$("more").onclick=()=>addRow(["",""]);
+function busy(btn,box,msg){btn.disabled=true;box.innerHTML=`<div class="res wait"><b>${esc(msg)}</b>Обычно это занимает от нескольких секунд до минуты.</div>`}
+$("make").onclick=async()=>{const btn=$("make"),box=$("made");const ins=[...$("pairs").querySelectorAll("input")];const pairs=[];for(let i=0;i<ins.length;i+=2)pairs.push([ins[i].value,ins[i+1].value]);
+ busy(btn,box,"MOS ищет правило…");try{const r=await api("tool_make",{name:$("name").value,pairs});
+ if(!r.ok){box.innerHTML=`<div class="res bad"><b>Не получилось</b>${esc(r.error)}</div>`;return}const x=r.result;
+ if(x.ok){const all=x.mistakes_on_check===0;box.innerHTML=`<div class="res ok"><b>Готово: инструмент «${esc(x.name)}» создан</b>${x.how==="ai"?"Правило предложил ИИ-помощник, MOS его проверила.":"MOS нашла правило сама, без ИИ."} Проверено на ${esc(x.checked[1])} ваших примерах, которые MOS не видела при поиске: ${all?"все ответы верные.":"верно "+esc(x.checked[0])+" из "+esc(x.checked[1])+" — проверьте результат внимательно."}<br>Теперь обработайте свой список в шаге 3.</div>`;$("tool").value=x.name;loadTools()}
+ else box.innerHTML=`<div class="res bad"><b>Правило найти не удалось</b>Что можно сделать:<ul><li>добавьте ещё 3–5 разных примеров;</li><li>проверьте примеры на опечатки — одна ошибка мешает найти правило;</li>${x.teacher_available?"<li>разбейте задачу на две попроще.</li>":"<li>подключите ИИ-помощника (ключ Groq в настройках запуска) — он справляется со сложными правилами.</li>"}</ul></div>`}
+ catch(e){box.innerHTML=`<div class="res bad"><b>Ошибка связи</b>${esc(e)}</div>`}finally{btn.disabled=false}};
+let LAST=[];
+$("apply").onclick=async()=>{const btn=$("apply"),box=$("applied");const lines=$("lines").value.split("\n").map(s=>s.replace(/\r$/,"")).filter(s=>s.trim());
+ if(!lines.length){box.innerHTML='<div class="res bad"><b>Список пуст</b>Вставьте хотя бы одну строку.</div>';return}
+ busy(btn,box,"Обрабатываю…");try{const r=await api("tool_apply",{name:$("tool").value,lines});if(!r.ok){box.innerHTML=`<div class="res bad"><b>Не получилось</b>${esc(r.error)}</div>`;return}
+ const x=r.result;LAST=x.rows;box.innerHTML=`<div class="res ok"><b>Готово: обработано строк — ${esc(x.rows.length)} (за ${esc(r.seconds)} с)</b>${x.failed?`Не удалось обработать: ${esc(x.failed)} — они отмечены красным, проверьте их вручную.`:"Все строки обработаны."}</div>
+ <div class="btns"><button class="sec" id="copy">Скопировать результат</button><button class="sec" id="csv">Скачать таблицу (CSV)</button></div>
+ <div class="tbl"><table><tr><th>Было</th><th>Стало</th></tr>${x.rows.map(r=>`<tr><td>${esc(r.in)}</td>${r.out===null?'<td class="fail">не получилось</td>':`<td>${esc(r.out)}</td>`}</tr>`).join("")}</table></div>`;
+ $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(LAST.map(r=>r.out??"").join("\n"));$("copy").textContent="Скопировано"}catch(e){$("copy").textContent="Не удалось скопировать"}};
+ $("csv").onclick=()=>{const q=s=>'"'+String(s??"").replace(/"/g,'""')+'"';const t="﻿"+["Было;Стало"].concat(LAST.map(r=>q(r.in)+";"+q(r.out))).join("\r\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv;charset=utf-8"}));const TR={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"ts",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};
+  a.download="mos_"+(($("tool").value||"result").toLowerCase().split("").map(c=>TR[c]??c).join("").replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,"")||"result")+".csv";document.body.appendChild(a);a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000)};loadTools()}
+ catch(e){box.innerHTML=`<div class="res bad"><b>Ошибка связи</b>${esc(e)}</div>`}finally{btn.disabled=false}};
+async function loadTools(){const r=await api("tools");if(!r.ok)return;const t=r.result.tools;$("toolnames").innerHTML=t.map(x=>`<option value="${esc(x.name)}">`).join("");
+ $("toollist").innerHTML=t.length?t.map((x,i)=>`<div class="tool"><h3>${esc(x.name)}</h3><p>${x.how==="ai"?"сделан с помощью ИИ":x.how==="self"?"MOS нашла правило сама":"создан ранее"} · использован ${esc(x.uses)} раз, строк: ${esc(x.rows)}</p><button class="sec" data-i="${i}">Использовать</button></div>`).join(""):'<p class="empty">Пока пусто.</p>';
+ $("toollist").querySelectorAll("button").forEach(b=>b.onclick=()=>{$("tool").value=t[+b.dataset.i].name;$("lines").focus();$("lines").scrollIntoView({behavior:"smooth",block:"center"})})}
+loadTools();
+api("status").then(r=>{if(!r.ok)return;const s=r.result,n=$("note");const m=[];if(!s.teacher)m.push("ИИ-помощник не подключён: простые правила MOS найдёт сама, для сложных (телефоны, даты, цены) запустите с ключом Groq.");if(!s.sandbox)m.push("Защищённая «песочница» здесь недоступна — часть инструментов не запустится. Запустите от администратора.");if(m.length){n.textContent=m.join(" ");n.hidden=false}});
+$("check").onclick=async()=>{const btn=$("check"),box=$("checked");busy(btn,box,"Проверяю…");try{const r=await api("skill",{text:$("skill").value});
+ if(!r.ok){box.innerHTML=`<div class="res bad"><b>Не получилось</b>${esc(r.error)}</div>`;return}const x=r.result;const cls=x.verdict==="malicious"?"bad":x.verdict==="suspicious"?"wait":"ok";
+ const SAY={malicious:"Похоже на атаку: в тексте есть типичные приёмы — скачать и запустить программу, отменить ваши указания, передать ключи. Не устанавливайте, пока не разберётесь.",suspicious:"Есть подозрительные места. Прочитайте инструкцию внимательно перед установкой.",no_signal:"Признаков атаки не найдено. Это не гарантия: ставьте навыки только из источников, которым доверяете."};
+ box.innerHTML=`<div class="res ${cls}"><b>${esc(x.level_ru)}</b>${esc(SAY[x.verdict]||x.note)}${(x.where_in_text||[]).length?"<br>На что обратить внимание:":""}${(x.where_in_text||[]).length?`<ul>${x.where_in_text.slice(0,5).map(w=>`<li>${esc(w&&w.text?("строка "+w.line+": «"+w.text+"»"):(typeof w==="string"?w:JSON.stringify(w)))}</li>`).join("")}</ul>`:""}</div>`}
+ catch(e){box.innerHTML=`<div class="res bad"><b>Ошибка связи</b>${esc(e)}</div>`}finally{btn.disabled=false}};
+</script></body></html>
+"""
+
 PAGE = r"""<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MOS Studio</title><style nonce="{{NONCE}}">
 :root{--bg:#f7f7f5;--fg:#1d1d1b;--mut:#6b6b66;--card:#fff;--line:#e3e2dd;--acc:#2f5bd3;--ok:#1f7a3f;--bad:#b3261e;--warn:#8a5a00;--code:#f1f0ec}
@@ -266,7 +473,7 @@ th{color:var(--mut);font-weight:500}td.m{font-family:ui-monospace,Menlo,monospac
 .pill{display:inline-block;border-radius:999px;padding:1px 8px;font-size:12px;border:1px solid var(--line)}.kv{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px}
 .scroll{overflow-x:auto}
 </style></head><body>
-<header><h1>MOS Studio</h1><p>Все аспекты MOS в одном месте: задачи становятся мемами, мемы живут, скрещиваются, вымирают; сеть, защита и открытие законов. Решает не автор, а проверка на скрытых примерах.</p></header>
+<header><h1>MOS Studio · лаборатория</h1><p><a href="/">← обычный режим</a> · Все аспекты MOS в одном месте: задачи становятся мемами, мемы живут, скрещиваются, вымирают; сеть, защита и открытие законов. Решает не автор, а проверка на скрытых примерах.</p></header>
 <p id="statusline" class="mut hdr" hidden></p><nav id="tabs"></nav><main>
 <section id="task"><div class="card"><h2>Задача → мем</h2><p class="d">Дайте примеры «вход =&gt; выход». MOS сначала ищет готовый мем, затем собирает из готовых, ищет формулу, эволюционирует и только потом спрашивает учителя. Часть примеров скрыта от поиска и служит экзаменом.</p>
 <label for="lg">Цель</label><input id="lg" value="Обратный порядок слов">

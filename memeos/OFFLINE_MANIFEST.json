@@ -4,7 +4,7 @@
  "files": {
   "COLLABORATION-RU.md": "ea9ab513e666ea3edf4efe931719756c2fd443f3308dafb9253147ea64f29660",
   "Dockerfile": "9022c06aedbc7063ff62e05d43c97aefda9392fa0b10b6eb672309961d542bcd",
-  "README-RU.md": "81af7247b60883acb6c3bd357e1550010b7fa8bf9afe5813cabfbc668fd44898",
+  "README-RU.md": "febdfe755c86b3b3597c2699dc74dc65bd0d6e08f8aabc98d2b41690d527dd04",
   "agent.py": "4627a0ffc09aa57abc82ecacba2e175b81843f16b8187dd288d0d9ceaab84220",
   "agent_demo.py": "6694597e9340eca36a712dfea9761c8e0d769923fab8c18b335edcf1168e410b",
   "barrier.py": "e7530b40836eaffe85137293e9c480761b56b72c78a19bd1e9350502fd67c1eb",
@@ -74,7 +74,7 @@
   "genes/skill/skill_screen_v2+mos-claude.g1.json.gz": "aef5229ab5125c3a566e56e538e3d1ca4574ab1c9e98ce6ecb4b96754d49595e",
   "genes/skill/skill_screen_v2.json.gz": "2e7bf8bcdc9690beaab540b148b9c86b1c996eaca2511e78991a99f37e6c2b11",
   "snapshots/cells.json.gz": "b2f9a5b9351b15929cdaeca1ab7d30658b72f5048c6fa50f84e091722f83d914",
-  "studio.py": "eec95a8e14218f2f4dfff91b03b1101213ca7dcb1a371cfe553d6b171b1e7c5f",
-  "test_studio.py": "369f373ad01262fae9228e404b07a8336d385f352e39f427d74954a04056aacc"
+  "studio.py": "05aa8898a2cf677573e34af2ecc0247348dc976e314c5ce71ec79c223bdca9cb",
+  "test_studio.py": "6576e494b2db55f9278c7b28df028fe12cbad93f6d2b5962e130f89a3deadf73"
  }
 }
